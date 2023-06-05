@@ -1,11 +1,17 @@
 package com.example.mobile_applications_project_put.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mobile_applications_project_put.R
+import com.example.mobile_applications_project_put.models.BodyPartsList
+import com.example.mobile_applications_project_put.retrofit.RetrofitInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +34,35 @@ class HomeFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+    }
+
+    fun getdatatest(){
+
+        RetrofitInstance.excerciseAPI.getBodyParts().enqueue(object :  Callback<BodyPartsList>{
+
+            override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
+                val bodyParts = response.body()
+                Log.d("TEST", "Body part:341341341341341341341341341")
+                Log.d("TEST", "Body part:341341341341341341341341341")
+                Log.d("TEST", "Body part:${bodyParts}")
+                if (bodyParts != null) {
+                    // Вывод данных
+                    for (part in bodyParts) {
+                        Log.d("TEST", "Body part: ${part}")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<BodyPartsList>, t: Throwable) {
+                Log.e("TEST", "Error: ${t.message}")
+            }
+        })
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getdatatest()
     }
 
     override fun onCreateView(
