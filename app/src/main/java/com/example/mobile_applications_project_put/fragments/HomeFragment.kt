@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var bodyPartAdapter: BodyPartAdapter
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
