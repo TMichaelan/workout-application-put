@@ -7,10 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 import com.example.mobile_applications_project_put.databinding.FragmentHomeBinding
+import com.example.mobile_applications_project_put.models.BodyPartExcerciseList
 import com.example.mobile_applications_project_put.models.BodyPartsList
+import com.example.mobile_applications_project_put.models.ExerciseItem
 import com.example.mobile_applications_project_put.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,14 +32,9 @@ class HomeFragment : Fragment() {
     private lateinit var bodyPartAdapter: BodyPartAdapter
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    fun getBodyParts(){
 
-    }
-
-    fun getdatatest(){
-
-        RetrofitInstance.excerciseAPI.getBodyParts().enqueue(object :  Callback<BodyPartsList>{
+        RetrofitInstance.excerciseAPI.getBodyPartsList().enqueue(object :  Callback<BodyPartsList>{
 
             override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
                 val bodyParts = response.body()
@@ -60,6 +56,144 @@ class HomeFragment : Fragment() {
 
     }
 
+    fun getTargetList(){
+
+        RetrofitInstance.excerciseAPI.getTargetPartsList().enqueue(object :  Callback<BodyPartsList>{
+
+            override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
+                val targetParts = response.body()
+                Log.d("TEST", "Body part:341341341341341341341341341")
+                Log.d("TEST", "Body part:341341341341341341341341341")
+                Log.d("TEST", "Body part:${targetParts}")
+                if (targetParts != null) {
+                    // Вывод данных
+                    for (part in targetParts) {
+                        Log.d("TEST", "Body part: ${part}")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<BodyPartsList>, t: Throwable) {
+                Log.e("TEST", "Error: ${t.message}")
+            }
+        })
+
+    }
+
+    fun getAllExercises() {
+        RetrofitInstance.excerciseAPI.getAllExercisesList().enqueue(object :  Callback<BodyPartsList>{
+            override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
+                val exercisesList = response.body()
+                Log.d("TEST", "Response received for all exercises: $exercisesList")
+
+                if (exercisesList != null) {
+                    // Вывод данных
+                    for (exercise in exercisesList) {
+                        Log.d("TEST", "Exercise: $exercise")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<BodyPartsList>, t: Throwable) {
+                Log.e("TEST", "Error: ${t.message}")
+            }
+        })
+    }
+
+    fun getBodyPartExcersices(bodyPart : String) {
+        RetrofitInstance.excerciseAPI.getBodyPart(bodyPart).enqueue(object :  Callback<BodyPartExcerciseList>{
+
+            override fun onResponse(call: Call<BodyPartExcerciseList>, response: Response<BodyPartExcerciseList>) {
+                val bodyParts = response.body()
+                Log.d("TEST", "Response received for body part: $bodyPart")
+                if (bodyParts != null) {
+                    // Print data
+                    for (part in bodyParts) {
+                        Log.d("TEST", "Body part: $part")
+                    }
+                } else {
+                    Log.d("TEST", "No body parts returned in the response")
+                }
+            }
+
+            override fun onFailure(call: Call<BodyPartExcerciseList>, t: Throwable) {
+                Log.e("TEST", "Error: ${t.message}")
+            }
+        })
+    }
+
+
+    fun getExerciseListByName(exersiceName : String) {
+        RetrofitInstance.excerciseAPI.getExerciseListByName(exersiceName).enqueue(object :  Callback<BodyPartExcerciseList>{
+
+            override fun onResponse(call: Call<BodyPartExcerciseList>, response: Response<BodyPartExcerciseList>) {
+                val exercisesList = response.body()
+                Log.d("TEST", "Response received for body part: $exersiceName")
+                if (exercisesList != null) {
+                    // Print data
+                    for (exercise in exercisesList) {
+                        Log.d("TEST", "Body part: $exercise")
+                    }
+                } else {
+                    Log.d("TEST", "No body parts returned in the response")
+                }
+            }
+
+            override fun onFailure(call: Call<BodyPartExcerciseList>, t: Throwable) {
+                Log.e("TEST", "Error: ${t.message}")
+            }
+        })
+    }
+
+    fun getExerciseById(exersiceId : String) {
+        RetrofitInstance.excerciseAPI.getExerciseIdById(exersiceId).enqueue(object :  Callback<ExerciseItem>{
+
+            override fun onResponse(call: Call<ExerciseItem>, response: Response<ExerciseItem>) {
+                val exerciseItem = response.body()
+                Log.d("TEST", "Response received for exercise ID: $exersiceId")
+                if (exerciseItem != null) {
+                    // Print data
+                    Log.d("TEST", "Exercise item: $exerciseItem")
+
+                } else {
+                    Log.d("TEST", "No exercise item returned in the response")
+                }
+            }
+
+            override fun onFailure(call: Call<ExerciseItem>, t: Throwable) {
+                Log.e("TEST", "Error: ${t.message}")
+            }
+        })
+    }
+
+    fun getExerciseListByTarget(target : String) {
+        RetrofitInstance.excerciseAPI.getExerciseListByTarget(target).enqueue(object :  Callback<BodyPartExcerciseList>{
+
+            override fun onResponse(call: Call<BodyPartExcerciseList>, response: Response<BodyPartExcerciseList>) {
+                val exercisesList = response.body()
+                Log.d("TEST", "Response received for body part: $target")
+                if (exercisesList != null) {
+                    // Print data
+                    for (exercise in exercisesList) {
+                        Log.d("TEST", "Body part: $exercise")
+                    }
+                } else {
+                    Log.d("TEST", "No body parts returned in the response")
+                }
+            }
+
+            override fun onFailure(call: Call<BodyPartExcerciseList>, t: Throwable) {
+                Log.e("TEST", "Error: ${t.message}")
+            }
+        })
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
     private fun preparePopularItemRecycleView() {
         binding.recViewBodyParts.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -68,7 +202,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getdatatest()
+//        getBodyParts()
+//        getBodyPartExcersices("back")
+//        getExerciseById("0007")
+//        getExerciseListByName("alternate lateral pulldown")
+//        getTargetList()
+//        getExerciseListByTarget("abs")
+//        getAllExercises()
 
         preparePopularItemRecycleView()
     }
@@ -91,4 +231,5 @@ class HomeFragment : Fragment() {
                 }
             }
     }
+
 }
