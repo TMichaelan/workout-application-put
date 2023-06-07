@@ -1,0 +1,97 @@
+[
+  {
+    "muscleGroup": "Abductors",
+    "description": "Description for abductors...",
+    "image": "R.drawable.abductors"
+  },
+  {
+    "muscleGroup": "Abs",
+    "description": "Description for abs...",
+    "image": "R.drawable.abs"
+  },
+  {
+    "muscleGroup": "Adductors",
+    "description": "Description for adductors...",
+    "image": "R.drawable.adductors"
+  },
+  {
+    "muscleGroup": "Biceps",
+    "description": "Description for biceps...",
+    "image": "R.drawable.biceps"
+  },
+  {
+    "muscleGroup": "Calves",
+    "description": "Description for calves...",
+    "image": "R.drawable.calves"
+  },
+  {
+    "muscleGroup": "Cardiovascular System",
+    "description": "Description for cardiovascular system...",
+    "image": "R.drawable.cardiovascular_system"
+  },
+  {
+    "muscleGroup": "Delts",
+    "description": "Description for delts...",
+    "image": "R.drawable.delts"
+  },
+  {
+    "muscleGroup": "Forearms",
+    "description": "Description for forearms...",
+    "image": "R.drawable.forearms"
+  },
+  {
+    "muscleGroup": "Glutes",
+    "description": "Description for glutes...",
+    "image": "R.drawable.glutes"
+  },
+  {
+    "muscleGroup": "Hamstrings",
+    "description": "Description for hamstrings...",
+    "image": "R.drawable.hamstrings"
+  },
+  {
+    "muscleGroup": "Lats",
+    "description": "Description for lats...",
+    "image": "R.drawable.lats"
+  },
+  {
+    "muscleGroup": "Levator Scapulae",
+    "description": "Description for levator scapulae...",
+    "image": "R.drawable.levator_scapulae"
+  },
+  {
+    "muscleGroup": "Pectorals",
+    "description": "Description for pectorals...",
+    "image": "R.drawable.pectorals"
+  },
+  {
+    "muscleGroup": "Quads",
+    "description": "Description for quads...",
+    "image": "R.drawable.quads"
+  },
+  {
+    "muscleGroup": "Serratus Anterior",
+    "description": "Description for serratus anterior...",
+    "image": "R.drawable.serratus_anterior"
+  },
+  {
+    "muscleGroup": "Spine",
+    "description": "Description for spine...",
+    "image": "R.drawable.spine"
+  },
+  {
+    "muscleGroup": "Traps",
+    "description": "Description for traps...",
+    "image": "R.drawable.traps"
+  },
+  {
+    "muscleGroup": "Triceps",
+    "description": "Description for triceps...",
+    "image": "R.drawable.triceps"
+  },
+  {
+    "muscleGroup": "Upper Back",
+    "description": "Description for upper back...",
+    "image": "R.drawable.upper_back"
+  }
+]

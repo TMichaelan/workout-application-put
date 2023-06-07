@@ -1,0 +1,52 @@
+[
+  {
+    "muscleGroup": "Back",
+    "description": "Description for back...",
+    "image": "R.drawable.back"
+  },
+  {
+    "muscleGroup": "Cardio",
+    "description": "Description for cardio...",
+    "image": "R.drawable.cardio"
+  },
+  {
+    "muscleGroup": "Chest",
+    "description": "Description for chest...",
+    "image": "R.drawable.chest"
+  },
+  {
+    "muscleGroup": "Lower Arms",
+    "description": "Description for lower arms...",
+    "image": "R.drawable.lower_arms"
+  },
+  {
+    "muscleGroup": "Lower Legs",
+    "description": "Description for lower legs...",
+    "image": "R.drawable.lower_legs"
+  },
+  {
+    "muscleGroup": "Neck",
+    "description": "Description for neck...",
+    "image": "R.drawable.neck"
+  },
+  {
+    "muscleGroup": "Shoulders",
+    "description": "Description for shoulders...",
+    "image": "R.drawable.shoulders"
+  },
+  {
+    "muscleGroup": "Upper Arms",
+    "description": "Description for upper arms...",
+    "image": "R.drawable.upper_arms"
+  },
+  {
+    "muscleGroup": "Upper Legs",
+    "description": "Description for upper legs...",
+    "image": "R.drawable.upper_legs"
+  },
+  {
+    "muscleGroup": "Waist",
+    "description": "Description for waist...",
+    "image": "R.drawable.waist"
+  }
+]
