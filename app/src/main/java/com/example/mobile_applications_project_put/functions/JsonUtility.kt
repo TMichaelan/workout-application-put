@@ -8,7 +8,8 @@ import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
 
 object JsonUtility {
-    fun readAndLogBodyParts(context: Context, bodyPartsList: ArrayList<MuscleGroup>) {
+
+    fun readAndLogBodyParts(context: Context, bodyPartsList: ArrayList<MuscleGroup> = ArrayList()) {
         val assetManager = context.assets
         val inputStream = assetManager.open("bodyparts_list.json")
         val reader = InputStreamReader(inputStream)
@@ -23,4 +24,18 @@ object JsonUtility {
         }
 
     }
+    fun readAndLogMuscleGroups(context: Context) {
+        val assetManager = context.assets
+        val inputStream = assetManager.open("target_list.json")
+        val reader = InputStreamReader(inputStream)
+
+        val gson = Gson()
+        val listType = object : TypeToken<List<MuscleGroup>>() {}.type
+        val muscleGroups: List<MuscleGroup> = gson.fromJson(reader, listType)
+
+        for (muscleGroup in muscleGroups) {
+            Log.d("readAndLogMuscleGroups", "Muscle Group: ${muscleGroup.muscleGroup}, Description: ${muscleGroup.description}, Image: ${muscleGroup.image}")
+        }
+    }
+
 }
