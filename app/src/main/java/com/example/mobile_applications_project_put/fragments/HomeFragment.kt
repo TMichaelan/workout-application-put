@@ -319,11 +319,11 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun preparePopularItemRecycleView() {
-        binding.recViewBodyParts.apply {
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        }
-    }
+//    private fun preparePopularItemRecycleView() {
+//        binding.recViewBodyParts.apply {
+//            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+//        }
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -346,7 +346,7 @@ class HomeFragment : Fragment() {
 //        fetchExercisesFromDb()
 
 
-        preparePopularItemRecycleView()
+//        preparePopularItemRecycleView()
     }
 
     override fun onCreateView(

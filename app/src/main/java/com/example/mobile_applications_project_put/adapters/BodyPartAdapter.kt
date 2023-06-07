@@ -6,12 +6,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
+import com.example.mobile_applications_project_put.db.entities.Muscle
 import com.example.mobile_applications_project_put.fragments.BodyPartsListFragment
 import com.example.mobile_applications_project_put.models.BodyPartsList
+import com.example.mobile_applications_project_put.models.MuscleGroup
 
 class BodyPartAdapter(
-    private var bodyPartsList: ArrayList<BodyPartsList>,
+    private var bodyPartsList: ArrayList<MuscleGroup>,
     private val listener: BodyPartsListFragment
     ): RecyclerView.Adapter<BodyPartAdapter.MyViewHolder>() {
 
@@ -25,32 +28,41 @@ class BodyPartAdapter(
         return bodyPartsList.size
     }
 
+    private fun getResId(resName: String, c: Class<*>): Int {
+        return try {
+            val idField = c.getDeclaredField(resName)
+            idField.getInt(idField)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            -1
+        }
+    }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentMuscle = bodyPartsList[position]
-//        Glide.with(holder.imageId)
-//            .load(currentMuscle.gifUrl)
-//            .into(holder.imageId)
-//        holder.name.text = currentMuscle.name
+
+
+        val resName = currentMuscle.image.substringAfterLast('.') // Extract the resource name from the string
+        val imageResId = getResId(resName, R.drawable::class.java) // Get the resource ID
+        if (imageResId != -1) { // If the resource exists
+            Glide.with(holder.imageId)
+                .load(imageResId)
+                .into(holder.imageId)
+        }
+        holder.name.text = currentMuscle.muscleGroup
         holder.itemView.setOnClickListener { listener.onItemClick(currentMuscle) }
     }
-    // method for filtering our recyclerview items.
-    fun filterList(filterlist: ArrayList<BodyPartsList>) {
-        // below line is to add our filtered
-        // list in our course array list.
-        bodyPartsList = filterlist
-        // below line is to notify our adapter
-        // as change in recycler view data.
-        notifyDataSetChanged()
-    }
+
+
     interface OnItemClickListener {
-        fun onItemClick(muscle: BodyPartsList)
+        fun onItemClick(muscleGroup: MuscleGroup)
     }
 
 
     class MyViewHolder(
         itemView: View,
         private val listener: OnItemClickListener,
-        private val bodyPartsList: ArrayList<BodyPartsList>
+        private val bodyPartsList: ArrayList<MuscleGroup>
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val imageId: ImageView = itemView.findViewById(R.id.img_body_part)
         val name: TextView = itemView.findViewById(R.id.tv_body_part)
@@ -63,4 +75,10 @@ class BodyPartAdapter(
             listener.onItemClick(bodyPartsList[adapterPosition])
         }
     }
+
+    fun setFilteredList(list: ArrayList<MuscleGroup>){
+        bodyPartsList=list
+        notifyDataSetChanged()
+    }
+
 }
