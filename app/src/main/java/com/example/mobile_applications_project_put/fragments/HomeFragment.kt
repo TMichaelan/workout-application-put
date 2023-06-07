@@ -8,8 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 import com.example.mobile_applications_project_put.databinding.FragmentHomeBinding
+import com.example.mobile_applications_project_put.db.AppDatabase
+import com.example.mobile_applications_project_put.db.ExersiceDao
+import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.models.BodyPartExcerciseList
 import com.example.mobile_applications_project_put.models.BodyPartsList
 import com.example.mobile_applications_project_put.models.ExerciseItem
@@ -21,6 +25,10 @@ import retrofit2.Response
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.InputStreamReader
 
 // TODO: Rename parameter arguments, choose names that match
@@ -222,6 +230,90 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private var exerciseDao: ExersiceDao? = null
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+//    fun addExerciseByIdToDB(exersiceId: String) {
+//        RetrofitInstance.excerciseAPI.getExerciseIdById(exersiceId).enqueue(object :  Callback<ExerciseItem>{
+//
+//            override fun onResponse(call: Call<ExerciseItem>, response: Response<ExerciseItem>) {
+//                val exerciseItem = response.body()
+//                Log.d("TEST", "Response received for exercise ID: $exersiceId")
+//                if (exerciseItem != null) {
+//                    // Print data
+//                    Log.d("TEST", "Exercise item: $exerciseItem")
+//                    addExerciseToDB(exerciseItem)
+//                } else {
+//                    Log.d("TEST", "No exercise item returned in the response")
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ExerciseItem>, t: Throwable) {
+//                Log.e("TEST", "Error: ${t.message}")
+//            }
+//        })
+//    }
+
+    fun addExerciseByIdToDB(exersiceId: String) {
+        RetrofitInstance.excerciseAPI.getExerciseIdById(exersiceId).enqueue(object : Callback<ExerciseItem> {
+
+            override fun onResponse(call: Call<ExerciseItem>, response: Response<ExerciseItem>) {
+                val exerciseItem = response.body()
+                Log.d("TEST", "Response received for exercise ID: $exersiceId")
+                if (exerciseItem != null) {
+                    // Print data
+                    Log.d("TEST", "Exercise item: $exerciseItem")
+                    addExerciseToDB(exerciseItem)
+
+                    // Call fetchExercisesFromDb() after addExerciseToDB()
+                    fetchExercisesFromDb()
+                } else {
+                    Log.d("TEST", "No exercise item returned in the response")
+                }
+            }
+
+            override fun onFailure(call: Call<ExerciseItem>, t: Throwable) {
+                Log.e("TEST", "Error: ${t.message}")
+            }
+        })
+    }
+
+
+    private fun addExerciseToDB(exerciseItem: ExerciseItem) {
+        val exercise = Exercise(
+            id = exerciseItem.id,
+            bodyPart = exerciseItem.bodyPart,
+            equipment = exerciseItem.equipment,
+            gifUrl = exerciseItem.gifUrl,
+            name = exerciseItem.name,
+            target = exerciseItem.target
+        )
+
+        coroutineScope.launch {
+            exerciseDao?.insert(exercise)
+        }
+    }
+
+    fun fetchExercisesFromDb() {
+        val db = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java, "exercise_db"
+        ).build()
+
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val exercises = db.exerciseDao().getAllExercises()
+
+            Log.d("DATABASE", "DATABASEDATABASEDATABASEDATABASE: $exercises")
+
+            // Здесь вы можете обновить UI в главном потоке
+            withContext(Dispatchers.Main) {
+                Log.d("HomeFragment", "Exercises from DB: $exercises")
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -245,7 +337,16 @@ class HomeFragment : Fragment() {
 //        getAllExercises()
 //        readAndLogMuscleGroups(requireContext())
 //        readAndLogBodyParts(requireContext())
+//        addExerciseByIdToDB("0003")
+
+//
+
+//        addExerciseByIdToDB("0011")
+
         
+//        fetchExercisesFromDb()
+
+
         preparePopularItemRecycleView()
     }
 
