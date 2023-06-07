@@ -115,4 +115,18 @@ object DbUtility {
 
     fun loadWorkoutWithExercises(context: Context, workoutId: Int) =
         AppDatabase.getInstance(context).workoutWithExercisesDao().getWorkoutWithExercises(workoutId)
+
+    fun deleteWorkout(context: Context, workoutId: Int) {
+        coroutineScope.launch {
+            val workoutDao = AppDatabase.getInstance(context).workoutDao()
+            val workout = workoutDao.getWorkoutById(workoutId)
+            if (workout != null) {
+                workoutDao.deleteWorkout(workout)
+                Log.d("Workout Deletion", "Deleted workout with ID: $workoutId")
+            } else {
+                Log.e("Workout Deletion", "Failed to delete workout: No workout found with ID: $workoutId")
+            }
+        }
+    }
+
 }
