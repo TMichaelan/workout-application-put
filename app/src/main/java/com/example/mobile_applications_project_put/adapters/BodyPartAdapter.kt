@@ -7,11 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
+import com.example.mobile_applications_project_put.fragments.BodyPartsListFragment
 import com.example.mobile_applications_project_put.models.BodyPartsList
 
 class BodyPartAdapter(
-    private val bodyPartsList: ArrayList<BodyPartsList>,
-    private val listener: OnItemClickListener
+    private var bodyPartsList: ArrayList<BodyPartsList>,
+    private val listener: BodyPartsListFragment
     ): RecyclerView.Adapter<BodyPartAdapter.MyViewHolder>() {
 
 
@@ -32,7 +33,15 @@ class BodyPartAdapter(
 //        holder.name.text = currentMuscle.name
         holder.itemView.setOnClickListener { listener.onItemClick(currentMuscle) }
     }
-
+    // method for filtering our recyclerview items.
+    fun filterList(filterlist: ArrayList<BodyPartsList>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        bodyPartsList = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
+    }
     interface OnItemClickListener {
         fun onItemClick(muscle: BodyPartsList)
     }

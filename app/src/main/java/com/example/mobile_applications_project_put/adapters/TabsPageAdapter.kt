@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.mobile_applications_project_put.fragments.BodyPartsListFragment
 import com.example.mobile_applications_project_put.fragments.HomeFragment
 //import com.example.mobile_applications_project_put.fragments.MapsFragment
 
@@ -19,18 +20,18 @@ class TabsPageAdapter (
 
                 0 -> {
                     val bundle = Bundle()
-                    bundle.putString("fragmentName", "First Fragment")
+                    bundle.putString("homeFragment", "Home Fragment")
                     val firstFragment = HomeFragment()
                     firstFragment.arguments = bundle
                     firstFragment
                 }
-//                1 -> {
-//                    val bundle = Bundle()
-//                    bundle.putString("fragmentName", "Second Fragment")
-//                    val secondFragment = SecondFragment()
-//                    secondFragment.arguments = bundle
-//                    secondFragment
-//                }
+                1 -> {
+                    val bundle = Bundle()
+                    bundle.putString("bodyPartsListFragment", "Body Parts Fragment")
+                    val secondFragment = BodyPartsListFragment()
+                    secondFragment.arguments = bundle
+                    secondFragment
+                }
 //                2 -> {
 //                    val bundle = Bundle()
 //                    bundle.putString("fragmentName", "Third Fragment")
