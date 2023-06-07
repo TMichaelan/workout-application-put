@@ -1,12 +1,13 @@
-package com.example.mobile_applications_project_put.models
+package com.example.mobile_applications_project_put.functions
 
 import android.content.Context
 import android.util.Log
+import com.example.mobile_applications_project_put.models.MuscleGroup
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
 
-object Functions {
+object JsonUtility {
     fun readAndLogBodyParts(context: Context, bodyPartsList: ArrayList<MuscleGroup>) {
         val assetManager = context.assets
         val inputStream = assetManager.open("bodyparts_list.json")
