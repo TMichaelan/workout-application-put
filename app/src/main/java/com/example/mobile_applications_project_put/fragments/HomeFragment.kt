@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
@@ -22,6 +23,9 @@ import com.example.mobile_applications_project_put.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.lifecycle.lifecycleScope
+import com.example.mobile_applications_project_put.db.entities.Workout
+import com.example.mobile_applications_project_put.db.entities.WorkoutExerciseCrossRef
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -45,25 +49,29 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bodyPartAdapter: BodyPartAdapter
 
+
+    private var exerciseDao: ExersiceDao? = null
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private lateinit var database: AppDatabase
+    private lateinit var exercise: Exercise
+
     fun getBodyParts(){
 
         RetrofitInstance.excerciseAPI.getBodyPartsList().enqueue(object :  Callback<BodyPartsList>{
 
             override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
                 val bodyParts = response.body()
-                Log.d("TEST", "Body part:341341341341341341341341341")
-                Log.d("TEST", "Body part:341341341341341341341341341")
-                Log.d("TEST", "Body part:${bodyParts}")
+                Log.d("getBodyParts", "Body part:${bodyParts}")
                 if (bodyParts != null) {
                     // Вывод данных
                     for (part in bodyParts) {
-                        Log.d("TEST", "Body part: ${part}")
+                        Log.d("getBodyParts", "Body part: ${part}")
                     }
                 }
             }
 
             override fun onFailure(call: Call<BodyPartsList>, t: Throwable) {
-                Log.e("TEST", "Error: ${t.message}")
+                Log.e("getBodyParts", "Error: ${t.message}")
             }
         })
 
@@ -75,19 +83,18 @@ class HomeFragment : Fragment() {
 
             override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
                 val targetParts = response.body()
-                Log.d("TEST", "Body part:341341341341341341341341341")
-                Log.d("TEST", "Body part:341341341341341341341341341")
-                Log.d("TEST", "Body part:${targetParts}")
+
+                Log.d("getTargetList", "Body part:${targetParts}")
                 if (targetParts != null) {
                     // Вывод данных
                     for (part in targetParts) {
-                        Log.d("TEST", "Body part: ${part}")
+                        Log.d("getTargetList", "Body part: ${part}")
                     }
                 }
             }
 
             override fun onFailure(call: Call<BodyPartsList>, t: Throwable) {
-                Log.e("TEST", "Error: ${t.message}")
+                Log.e("getTargetList", "Error: ${t.message}")
             }
         })
 
@@ -97,18 +104,18 @@ class HomeFragment : Fragment() {
         RetrofitInstance.excerciseAPI.getAllExercisesList().enqueue(object :  Callback<BodyPartsList>{
             override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
                 val exercisesList = response.body()
-                Log.d("TEST", "Response received for all exercises: $exercisesList")
+                Log.d("getAllExercises", "Response received for all exercises: $exercisesList")
 
                 if (exercisesList != null) {
                     // Вывод данных
                     for (exercise in exercisesList) {
-                        Log.d("TEST", "Exercise: $exercise")
+                        Log.d("getAllExercises", "Exercise: $exercise")
                     }
                 }
             }
 
             override fun onFailure(call: Call<BodyPartsList>, t: Throwable) {
-                Log.e("TEST", "Error: ${t.message}")
+                Log.e("getAllExercises", "Error: ${t.message}")
             }
         })
     }
@@ -118,19 +125,19 @@ class HomeFragment : Fragment() {
 
             override fun onResponse(call: Call<BodyPartExcerciseList>, response: Response<BodyPartExcerciseList>) {
                 val bodyParts = response.body()
-                Log.d("TEST", "Response received for body part: $bodyPart")
+                Log.d("getBodyPartExcersices", "Response received for body part: $bodyPart")
                 if (bodyParts != null) {
                     // Print data
                     for (part in bodyParts) {
-                        Log.d("TEST", "Body part: $part")
+                        Log.d("getBodyPartExcersices", "Body part: $part")
                     }
                 } else {
-                    Log.d("TEST", "No body parts returned in the response")
+                    Log.d("getBodyPartExcersices", "No body parts returned in the response")
                 }
             }
 
             override fun onFailure(call: Call<BodyPartExcerciseList>, t: Throwable) {
-                Log.e("TEST", "Error: ${t.message}")
+                Log.e("getBodyPartExcersices", "Error: ${t.message}")
             }
         })
     }
@@ -141,19 +148,19 @@ class HomeFragment : Fragment() {
 
             override fun onResponse(call: Call<BodyPartExcerciseList>, response: Response<BodyPartExcerciseList>) {
                 val exercisesList = response.body()
-                Log.d("TEST", "Response received for body part: $exersiceName")
+                Log.d("getExerciseListByName", "Response received for body part: $exersiceName")
                 if (exercisesList != null) {
                     // Print data
                     for (exercise in exercisesList) {
-                        Log.d("TEST", "Body part: $exercise")
+                        Log.d("getExerciseListByName", "Body part: $exercise")
                     }
                 } else {
-                    Log.d("TEST", "No body parts returned in the response")
+                    Log.d("getExerciseListByName", "No body parts returned in the response")
                 }
             }
 
             override fun onFailure(call: Call<BodyPartExcerciseList>, t: Throwable) {
-                Log.e("TEST", "Error: ${t.message}")
+                Log.e("getExerciseListByName", "Error: ${t.message}")
             }
         })
     }
@@ -163,18 +170,18 @@ class HomeFragment : Fragment() {
 
             override fun onResponse(call: Call<ExerciseItem>, response: Response<ExerciseItem>) {
                 val exerciseItem = response.body()
-                Log.d("TEST", "Response received for exercise ID: $exersiceId")
+                Log.d("getExerciseById", "Response received for exercise ID: $exersiceId")
                 if (exerciseItem != null) {
                     // Print data
-                    Log.d("TEST", "Exercise item: $exerciseItem")
+                    Log.d("getExerciseById", "Exercise item: $exerciseItem")
 
                 } else {
-                    Log.d("TEST", "No exercise item returned in the response")
+                    Log.d("getExerciseById", "No exercise item returned in the response")
                 }
             }
 
             override fun onFailure(call: Call<ExerciseItem>, t: Throwable) {
-                Log.e("TEST", "Error: ${t.message}")
+                Log.e("getExerciseById", "Error: ${t.message}")
             }
         })
     }
@@ -184,19 +191,19 @@ class HomeFragment : Fragment() {
 
             override fun onResponse(call: Call<BodyPartExcerciseList>, response: Response<BodyPartExcerciseList>) {
                 val exercisesList = response.body()
-                Log.d("TEST", "Response received for body part: $target")
+                Log.d("getExerciseListByTarget", "Response received for body part: $target")
                 if (exercisesList != null) {
                     // Print data
                     for (exercise in exercisesList) {
-                        Log.d("TEST", "Body part: $exercise")
+                        Log.d("getExerciseListByTarget", "Body part: $exercise")
                     }
                 } else {
-                    Log.d("TEST", "No body parts returned in the response")
+                    Log.d("getExerciseListByTarget", "No body parts returned in the response")
                 }
             }
 
             override fun onFailure(call: Call<BodyPartExcerciseList>, t: Throwable) {
-                Log.e("TEST", "Error: ${t.message}")
+                Log.e("getExerciseListByTarget", "Error: ${t.message}")
             }
         })
     }
@@ -211,7 +218,7 @@ class HomeFragment : Fragment() {
         val muscleGroups: List<MuscleGroup> = gson.fromJson(reader, listType)
 
         for (muscleGroup in muscleGroups) {
-            Log.d("MuscleGroupData", "Muscle Group: ${muscleGroup.muscleGroup}, Description: ${muscleGroup.description}, Image: ${muscleGroup.image}")
+            Log.d("readAndLogMuscleGroups", "Muscle Group: ${muscleGroup.muscleGroup}, Description: ${muscleGroup.description}, Image: ${muscleGroup.image}")
         }
     }
 
@@ -225,97 +232,120 @@ class HomeFragment : Fragment() {
         val bodyParts: List<MuscleGroup> = gson.fromJson(reader, listType)
 
         for (part in bodyParts) {
-            Log.d("BodyPartsData", "Body part: ${part.muscleGroup}, Description: ${part.description}, Image: ${part.image}")
+            Log.d("readAndLogBodyParts", "Body part: ${part.muscleGroup}, Description: ${part.description}, Image: ${part.image}")
         }
     }
 
-    private var exerciseDao: ExersiceDao? = null
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    fun deleteAppDatabase(context: Context) {
+        context.deleteDatabase("exercise_db")
+    }
 
-//    fun addExerciseByIdToDB(exersiceId: String) {
-//        RetrofitInstance.excerciseAPI.getExerciseIdById(exersiceId).enqueue(object :  Callback<ExerciseItem>{
-//
-//            override fun onResponse(call: Call<ExerciseItem>, response: Response<ExerciseItem>) {
-//                val exerciseItem = response.body()
-//                Log.d("TEST", "Response received for exercise ID: $exersiceId")
-//                if (exerciseItem != null) {
-//                    // Print data
-//                    Log.d("TEST", "Exercise item: $exerciseItem")
-//                    addExerciseToDB(exerciseItem)
-//                } else {
-//                    Log.d("TEST", "No exercise item returned in the response")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ExerciseItem>, t: Throwable) {
-//                Log.e("TEST", "Error: ${t.message}")
-//            }
-//        })
-//    }
-
-    fun addExerciseByIdToDB(exersiceId: String) {
-        RetrofitInstance.excerciseAPI.getExerciseIdById(exersiceId).enqueue(object : Callback<ExerciseItem> {
+    fun dbAddExerciseById(exersiceId: String) {
+        RetrofitInstance.excerciseAPI.getExerciseIdById(exersiceId).enqueue(object :  Callback<ExerciseItem>{
 
             override fun onResponse(call: Call<ExerciseItem>, response: Response<ExerciseItem>) {
                 val exerciseItem = response.body()
-                Log.d("TEST", "Response received for exercise ID: $exersiceId")
+                Log.d("dbAddExerciseById", "Response received for exercise ID: $exersiceId")
                 if (exerciseItem != null) {
-                    // Print data
-                    Log.d("TEST", "Exercise item: $exerciseItem")
-                    addExerciseToDB(exerciseItem)
 
-                    // Call fetchExercisesFromDb() after addExerciseToDB()
-                    fetchExercisesFromDb()
+                    Log.d("dbAddExerciseById", "Exercise item: $exerciseItem")
+
+                    // Convert ExerciseItem to Exercise
+                    val exercise = Exercise(
+                        id = exerciseItem.id,
+                        bodyPart = exerciseItem.bodyPart,
+                        equipment = exerciseItem.equipment,
+                        gifUrl = exerciseItem.gifUrl,
+                        name = exerciseItem.name,
+                        target = exerciseItem.target
+                    )
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val exerciseInDb = database.exerciseDao().getExerciseById(exercise.id)
+                        if (exerciseInDb != null) {
+                            database.exerciseDao().deleteExercise(exerciseInDb)
+                        } else {
+                            database.exerciseDao().insert(exercise)
+                        }
+                    }
+
                 } else {
-                    Log.d("TEST", "No exercise item returned in the response")
+                    Log.d("dbAddExerciseById", "No exercise item returned in the response")
                 }
             }
 
             override fun onFailure(call: Call<ExerciseItem>, t: Throwable) {
-                Log.e("TEST", "Error: ${t.message}")
+                Log.e("dbAddExerciseById", "Error: ${t.message}")
             }
         })
     }
 
+    private fun loadSavedExercises() {
+        lifecycleScope.launch {
+            val savedExercises = withContext(Dispatchers.IO) {
+                database.exerciseDao().getAllExercises()
+            }
 
-    private fun addExerciseToDB(exerciseItem: ExerciseItem) {
-        val exercise = Exercise(
-            id = exerciseItem.id,
-            bodyPart = exerciseItem.bodyPart,
-            equipment = exerciseItem.equipment,
-            gifUrl = exerciseItem.gifUrl,
-            name = exerciseItem.name,
-            target = exerciseItem.target
-        )
+            for (exercise in savedExercises) {
+                Log.d("LOADSAVEDEXERCISES", "Saved exercise: $exercise")
+            }
 
-        coroutineScope.launch {
-            exerciseDao?.insert(exercise)
         }
     }
 
-    fun fetchExercisesFromDb() {
-        val db = Room.databaseBuilder(
-            requireContext(),
-            AppDatabase::class.java, "exercise_db"
-        ).build()
 
-
+    fun createWorkout(name: String) {
+        val newWorkout = Workout(name = name, id = 0)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val exercises = db.exerciseDao().getAllExercises()
+            val workoutId = AppDatabase.getInstance(requireContext()).workoutDao().insertWorkout(newWorkout)
+            Log.d("Workout Creation", "Created workout with ID: $workoutId")
+        }
+    }
+    fun addExerciseToWorkout(workoutId: Int, exerciseId: String) {
+        val crossRef = WorkoutExerciseCrossRef(workoutId, exerciseId)
 
-            Log.d("DATABASE", "DATABASEDATABASEDATABASEDATABASE: $exercises")
-
-            // Здесь вы можете обновить UI в главном потоке
-            withContext(Dispatchers.Main) {
-                Log.d("HomeFragment", "Exercises from DB: $exercises")
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            AppDatabase.getInstance(requireContext()).workoutWithExercisesDao().insertWorkoutExerciseCrossRef(crossRef)
+            Log.d("Workout Creation", "Added exercise with ID: $exerciseId to workout with ID: $workoutId")
         }
     }
 
+    private fun loadWorkouts() {
+        lifecycleScope.launch {
+            val workouts = withContext(Dispatchers.IO) {
+                database.workoutDao().getAllWorkouts()
+            }
+
+            for (workout in workouts) {
+                Log.d("loadWorkouts", "Saved workouts: $workout")
+            }
+
+        }
+    }
+
+//    private fun loadWorkoutWithExercises(workoutId: Int) {
+//        lifecycleScope.launch {
+//            val workout = withContext(Dispatchers.IO) {
+//                database.workoutWithExercisesDao().getWorkoutWithExercises(workoutId)
+//            }
+//            Log.d("loadWorkouts", "Saved workouts: $workout")
+//
+//        }
+//    }
+
+    private fun loadWorkoutWithExercises(workoutId: Int) {
+        val workoutLiveData = database.workoutWithExercisesDao().getWorkoutWithExercises(workoutId)
+
+        workoutLiveData.observe(viewLifecycleOwner, Observer { workout ->
+            Log.d("loadWorkouts", "Saved workouts: $workout")
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        database = AppDatabase.getInstance(requireContext())
 
     }
 
@@ -338,13 +368,25 @@ class HomeFragment : Fragment() {
 //        readAndLogBodyParts(requireContext())
 //        addExerciseByIdToDB("0003")
 
-//
-
 //        addExerciseByIdToDB("0011")
+//        deleteAppDatabase(requireContext())
 
-        
-//        fetchExercisesFromDb()
+//        dbAddExerciseById("0001")
 
+//        loadSavedExercises()
+
+//        createWorkout("Test Workout")
+//        createWorkout("DEN NOG")
+//        createWorkout("Test Workout3")
+
+//        addExerciseToWorkout(1, "0006")
+
+//        loadWorkouts()
+
+//        addExerciseToWorkout(4, "0003")
+//        addExerciseToWorkout(4, "0007")
+
+//        loadWorkoutWithExercises(4)
 
 //        preparePopularItemRecycleView()
     }
