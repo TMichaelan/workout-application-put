@@ -1,5 +1,6 @@
 package com.example.mobile_applications_project_put.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,10 +13,15 @@ import com.example.mobile_applications_project_put.databinding.FragmentHomeBindi
 import com.example.mobile_applications_project_put.models.BodyPartExcerciseList
 import com.example.mobile_applications_project_put.models.BodyPartsList
 import com.example.mobile_applications_project_put.models.ExerciseItem
+import com.example.mobile_applications_project_put.models.MuscleGroup
 import com.example.mobile_applications_project_put.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.InputStreamReader
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -188,6 +194,20 @@ class HomeFragment : Fragment() {
         })
     }
 
+    fun readAndLogMuscleGroups(context: Context) {
+        val assetManager = context.assets
+        val inputStream = assetManager.open("target_list.json")
+        val reader = InputStreamReader(inputStream)
+
+        val gson = Gson()
+        val listType = object : TypeToken<List<MuscleGroup>>() {}.type
+        val muscleGroups: List<MuscleGroup> = gson.fromJson(reader, listType)
+
+        for (muscleGroup in muscleGroups) {
+            Log.d("MuscleGroupData", "Muscle Group: ${muscleGroup.muscleGroup}, Description: ${muscleGroup.description}, Image: ${muscleGroup.image}")
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -209,6 +229,7 @@ class HomeFragment : Fragment() {
 //        getTargetList()
 //        getExerciseListByTarget("abs")
 //        getAllExercises()
+//        readAndLogMuscleGroups(requireContext())
 
         preparePopularItemRecycleView()
     }

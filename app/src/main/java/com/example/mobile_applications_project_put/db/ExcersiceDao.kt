@@ -1,8 +1,17 @@
 package com.example.mobile_applications_project_put.db
 import androidx.room.*
-//import com.example.mobile_applications_project_put.models.Meal
+import com.example.mobile_applications_project_put.db.entities.Muscle
 
-interface ExcersiceDao {}
+
+
+@Dao
+interface ExcersiceDao {
+    @Insert
+    fun insert(muscle: Muscle)
+
+    @Query("SELECT * FROM muscles")
+    fun getAll(): List<Muscle>
+}
 
 //
 //
