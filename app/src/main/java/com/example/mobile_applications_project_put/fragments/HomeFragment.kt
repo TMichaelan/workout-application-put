@@ -208,6 +208,20 @@ class HomeFragment : Fragment() {
         }
     }
 
+    fun readAndLogBodyParts(context: Context) {
+        val assetManager = context.assets
+        val inputStream = assetManager.open("bodyparts_list.json")
+        val reader = InputStreamReader(inputStream)
+
+        val gson = Gson()
+        val listType = object : TypeToken<List<MuscleGroup>>() {}.type
+        val bodyParts: List<MuscleGroup> = gson.fromJson(reader, listType)
+
+        for (part in bodyParts) {
+            Log.d("BodyPartsData", "Body part: ${part.muscleGroup}, Description: ${part.description}, Image: ${part.image}")
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -230,7 +244,8 @@ class HomeFragment : Fragment() {
 //        getExerciseListByTarget("abs")
 //        getAllExercises()
 //        readAndLogMuscleGroups(requireContext())
-
+//        readAndLogBodyParts(requireContext())
+        
         preparePopularItemRecycleView()
     }
 
