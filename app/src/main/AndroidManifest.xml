@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mobileapplicationsprojectput"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAo2f7txNp_qjdZ94Mh6bR353twe1XK2m4" />
+
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">
