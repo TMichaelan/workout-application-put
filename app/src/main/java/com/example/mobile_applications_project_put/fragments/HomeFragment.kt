@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
@@ -23,6 +24,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.lifecycle.lifecycleScope
+import com.example.mobile_applications_project_put.db.entities.Workout
+import com.example.mobile_applications_project_put.db.entities.WorkoutExerciseCrossRef
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -289,6 +292,54 @@ class HomeFragment : Fragment() {
     }
 
 
+    fun createWorkout(name: String) {
+        val newWorkout = Workout(name = name, id = 0)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val workoutId = AppDatabase.getInstance(requireContext()).workoutDao().insertWorkout(newWorkout)
+            Log.d("Workout Creation", "Created workout with ID: $workoutId")
+        }
+    }
+    fun addExerciseToWorkout(workoutId: Int, exerciseId: String) {
+        val crossRef = WorkoutExerciseCrossRef(workoutId, exerciseId)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            AppDatabase.getInstance(requireContext()).workoutWithExercisesDao().insertWorkoutExerciseCrossRef(crossRef)
+            Log.d("Workout Creation", "Added exercise with ID: $exerciseId to workout with ID: $workoutId")
+        }
+    }
+
+    private fun loadWorkouts() {
+        lifecycleScope.launch {
+            val workouts = withContext(Dispatchers.IO) {
+                database.workoutDao().getAllWorkouts()
+            }
+
+            for (workout in workouts) {
+                Log.d("loadWorkouts", "Saved workouts: $workout")
+            }
+
+        }
+    }
+
+//    private fun loadWorkoutWithExercises(workoutId: Int) {
+//        lifecycleScope.launch {
+//            val workout = withContext(Dispatchers.IO) {
+//                database.workoutWithExercisesDao().getWorkoutWithExercises(workoutId)
+//            }
+//            Log.d("loadWorkouts", "Saved workouts: $workout")
+//
+//        }
+//    }
+
+    private fun loadWorkoutWithExercises(workoutId: Int) {
+        val workoutLiveData = database.workoutWithExercisesDao().getWorkoutWithExercises(workoutId)
+
+        workoutLiveData.observe(viewLifecycleOwner, Observer { workout ->
+            Log.d("loadWorkouts", "Saved workouts: $workout")
+        })
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -318,8 +369,22 @@ class HomeFragment : Fragment() {
 //        addExerciseByIdToDB("0011")
 //        deleteAppDatabase(requireContext())
 
-//        dbAddExerciseById("0006")
+//        dbAddExerciseById("0001")
+
 //        loadSavedExercises()
+
+//        createWorkout("Test Workout")
+//        createWorkout("DEN NOG")
+//        createWorkout("Test Workout3")
+
+//        addExerciseToWorkout(1, "0006")
+
+//        loadWorkouts()
+
+//        addExerciseToWorkout(4, "0003")
+//        addExerciseToWorkout(4, "0007")
+
+//        loadWorkoutWithExercises(4)
 
         preparePopularItemRecycleView()
     }
