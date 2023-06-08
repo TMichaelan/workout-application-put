@@ -1,17 +1,13 @@
 package com.example.mobile_applications_project_put.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 import com.example.mobile_applications_project_put.databinding.FragmentHomeBinding
-import com.example.mobile_applications_project_put.functions.ApiUtility.getBodyPartExercises
-import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,11 +29,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val context = requireContext()
-
-
-
+        
     }
 
     override fun onCreateView(
