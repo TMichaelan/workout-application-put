@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 import com.example.mobile_applications_project_put.databinding.FragmentHomeBinding
-import com.example.mobile_applications_project_put.db.entities.User
-import com.example.mobile_applications_project_put.functions.FirebaseUtility
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.example.mobile_applications_project_put.functions.ApiUtility.getBodyPartExercises
+import kotlinx.coroutines.launch
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,6 +33,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        lifecycleScope.launch {
+
+            val ex = getBodyPartExercises("back")
+
+        }
 
     }
 
