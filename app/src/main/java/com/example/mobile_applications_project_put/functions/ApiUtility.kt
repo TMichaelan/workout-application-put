@@ -83,13 +83,13 @@ object ApiUtility {
             val response = call.execute() // Synchronous network call
             if (response.isSuccessful) {
                 val bodyParts = response.body()
-//                Log.d("getBodyPartExercises", "Response received for body part: $bodyPart")
+                Log.d("getBodyPartExercises", "Response received for body part: ${bodyParts}")
                 bodyParts ?: emptyList()
-
             } else {
                 Log.d("getBodyPartExercises", "No body parts returned in the response")
                 emptyList()
             }
+
         }
     }
 

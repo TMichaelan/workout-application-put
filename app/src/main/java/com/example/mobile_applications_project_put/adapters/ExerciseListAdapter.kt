@@ -12,7 +12,7 @@ import com.example.mobile_applications_project_put.activities.ExerciseListActivi
 import com.example.mobile_applications_project_put.models.BodyPartExcerciseListItem
 
 class ExerciseListAdapter(
-    private var exerciseList: ArrayList<BodyPartExcerciseListItem>,
+    private var exerciseList: List<BodyPartExcerciseListItem>,
     private val listener: ExerciseListActivity
     ): RecyclerView.Adapter<ExerciseListAdapter.MyViewHolder>() {
 
@@ -46,7 +46,7 @@ class ExerciseListAdapter(
     class MyViewHolder(
         itemView: View,
         private val listener: OnItemClickListener,
-        private val exerciseList: ArrayList<BodyPartExcerciseListItem>
+        private val exerciseList: List<BodyPartExcerciseListItem>
         ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
             val imageId: ImageView = itemView.findViewById(R.id.img_body_part)
             val name: TextView = itemView.findViewById(R.id.tv_body_part)
@@ -60,8 +60,12 @@ class ExerciseListAdapter(
             }
         }
 
-    fun setFilteredList(list: ArrayList<BodyPartExcerciseListItem>){
+    fun setFilteredList(list: List<BodyPartExcerciseListItem>){
         exerciseList=list
+        notifyDataSetChanged()
+    }
+    fun setExerciseList(exercises: List<BodyPartExcerciseListItem>) {
+        exerciseList = exercises
         notifyDataSetChanged()
     }
 }

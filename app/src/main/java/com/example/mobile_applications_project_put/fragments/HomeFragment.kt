@@ -36,11 +36,7 @@ class HomeFragment : Fragment() {
 
         val context = requireContext()
 
-        lifecycleScope.launch {
 
-            val ex = getBodyPartExercises("back")
-
-        }
 
     }
 
