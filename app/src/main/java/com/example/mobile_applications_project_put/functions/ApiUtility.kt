@@ -1,10 +1,11 @@
 package com.example.mobile_applications_project_put.functions
 
 import android.util.Log
-import com.example.mobile_applications_project_put.models.BodyPartExcerciseList
-import com.example.mobile_applications_project_put.models.BodyPartsList
-import com.example.mobile_applications_project_put.models.ExerciseItem
+import com.example.mobile_applications_project_put.db.entities.Exercise
+import com.example.mobile_applications_project_put.models.*
 import com.example.mobile_applications_project_put.retrofit.RetrofitInstance
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -76,26 +77,20 @@ object ApiUtility {
         })
     }
 
-    fun getBodyPartExcersices(bodyPart : String) {
-        RetrofitInstance.excerciseAPI.getBodyPart(bodyPart).enqueue(object :  Callback<BodyPartExcerciseList>{
-
-            override fun onResponse(call: Call<BodyPartExcerciseList>, response: Response<BodyPartExcerciseList>) {
+    suspend fun getBodyPartExercises(bodyPart: String): List<BodyPartExcerciseListItem> {
+        return withContext(Dispatchers.IO) {
+            val call = RetrofitInstance.excerciseAPI.getBodyPart(bodyPart)
+            val response = call.execute() // Synchronous network call
+            if (response.isSuccessful) {
                 val bodyParts = response.body()
-                Log.d("getBodyPartExcersices", "Response received for body part: $bodyPart")
-                if (bodyParts != null) {
-                    // Print data
-                    for (part in bodyParts) {
-                        Log.d("getBodyPartExcersices", "Body part: $part")
-                    }
-                } else {
-                    Log.d("getBodyPartExcersices", "No body parts returned in the response")
-                }
-            }
+//                Log.d("getBodyPartExercises", "Response received for body part: $bodyPart")
+                bodyParts ?: emptyList()
 
-            override fun onFailure(call: Call<BodyPartExcerciseList>, t: Throwable) {
-                Log.e("getBodyPartExcersices", "Error: ${t.message}")
+            } else {
+                Log.d("getBodyPartExercises", "No body parts returned in the response")
+                emptyList()
             }
-        })
+        }
     }
 
     fun getExerciseListByName(exersiceName : String) {
