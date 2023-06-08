@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
+//import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 import com.example.mobile_applications_project_put.databinding.FragmentHomeBinding
+import com.example.mobile_applications_project_put.functions.ApiUtility
 import com.example.mobile_applications_project_put.functions.DbUtility
+import com.example.mobile_applications_project_put.models.BodyPartExcerciseList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,7 +25,6 @@ private const val ARG_PARAM2 = "param2"
  */
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var bodyPartAdapter: BodyPartAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +34,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val context = requireContext()
-        
-
     }
 
     override fun onCreateView(
