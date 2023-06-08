@@ -79,6 +79,10 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
             if (!filteredList.isEmpty()) {
                 adapter.setFilteredList(filteredList)
             }
+            else{
+                filteredList.clear()
+                adapter.setFilteredList(filteredList)
+            }
         }
     }
 
