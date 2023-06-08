@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.mobile_applications_project_put.fragments.BodyPartsListFragment
+//import com.example.mobile_applications_project_put.fragments.BodyPartsListFragment
 import com.example.mobile_applications_project_put.fragments.HomeFragment
 import com.example.mobile_applications_project_put.fragments.MapsFragment
 
