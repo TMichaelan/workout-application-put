@@ -4,8 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +12,7 @@ import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.adapters.ExerciseListAdapter
 import com.example.mobile_applications_project_put.functions.ApiUtility
 import com.example.mobile_applications_project_put.models.BodyPartExcerciseListItem
+import com.example.mobile_applications_project_put.models.ExerciseItem
 import com.example.mobile_applications_project_put.models.MuscleGroup
 import kotlinx.coroutines.launch
 import java.util.*
@@ -72,9 +71,34 @@ class ExerciseListActivity : AppCompatActivity(), ExerciseListAdapter.OnItemClic
         }
     }
 
+
     override fun onItemClick(bodyPartExcerciseListItem: BodyPartExcerciseListItem) {
-        val intent = Intent(this, ExerciseListActivity::class.java)
-        intent.putExtra("bodyPartExcerciseListItem", bodyPartExcerciseListItem)
+//        val exerciseItem = ExerciseItem(bodyPartExcerciseListItem.bodyPart, bodyPartExcerciseListItem.equipment, bodyPartExcerciseListItem.gifUrl, bodyPartExcerciseListItem.id, bodyPartExcerciseListItem.name, bodyPartExcerciseListItem.target)
+        val intent = Intent(this, ExerciseDetailsActivity::class.java)
+
+        intent.putExtra(BODYPART, bodyPartExcerciseListItem.bodyPart)
+        intent.putExtra(EQUIPMENT, bodyPartExcerciseListItem.equipment)
+        intent.putExtra(GIFURL, bodyPartExcerciseListItem.gifUrl)
+        intent.putExtra(ID, bodyPartExcerciseListItem.id)
+        intent.putExtra(NAME, bodyPartExcerciseListItem.name)
+        intent.putExtra(TARGET, bodyPartExcerciseListItem.target)
+
+
+//        Log.d("test", bodyPartExcerciseListItem.bodyPart)
+//        Log.d("test", bodyPartExcerciseListItem.equipment)
+//        Log.d("test", bodyPartExcerciseListItem.gifUrl)
+//        Log.d("test",  bodyPartExcerciseListItem.name)
+//        Log.d("test", bodyPartExcerciseListItem.target)
+
         startActivity(intent)
+    }
+
+    companion object{
+        const val BODYPART = "com.example.mobile_applications_project_put.fragments.bodyPart"
+        const val EQUIPMENT = "com.example.mobile_applications_project_put.fragments.equipment"
+        const val GIFURL = "com.example.mobile_applications_project_put.fragments.gifUrl"
+        const val ID = "com.example.mobile_applications_project_put.fragments.id"
+        const val NAME = "com.example.mobile_applications_project_put.fragments.name"
+        const val TARGET = "com.example.mobile_applications_project_put.fragments.target"
     }
 }
