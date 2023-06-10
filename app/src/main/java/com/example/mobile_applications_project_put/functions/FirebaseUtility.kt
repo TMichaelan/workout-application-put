@@ -47,5 +47,39 @@ object FirebaseUtility {
         })
     }
 
+    fun loginUser(email: String, password: String, onComplete: (Boolean, String?, String) -> Unit) {
+        val usersRef = database.getReference("users")
+
+        val emailQuery: Query = usersRef.orderByChild("email").equalTo(email)
+
+        emailQuery.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    var user: User? = null
+                    for (childSnapshot in snapshot.children) {
+                        user = childSnapshot.getValue(User::class.java)
+                        break
+                    }
+
+                    if (user != null) {
+                        if (user.password == password) {
+                            onComplete(true, user.username, "Login successful")
+                        } else {
+                            onComplete(false, null, "Incorrect password")
+                        }
+                    } else {
+                        onComplete(false, null, "Failed to fetch user")
+                    }
+                } else {
+                    onComplete(false, null, "Email does not exist")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                onComplete(false, null, "Failed to check email: ${error.message}")
+            }
+        })
+    }
+
 
 }

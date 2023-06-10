@@ -85,7 +85,7 @@ dependencies {
 
     implementation 'org.osmdroid:osmdroid-android:6.1.10'
 
-
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
 
 
 }

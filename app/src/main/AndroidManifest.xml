@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mobileapplicationsprojectput"
         tools:targetApi="31">
+
+        <activity android:name=".activities.RegisterActivity" />
+
         <activity
             android:name=".activities.ExerciseDetailsActivity"
             android:exported="false" />
