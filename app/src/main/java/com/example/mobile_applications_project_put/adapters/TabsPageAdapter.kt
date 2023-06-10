@@ -43,6 +43,14 @@ class TabsPageAdapter (
                 thirdFragment
             } else NotLoggedInFragment()
 
+            3 -> {
+                val bundle = Bundle()
+                bundle.putString("bodyPartsListFragment", "Body Parts Fragment")
+                val fourthFragment = MapsFragment()
+                fourthFragment.arguments = bundle
+                fourthFragment
+            }
+
             else -> HomeFragment()
         }
     }
