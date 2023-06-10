@@ -76,6 +76,8 @@ class ExerciseListActivity : AppCompatActivity(), ExerciseListAdapter.OnItemClic
 //        val exerciseItem = ExerciseItem(bodyPartExcerciseListItem.bodyPart, bodyPartExcerciseListItem.equipment, bodyPartExcerciseListItem.gifUrl, bodyPartExcerciseListItem.id, bodyPartExcerciseListItem.name, bodyPartExcerciseListItem.target)
         val intent = Intent(this, ExerciseDetailsActivity::class.java)
 
+        intent.putExtra("callingActivity", "ExerciseListActivity")
+
         intent.putExtra(BODYPART, bodyPartExcerciseListItem.bodyPart)
         intent.putExtra(EQUIPMENT, bodyPartExcerciseListItem.equipment)
         intent.putExtra(GIFURL, bodyPartExcerciseListItem.gifUrl)
