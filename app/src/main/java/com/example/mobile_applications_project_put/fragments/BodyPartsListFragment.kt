@@ -93,8 +93,6 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
     }
 
 
-
-
     companion object {
 
         @JvmStatic
