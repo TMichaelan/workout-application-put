@@ -39,15 +39,14 @@ object JsonUtility {
             Log.d("readAndLogMuscleGroups", "Muscle Group: ${muscleGroup.muscleGroup}, Description: ${muscleGroup.description}, Image: ${muscleGroup.image}")
         }
     }
-
-    fun getRandomExercises(context: Context): List<Exercise> {
+    fun getRandomExercises(context: Context, num: Int = 20): List<Exercise> {
         val inputStream: InputStream = context.assets.open("exercises.json")
         val json = inputStream.bufferedReader().use { it.readText() }
 
         val listType = object : TypeToken<List<Exercise>>() {}.type
         val exercises: List<Exercise> = Gson().fromJson(json, listType)
 
-        return exercises.shuffled().take(20) // Перемешивание списка и взятие первых 20 элементов
+        return exercises.shuffled().take(num) // Перемешивание списка и взятие первых 20 элементов
     }
 
 

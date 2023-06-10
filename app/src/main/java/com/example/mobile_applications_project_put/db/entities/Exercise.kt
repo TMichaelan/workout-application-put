@@ -12,4 +12,6 @@ data class Exercise(
     val gifUrl: String,
     val name: String,
     val target: String
-)
+) {
+    constructor() : this("", "", "", "", "", "")
+}

@@ -51,7 +51,7 @@ class HomeFragment : Fragment(), ExerciseAdapter.OnItemClickListener {
 
         intent.putExtra(BODYPART, exercise.bodyPart)
         intent.putExtra(EQUIPMENT, exercise.equipment)
-        intent.putExtra(GIFURL, exercise.gifUrl)
+//        intent.putExtra(GIFURL, exercise.gifUrl)
 
         intent.putExtra(NAME, exercise.name)
         intent.putExtra(TARGET, exercise.target)
@@ -62,7 +62,7 @@ class HomeFragment : Fragment(), ExerciseAdapter.OnItemClickListener {
     companion object {
         const val BODYPART = "com.example.mobile_applications_project_put.fragments.bodyPart"
         const val EQUIPMENT = "com.example.mobile_applications_project_put.fragments.equipment"
-        const val GIFURL = "com.example.mobile_applications_project_put.fragments.gifUrl"
+//        const val GIFURL = "com.example.mobile_applications_project_put.fragments.gifUrl"
         const val NAME = "com.example.mobile_applications_project_put.fragments.name"
         const val TARGET = "com.example.mobile_applications_project_put.fragments.target"
     }

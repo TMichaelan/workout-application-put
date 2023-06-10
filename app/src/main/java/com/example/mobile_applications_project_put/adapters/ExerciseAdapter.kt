@@ -29,10 +29,10 @@ class ExerciseAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentExercise = exerciseList[position]
-        Glide.with(holder.imageId)
-            .asBitmap()
-            .load(currentExercise.gifUrl)
-            .into(holder.imageId)
+//        Glide.with(holder.imageId)
+//            .asBitmap()
+//            .load(currentExercise.gifUrl)
+//            .into(holder.imageId)
         holder.name.text = currentExercise.name.capitalize()
         holder.itemView.setOnClickListener { listener.onItemClick(currentExercise) }
     }
