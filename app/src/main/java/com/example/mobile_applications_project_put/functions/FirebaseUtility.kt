@@ -1,10 +1,7 @@
 package com.example.mobile_applications_project_put.functions
 
-import android.util.Log
 import com.example.mobile_applications_project_put.db.entities.User
-import com.example.mobile_applications_project_put.db.entities.Workout
 import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
-import com.example.mobile_applications_project_put.db.entities.WorkoutWithExercises
 import com.google.firebase.database.*
 
 object FirebaseUtility {
@@ -157,8 +154,55 @@ object FirebaseUtility {
             .addOnFailureListener { exception -> callback(false, exception.message ?: "Unknown error occurred") }
     }
 
+    fun updateUserName(username: String, newName: String, callback: (Boolean, String) -> Unit) {
+        val usersRef = database.getReference("users")
 
+        usersRef.child(username).child("name").setValue(newName)
+            .addOnSuccessListener { callback(true, "Name successfully updated") }
+            .addOnFailureListener { exception -> callback(false, exception.message ?: "Unknown error occurred") }
+    }
 
+    fun updateUserHeight(username: String, newHeight: Int, callback: (Boolean, String) -> Unit) {
+        val usersRef = database.getReference("users")
+
+        usersRef.child(username).child("height").setValue(newHeight)
+            .addOnSuccessListener { callback(true, "Height successfully updated") }
+            .addOnFailureListener { exception -> callback(false, exception.message ?: "Unknown error occurred") }
+    }
+    fun updateUserAge(username: String, newAge: Int, callback: (Boolean, String) -> Unit) {
+        val usersRef = database.getReference("users")
+
+        usersRef.child(username).child("age").setValue(newAge)
+            .addOnSuccessListener { callback(true, "Age successfully updated") }
+            .addOnFailureListener { exception -> callback(false, exception.message ?: "Unknown error occurred") }
+    }
+
+    fun updateUserWeight(username: String, newWeight: Double, callback: (Boolean, String) -> Unit) {
+        val usersRef = database.getReference("users")
+
+        usersRef.child(username).child("weight").setValue(newWeight)
+            .addOnSuccessListener { callback(true, "Weight successfully updated") }
+            .addOnFailureListener { exception -> callback(false, exception.message ?: "Unknown error occurred") }
+    }
+
+    fun getUser(username: String, callback: (User?, String?) -> Unit) {
+        val usersRef = database.getReference("users")
+
+        usersRef.child(username).addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                if (user != null) {
+                    callback(user, null)
+                } else {
+                    callback(null, "User not found")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(null, "Failed to get user: ${error.message}")
+            }
+        })
+    }
 
 
 

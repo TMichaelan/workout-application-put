@@ -4,5 +4,9 @@ data class User(
     var username: String = "",
     var email: String = "",
     var password: String = "",
-    val name: String? = null
+    var name: String? = null,
+    var height: Int? = null,
+    var age: Int? = null,
+    var weight: Double? = null
 )
+

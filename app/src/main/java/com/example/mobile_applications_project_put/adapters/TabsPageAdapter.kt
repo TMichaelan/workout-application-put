@@ -46,7 +46,7 @@ class TabsPageAdapter (
             3 -> {
                 val bundle = Bundle()
                 bundle.putString("bodyPartsListFragment", "Body Parts Fragment")
-                val fourthFragment = MapsFragment()
+                val fourthFragment = TestFragment()
                 fourthFragment.arguments = bundle
                 fourthFragment
             }
