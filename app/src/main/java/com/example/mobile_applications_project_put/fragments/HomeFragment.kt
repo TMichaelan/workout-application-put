@@ -1,6 +1,7 @@
 package com.example.mobile_applications_project_put.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 import com.example.mobile_applications_project_put.databinding.FragmentHomeBinding
+import com.example.mobile_applications_project_put.db.entities.User
+import com.example.mobile_applications_project_put.functions.FirebaseUtility
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +33,16 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val context = requireContext()
-        
+
+        val user = User("joramba", "jorkabozkO@gmail.com", "1234")
+
+        FirebaseUtility.registerUser(user) { success, message ->
+            if (success) {
+                Log.d("HomeFragment", "Registration successful.")
+            } else {
+                Log.d("HomeFragment", "Registration failed: $message")
+            }
+        }
     }
 
     override fun onCreateView(

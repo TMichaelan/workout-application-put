@@ -1,151 +1,145 @@
-package com.example.mobile_applications_project_put.fragments//package com.example.mobile_applications_project_put.fragments
-//
-//import androidx.fragment.app.Fragment
-//
-//import android.os.Bundle
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import com.example.mobile_applications_project_put.R
-//
-//import com.google.android.gms.maps.CameraUpdateFactory
-//import com.google.android.gms.maps.GoogleMap
-//import com.google.android.gms.maps.OnMapReadyCallback
-//import com.google.android.gms.maps.SupportMapFragment
-//import com.google.android.gms.maps.model.CameraPosition
-//import com.google.android.gms.maps.model.LatLng
-//import com.google.android.gms.maps.model.MarkerOptions
-//
-//class MapsFragment : Fragment() {
-//
-//    private val callback = OnMapReadyCallback { googleMap ->
-//        /**
-//         * Manipulates the map once available.
-//         * This callback is triggered when the map is ready to be used.
-//         * This is where we can add markers or lines, add listeners or move the camera.
-//         * In this case, we just add a marker near Sydney, Australia.
-//         * If Google Play services is not installed on the device, the user will be prompted to
-//         * install it inside the SupportMapFragment. This method will only be triggered once the
-//         * user has installed Google Play services and returned to the app.
-//         */
-//        val sydney = LatLng(-34.0, 151.0)
-//        val mountainView = LatLng(37.4, -122.1)
-//
-//        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10f))
-//
-//
-//        // Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
-//        val cameraPosition = CameraPosition.Builder()
-//            .target(mountainView) // Sets the center of the map to Mountain View
-//            .zoom(17f)            // Sets the zoom
-//            .bearing(90f)         // Sets the orientation of the camera to east
-//            .tilt(30f)            // Sets the tilt of the camera to 30 degrees
-//            .build()              // Creates a CameraPosition from the builder
-//        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-//    }
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        return inflater.inflate(R.layout.fragment_maps, container, false)
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-//        mapFragment?.getMapAsync(callback)
-//    }
-//}
-//
-//package com.example.mobile_applications_project_put.fragments
-//
-//import org.osmdroid.config.Configuration
-//import org.osmdroid.util.GeoPoint
-//import org.osmdroid.views.MapView
-//import org.osmdroid.views.overlay.Marker
-//import android.Manifest
-//import android.content.Context.MODE_PRIVATE
-//import android.content.pm.PackageManager
-//import android.os.Bundle
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import androidx.core.app.ActivityCompat
-//import androidx.fragment.app.Fragment
-//import com.example.mobile_applications_project_put.R
-//import org.osmdroid.tileprovider.tilesource.TileSourceFactory
-//import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
-//import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-//import java.io.File
-//
-//class MapsFragment : Fragment() {
-//
-//    private lateinit var mapView: MapView
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        Configuration.getInstance().load(context, context?.getSharedPreferences("osm", MODE_PRIVATE))
-//        Configuration.getInstance().osmdroidBasePath = File(context?.getExternalFilesDir(null), "osm")
-//        Configuration.getInstance().osmdroidTileCache = File(context?.getExternalFilesDir(null), "osm/tiles")
-//
-//        val rootView: View = inflater.inflate(R.layout.fragment_map, container, false)
-//        mapView = rootView.findViewById(R.id.map)
-//        mapView.setTileSource(TileSourceFactory.MAPNIK)
-//
-//        // Set default zoom and position
-//        mapView.controller.setZoom(10.0)
-//        mapView.controller.setCenter(GeoPoint(48.8583, 2.2944)) // for example, coordinates of Paris
-//
-//        return rootView
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        // Checking for location permissions
-//        if (ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            return
-//        }
-//
-//        // Getting user location
-//        val locationProvider = GpsMyLocationProvider(context)
-//        val myLocationOverlay = MyLocationNewOverlay(locationProvider, mapView)
-//        myLocationOverlay.enableMyLocation()
-//        mapView.overlays.add(myLocationOverlay)
-//
-//        // Display markers for gyms
-//        displayGymsNearUser()
-//    }
-//
-//    private fun displayGymsNearUser() {
-//        // TODO: Implement fetching of nearby gym locations. Replace with real data
-//        val gyms = listOf<GeoPoint>(
-//            GeoPoint(48.859, 2.294),  // Mockup data
-//            GeoPoint(48.858, 2.293),
-//            GeoPoint(48.857, 2.294)
-//        )
-//
-//        gyms.forEach { gym ->
-//            val marker = Marker(mapView)
-//            marker.position = gym
-//            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-//            mapView.overlays.add(marker)
-//        }
-//    }
-//}
-//
-//
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.example.mobile_applications_project_put.R
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.*
+import com.google.android.libraries.places.api.net.*
+import com.google.maps.android.SphericalUtil
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
+
+class MapsFragment : Fragment(), OnMapReadyCallback {
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var googleMap: GoogleMap
+    private lateinit var getMyLocationButton: Button
+    private lateinit var placesClient: PlacesClient
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_maps, container, false)
+        getMyLocationButton = view.findViewById(R.id.btn_location)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        getMyLocationButton.setOnClickListener {
+            checkLocationPermission()
+        }
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+
+        Places.initialize(requireContext(), getString(R.string.google_maps_api_key))
+        placesClient = Places.createClient(requireContext())
+    }
+
+    private fun addMarkersToMap() {
+        val locationRequest = LocationRequest.create() // Create location request.
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY // Set priority.
+
+        val locationCallback: LocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                for (location in locationResult.locations) {
+                    if (location != null) {
+
+                        // Such as:
+                        val lat = location.latitude
+                        val lon = location.longitude
+
+                        val pos = LatLng(lat, lon)
+
+                        Log.d("test", lat.toString())
+                        Log.d("test", lon.toString())
+
+                        googleMap.addMarker(MarkerOptions().position(pos).title("Your location"))
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 15f))
+
+                    }
+                }
+            }
+        }
+
+        // Create a location provider client and send request for getting location.
+        val client = LocationServices.getFusedLocationProviderClient(requireContext())
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        client.requestLocationUpdates(locationRequest, locationCallback, null)
+    }
+
+    fun makeApiCall(location: Location){
+        val request = Request.Builder().url("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=1500&type=gym&key=AIzaSyAo2f7txNp_qjdZ94Mh6bR353twe1XK2m4")
+            .build()
+
+        val response = OkHttpClient().newCall(request).execute().body?.string()
+        val jsonObject = JSONObject(response) // This will make the json below as an object for you
+
+        Log.d("Gyms", jsonObject.toString())
+        // You can access all the attributes , nested ones using JSONArray and JSONObject here
+    }
+
+    private fun checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            Log.d("Check","1")
+            addMarkersToMap()
+        }
+    }
+
+    companion object {
+        private const val DEFAULT_ZOOM = 15f
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 123
+
+        private const val SEARCH_RADIUS_KM = 3.0
+        private const val ONE_KM_IN_DEGREES = 0.009
+
+        private val SEARCH_RADIUS_DEGREES = SEARCH_RADIUS_KM * ONE_KM_IN_DEGREES
+    }
+}

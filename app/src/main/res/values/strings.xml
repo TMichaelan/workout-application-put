@@ -14,4 +14,6 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="google_maps_api_key">AIzaSyAo2f7txNp_qjdZ94Mh6bR353twe1XK2m4</string>
+
 </resources>
