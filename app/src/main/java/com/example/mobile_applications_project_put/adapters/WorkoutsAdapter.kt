@@ -13,7 +13,7 @@ import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
 class WorkoutsAdapter(
     private var workoutList: List<WorkoutFirebase>,
     private val listener: OnItemClickListener,
-//    private val deleteListener: OnDeleteClickListener
+    private val deleteListener: OnDeleteClickListener
 ) : RecyclerView.Adapter<WorkoutsAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -33,9 +33,9 @@ class WorkoutsAdapter(
             listener.onItemClick(currentWorkout)
         }
 
-//        holder.deleteButton.setOnClickListener {
-//            deleteListener.onDeleteClick(currentWorkout)
-//        }
+        holder.deleteButton.setOnClickListener {
+            deleteListener.onDeleteClick(currentWorkout)
+        }
     }
 
     interface OnItemClickListener {
@@ -59,8 +59,7 @@ class WorkoutsAdapter(
 
 
     fun updateList(list: List<WorkoutFirebase>) {
-//        workoutList.clear()
-//        workoutList.addAll(list)
+        workoutList = list
         notifyDataSetChanged()
     }
 }
