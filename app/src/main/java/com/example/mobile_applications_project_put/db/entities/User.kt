@@ -1,8 +1,8 @@
 package com.example.mobile_applications_project_put.db.entities
 
 data class User(
-    val username: String,
-    val email: String,
-    val password: String,
+    var username: String = "",
+    var email: String = "",
+    var password: String = "",
     val name: String? = null
 )
