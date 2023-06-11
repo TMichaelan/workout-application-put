@@ -34,8 +34,7 @@ class HomeFragment : Fragment(), SmallExerciseListAdapter.OnItemClickListener{
         super.onViewCreated(view, savedInstanceState)
 
         val context = requireContext()
-
-
+        
         val ex = JsonUtility.getRandomExercises(context)
 
         val adapter = SmallExerciseListAdapter(ex, this)
