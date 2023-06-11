@@ -64,22 +64,20 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.tabsViewpager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "1"
-                    tab.setIcon(R.drawable.ic_launcher_background)
+                    tab.text = "Home"
+                    tab.setIcon(R.drawable.round_home_24)
                 }
                 1 -> {
-                    tab.text = "2"
-                    tab.setIcon(R.drawable.ic_launcher_foreground)
-
+                    tab.text = "Workouts"
+                    tab.setIcon(R.drawable.round_sports_24)
                 }
                 2 -> {
-                    tab.text = "3"
-                    tab.setIcon(androidx.appcompat.R.drawable.abc_ab_share_pack_mtrl_alpha)
+                    tab.text = "Profile"
+                    tab.setIcon(R.drawable.round_account_circle_24)
                 }
-                3 -> {
-                    tab.text = "4"
-                    tab.setIcon(androidx.appcompat.R.drawable.abc_btn_check_material)
-                }
+//                3->{
+//                    tab.text = "4"
+//                }
             }
         }.attach()
     }

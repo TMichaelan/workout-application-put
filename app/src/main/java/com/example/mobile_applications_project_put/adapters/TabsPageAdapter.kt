@@ -27,29 +27,32 @@ class TabsPageAdapter (
                 firstFragment
             }
 
-            1 -> {
+            1 -> if (loggedIn) {
+                // If the user is logged in, then we create and return the FourthFragment
                 val bundle = Bundle()
-                bundle.putString("bodyPartsListFragment", "Body Parts Fragment")
-                val secondFragment = BodyPartsListFragment()
+                bundle.putString("fragmentName", "Third Fragment")
+                val secondFragment = WorkoutsFragment() // This fragment should be created by you
                 secondFragment.arguments = bundle
                 secondFragment
-            }
+            } else NotLoggedInFragment()
+
             2 -> if (loggedIn) {
                 // If the user is logged in, then we create and return the FourthFragment
                 val bundle = Bundle()
                 bundle.putString("fragmentName", "Third Fragment")
-                val thirdFragment = WorkoutsFragment() // This fragment should be created by you
+                val thirdFragment = ProfileFragment() // This fragment should be created by you
                 thirdFragment.arguments = bundle
                 thirdFragment
             } else NotLoggedInFragment()
 
-            3 -> {
-                val bundle = Bundle()
-                bundle.putString("bodyPartsListFragment", "Body Parts Fragment")
-                val fourthFragment = TestFragment()
-                fourthFragment.arguments = bundle
-                fourthFragment
-            }
+//            3 -> {
+//                val bundle = Bundle()
+//                bundle.putString("bodyPartsListFragment", "Body Parts Fragment")
+//                val fourthFragment = MapsFragment()
+//                fourthFragment.arguments = bundle
+//                fourthFragment
+//            }
+
 
             else -> HomeFragment()
         }
@@ -64,7 +67,7 @@ class TabsPageAdapter (
     override fun getItemCount(): Int {
         val sharedPref = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
         val loggedIn = sharedPref.getBoolean("logged_in", false)
-        return 4
+        return 3
     }
 
 }
