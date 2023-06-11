@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.activities.ExerciseListActivity
+import com.example.mobile_applications_project_put.activities.WorkoutActivity
 import com.example.mobile_applications_project_put.adapters.WorkoutsAdapter
 import com.example.mobile_applications_project_put.db.entities.*
 import com.example.mobile_applications_project_put.functions.FirebaseUtility
@@ -42,7 +43,7 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
         super.onViewCreated(view, savedInstanceState)
 
         val sharedPref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
-        val username = sharedPref?.getString("username", null)
+        username = sharedPref?.getString("username", null)
 
         val btn_add = view.findViewById(R.id.button3) as Button
 
@@ -82,7 +83,7 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
 
     override fun onDeleteClick(workout: WorkoutFirebase) {
         val sharedPref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
-        val username = sharedPref?.getString("username", null)
+        username = sharedPref?.getString("username", null)
 
         if (username != null) {
             workout.id?.let {
@@ -102,7 +103,8 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
 
 
     override fun onItemClick(workout: WorkoutFirebase) {
-        val intent = Intent(requireContext(), ExerciseListActivity::class.java)
+        val intent = Intent(requireContext(), WorkoutActivity::class.java)
+        intent.putExtra("username", username)
         startActivity(intent)
     }
     

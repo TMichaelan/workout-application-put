@@ -3,27 +3,28 @@ package com.example.mobile_applications_project_put.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
-import com.example.mobile_applications_project_put.activities.AddToWorkoutExercisesListActivity
+import com.example.mobile_applications_project_put.activities.ExerciseListActivity
+import com.example.mobile_applications_project_put.activities.WorkoutActivity
 import com.example.mobile_applications_project_put.db.entities.Exercise
-import com.example.mobile_applications_project_put.fragments.HomeFragment
-import com.example.mobile_applications_project_put.fragments.TestFragment
+import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
 import com.example.mobile_applications_project_put.models.BodyPartExcerciseListItem
 
-//import com.example.mobile_applications_project_put.fragments.RandomExerciseFragment
-
-class ExerciseAdapter(
+class WorkoutExerciseListAdapter(
     private var exerciseList: List<Exercise>,
-    private val listener: AddToWorkoutExercisesListActivity
-): RecyclerView.Adapter<ExerciseAdapter.MyViewHolder>() {
+    private val listener: WorkoutActivity,
+    private val deleteListener: OnDeleteClickListener
+): RecyclerView.Adapter<WorkoutExerciseListAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.body_parts, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.workout_exercise_item, parent, false)
         return MyViewHolder(itemView, listener, exerciseList)
     }
 
@@ -40,6 +41,10 @@ class ExerciseAdapter(
             .into(holder.imageId)
         holder.name.text = currentExercise.name.capitalize()
         holder.itemView.setOnClickListener { listener.onItemClick(currentExercise) }
+
+        holder.deleteButton.setOnClickListener {
+            deleteListener.onDeleteClick(currentExercise)
+        }
     }
 
 
@@ -47,11 +52,15 @@ class ExerciseAdapter(
         fun onItemClick(exercise: Exercise)
     }
 
+    interface OnDeleteClickListener {
+        fun onDeleteClick(exercise: Exercise)
+    }
 
     class MyViewHolder(
         itemView: View,
         private val listener: OnItemClickListener,
-        private val exerciseList: List<Exercise>
+        private val exerciseList: List<Exercise>,
+        val deleteButton: Button = itemView.findViewById(R.id.button2)
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val imageId: ImageView = itemView.findViewById(R.id.img_body_part)
         val name: TextView = itemView.findViewById(R.id.tv_body_part)
@@ -64,10 +73,13 @@ class ExerciseAdapter(
             listener.onItemClick(exerciseList[adapterPosition])
         }
     }
+
+
     fun setExerciseList(exercises: List<Exercise>) {
         exerciseList = exercises
         notifyDataSetChanged()
     }
+
 
 
 }
