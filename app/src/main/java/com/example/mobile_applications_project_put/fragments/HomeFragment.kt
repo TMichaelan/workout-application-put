@@ -16,6 +16,8 @@ import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 //import com.example.mobile_applications_project_put.adapters.ExerciseAdapter
 import com.example.mobile_applications_project_put.adapters.SmallExerciseListAdapter
 import com.example.mobile_applications_project_put.databinding.FragmentHomeBinding
+import com.example.mobile_applications_project_put.db.entities.User
+import com.example.mobile_applications_project_put.functions.FirebaseUtility
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.functions.JsonUtility
 
@@ -33,12 +35,12 @@ class HomeFragment : Fragment(), SmallExerciseListAdapter.OnItemClickListener{
 
         val context = requireContext()
 
+
         val ex = JsonUtility.getRandomExercises(context)
 
         val adapter = SmallExerciseListAdapter(ex, this)
         binding.recycleView.adapter = adapter
         binding.recycleView.layoutManager = GridLayoutManager(context, 4)
-
 
     }
 

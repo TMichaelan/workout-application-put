@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         binding.tabsViewpager.adapter = adapter
 
         // Enable Swipe
-        binding.tabsViewpager.isUserInputEnabled = true
+        binding.tabsViewpager.isUserInputEnabled = false
 
         // Link the TabLayout and the ViewPager2 together and Set Text & Icons
         TabLayoutMediator(binding.tabLayout, binding.tabsViewpager) { tab, position ->

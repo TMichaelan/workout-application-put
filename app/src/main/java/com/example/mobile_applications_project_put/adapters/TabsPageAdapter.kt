@@ -1,5 +1,6 @@
 package com.example.mobile_applications_project_put.adapters
 
+import MapsFragment
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +8,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.mobile_applications_project_put.fragments.*
+
+//import com.example.mobile_applications_project_put.fragments.MapsFragment
 
 class TabsPageAdapter (
     private val context: Context,
@@ -25,6 +28,7 @@ class TabsPageAdapter (
                 val firstFragment = HomeFragment()
                 firstFragment.arguments = bundle
                 firstFragment
+
             }
 
             1 -> if (loggedIn) {

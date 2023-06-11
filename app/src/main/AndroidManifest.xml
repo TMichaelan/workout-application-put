@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -20,9 +19,6 @@
 
         <activity android:name=".activities.RegisterActivity" />
 
-        <activity
-            android:name=".activities.ExerciseDetailsActivity"
-            android:exported="false" />
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
@@ -44,6 +40,10 @@
 
         <activity
             android:name=".activities.MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.ExerciseDetailsActivity"
             android:exported="false" />
     </application>
 
