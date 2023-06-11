@@ -1,5 +1,6 @@
 package com.example.mobile_applications_project_put.functions
 
+import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.db.entities.User
 import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
 import com.google.firebase.database.*
@@ -204,6 +205,29 @@ object FirebaseUtility {
         })
     }
 
+    fun getUserWorkoutExercises(username: String, workoutId: String, callback: (List<Exercise>?, String?) -> Unit) {
+        val userWorkoutExercisesRef = database.getReference("users")
+            .child(username)
+            .child("workouts")
+            .child(workoutId)
+            .child("exercises")
 
+        userWorkoutExercisesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val exercises = mutableListOf<Exercise>()
+                for (exerciseSnapshot in snapshot.children) {
+                    val exercise = exerciseSnapshot.getValue(Exercise::class.java)
+                    exercise?.let {
+                        exercises.add(it)
+                    }
+                }
+                callback(exercises, null)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(null, error.message)
+            }
+        })
+    }
 
 }

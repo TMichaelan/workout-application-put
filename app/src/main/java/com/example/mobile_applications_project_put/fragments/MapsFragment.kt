@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -19,15 +18,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.*
 import com.google.android.libraries.places.api.net.*
-import com.google.maps.android.SphericalUtil
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
+import org.json.JSONException
 import org.json.JSONObject
+import java.io.IOException
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
 
@@ -82,6 +79,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                         Log.d("test", lat.toString())
                         Log.d("test", lon.toString())
 
+                        Log.d("test", location.toString())
+
+                        makeApiCall(location)
+
                         googleMap.addMarker(MarkerOptions().position(pos).title("Your location"))
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 15f))
 
@@ -106,15 +107,54 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     fun makeApiCall(location: Location){
-        val request = Request.Builder().url("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=1500&type=gym&key=AIzaSyAo2f7txNp_qjdZ94Mh6bR353twe1XK2m4")
-            .build()
+        Thread {
+            try {
+                val request = Request.Builder()
+                    .url("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=1500&type=gym&key=AIzaSyAo2f7txNp_qjdZ94Mh6bR353twe1XK2m4")
+                    .build()
 
-        val response = OkHttpClient().newCall(request).execute().body?.string()
-        val jsonObject = JSONObject(response) // This will make the json below as an object for you
+                val client = OkHttpClient()
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        e.printStackTrace()
+                    }
 
-        Log.d("Gyms", jsonObject.toString())
-        // You can access all the attributes , nested ones using JSONArray and JSONObject here
+                    override fun onResponse(call: Call, response: Response) {
+                        val body = response.body?.string()
+
+                        try {
+                            val jsonObject = JSONObject(body)
+                            val results = jsonObject.getJSONArray("results")
+
+                            for (i in 0 until results.length()) {
+                                val gym = results.getJSONObject(i)
+                                val geometry = gym.getJSONObject("geometry")
+                                val location = geometry.getJSONObject("location")
+                                val lat = location.getDouble("lat")
+                                val lng = location.getDouble("lng")
+                                val pos = LatLng(lat, lng)
+
+                                activity?.runOnUiThread {
+                                    val markerOptions = MarkerOptions()
+                                        .position(pos)
+                                        .title(gym.getString("name"))
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+
+                                    googleMap.addMarker(markerOptions)
+                                }
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    }
+                })
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
     }
+
+
 
     private fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(
