@@ -22,5 +22,6 @@
     <string name="have_you_tried">Have you tried?</string>
     <string name="exercise">Exercise</string>
     <string name="profile_image_text">Profile Image</string>
-
+    <string name="workout_name">Workout name</string>
+    <string name="add_exercise">Add exercise</string>
 </resources>
