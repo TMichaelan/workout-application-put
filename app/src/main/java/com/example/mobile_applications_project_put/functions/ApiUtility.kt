@@ -62,25 +62,25 @@ object ApiUtility {
 
 // Doesn't work because of too much data
 
-//    fun getAllExercises() {
-//        RetrofitInstance.excerciseAPI.getAllExercisesList().enqueue(object :  Callback<BodyPartsList>{
-//            override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
-//                val exercisesList = response.body()
-//                Log.d("getAllExercises", "Response received for all exercises: $exercisesList")
-//
-//                if (exercisesList != null) {
-//                    // Вывод данных
-//                    for (exercise in exercisesList) {
-//                        Log.d("getAllExercises", "Exercise: $exercise")
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<BodyPartsList>, t: Throwable) {
-//                Log.e("getAllExercises", "Error: ${t.message}")
-//            }
-//        })
-//    }
+    fun getAllExercises() {
+        RetrofitInstance.excerciseAPI.getAllExercisesList().enqueue(object :  Callback<BodyPartsList>{
+            override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
+                val exercisesList = response.body()
+                Log.d("getAllExercises", "Response received for all exercises: $exercisesList")
+
+                if (exercisesList != null) {
+                    // Вывод данных
+                    for (exercise in exercisesList) {
+                        Log.d("getAllExercises", "Exercise: $exercise")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<BodyPartsList>, t: Throwable) {
+                Log.e("getAllExercises", "Error: ${t.message}")
+            }
+        })
+    }
 
 
     suspend fun getBodyPartExercises(bodyPart: String): List<BodyPartExcerciseListItem> {

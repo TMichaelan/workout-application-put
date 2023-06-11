@@ -21,5 +21,7 @@
     <string name="register_or_login_to_use_this_functionality">Register or login to use this functionality</string>
     <string name="have_you_tried">Have you tried?</string>
     <string name="exercise">Exercise</string>
+    <string name="workout_name">Workout name</string>
+    <string name="add_exercise">Add exercise</string>
 
 </resources>
