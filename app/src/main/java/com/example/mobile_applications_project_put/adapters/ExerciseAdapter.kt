@@ -10,10 +10,13 @@ import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.fragments.HomeFragment
+import com.example.mobile_applications_project_put.fragments.TestFragment
+
+//import com.example.mobile_applications_project_put.fragments.RandomExerciseFragment
 
 class ExerciseAdapter(
     private var exerciseList: List<Exercise>,
-    private val listener: HomeFragment
+    private val listener: TestFragment
 ): RecyclerView.Adapter<ExerciseAdapter.MyViewHolder>() {
 
 

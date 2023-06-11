@@ -10,7 +10,7 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
-        app:queryHint="@string/muscles"
+        app:queryHint="@string/body_parts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_2ssp"

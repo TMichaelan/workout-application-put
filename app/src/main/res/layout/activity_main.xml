@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -46,8 +46,9 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorSecondary"
-        app:tabIndicatorColor="?attr/colorSecondaryVariant"
+        android:background="@color/white"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/black"
         app:tabIndicatorFullWidth="true"
         app:tabInlineLabel="true"
         app:tabMaxWidth="0dp"

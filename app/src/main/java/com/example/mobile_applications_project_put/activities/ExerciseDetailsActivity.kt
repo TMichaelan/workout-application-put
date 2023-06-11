@@ -32,7 +32,7 @@ class ExerciseDetailsActivity : AppCompatActivity() {
             exerciseNameText = intent.getStringExtra(HomeFragment.NAME)!!
             equipmentText = intent.getStringExtra(HomeFragment.EQUIPMENT)!!
             targetText = intent.getStringExtra(HomeFragment.TARGET)!!
-//            gifImage = intent.getStringExtra(HomeFragment.GIFURL)!!
+            gifImage = intent.getStringExtra(HomeFragment.GIFURL)!!
         }
     }
 
