@@ -18,10 +18,9 @@ class ExerciseListAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.body_parts, parent, false)
-            return MyViewHolder(itemView, listener, exerciseList)
-        }
+        val itemView =LayoutInflater.from(parent.context).inflate(R.layout.body_parts, parent, false)
+        return MyViewHolder(itemView, listener, exerciseList)
+    }
 
     override fun getItemCount(): Int {
         return exerciseList.size
@@ -31,9 +30,10 @@ class ExerciseListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentExercise = exerciseList[position]
         Glide.with(holder.imageId)
+            .asBitmap()
             .load(currentExercise.gifUrl)
             .into(holder.imageId)
-        holder.name.text = currentExercise.name
+        holder.name.text = currentExercise.name.capitalize()
         holder.itemView.setOnClickListener { listener.onItemClick(currentExercise) }
     }
 

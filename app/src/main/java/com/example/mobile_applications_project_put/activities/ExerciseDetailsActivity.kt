@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
+import com.example.mobile_applications_project_put.fragments.HomeFragment
 
 class ExerciseDetailsActivity : AppCompatActivity() {
     private lateinit var exerciseNameText: String
@@ -15,15 +16,26 @@ class ExerciseDetailsActivity : AppCompatActivity() {
     private lateinit var targetText: String
     private lateinit var gifImage: String
 
-    private fun getExerciseInformationFromIntent(){
+    private fun getExerciseInformationFromIntent() {
         val intent = intent
 
-        bodyPartText = intent.getStringExtra(ExerciseListActivity.BODYPART)!!
-        exerciseNameText = intent.getStringExtra(ExerciseListActivity.NAME)!!
-        equipmentText = intent.getStringExtra(ExerciseListActivity.EQUIPMENT)!!
-        targetText = intent.getStringExtra(ExerciseListActivity.TARGET)!!
-        gifImage = intent.getStringExtra(ExerciseListActivity.GIFURL)!!
+        if (intent.getStringExtra("callingActivity") == "ExerciseListActivity") {
+
+            bodyPartText = intent.getStringExtra(ExerciseListActivity.BODYPART)!!
+            exerciseNameText = intent.getStringExtra(ExerciseListActivity.NAME)!!
+            equipmentText = intent.getStringExtra(ExerciseListActivity.EQUIPMENT)!!
+            targetText = intent.getStringExtra(ExerciseListActivity.TARGET)!!
+            gifImage = intent.getStringExtra(ExerciseListActivity.GIFURL)!!
+        }
+        else {
+            bodyPartText = intent.getStringExtra(HomeFragment.BODYPART)!!
+            exerciseNameText = intent.getStringExtra(HomeFragment.NAME)!!
+            equipmentText = intent.getStringExtra(HomeFragment.EQUIPMENT)!!
+            targetText = intent.getStringExtra(HomeFragment.TARGET)!!
+            gifImage = intent.getStringExtra(HomeFragment.GIFURL)!!
+        }
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

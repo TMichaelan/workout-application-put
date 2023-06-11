@@ -3,7 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_page">Home page</string>
-    <string name="muscles">Muscles</string>
+    <string name="body_parts">Body part…</string>
     <string name="search_muscles">Search muscles</string>
     <string name="title_activity_excercise_list">ExcerciseListActivity</string>
     <!-- Strings used for fragments for navigation -->
@@ -11,9 +11,15 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="google_maps_api_key">AIzaSyAo2f7txNp_qjdZ94Mh6bR353twe1XK2m4</string>
+    <string name="delete">Delete</string>
+    <string name="add_workout">Add workout</string>
+    <string name="log_in">Log In</string>
+    <string name="log_out">Log Out</string>
+    <string name="register_or_login_to_use_this_functionality">Register or login to use this functionality</string>
+    <string name="have_you_tried">Have you tried?</string>
+    <string name="exercise">Exercise</string>
 
 </resources>
