@@ -230,4 +230,25 @@ object FirebaseUtility {
         })
     }
 
+    fun addExerciseToWorkout(username: String, workoutId: String, exercise: Exercise, callback: (Boolean, String) -> Unit) {
+        val usersRef = database.getReference("users").child(username)
+        val workoutExercisesRef = usersRef.child("workouts").child(workoutId).child("exercises")
+
+        // Get the count of the current exercises as the next key
+        workoutExercisesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val nextKey = snapshot.childrenCount
+                exercise.id = nextKey.toString()
+
+                workoutExercisesRef.child(exercise.id).setValue(exercise)
+                    .addOnSuccessListener { callback(true, "Exercise successfully added") }
+                    .addOnFailureListener { exception -> callback(false, exception.message ?: "Unknown error occurred") }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(false, "Failed to add exercise: ${error.message}")
+            }
+        })
+    }
+
 }

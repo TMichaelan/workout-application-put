@@ -6,7 +6,7 @@ import androidx.room.Insert
 
 @Entity(tableName = "exercise")
 data class Exercise(
-    @PrimaryKey val id: String,
+    @PrimaryKey var id: String,
     val bodyPart: String,
     val equipment: String,
     val gifUrl: String,
