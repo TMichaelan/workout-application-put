@@ -43,7 +43,8 @@ object DbUtility {
                         id = exerciseItem.id,
                         bodyPart = exerciseItem.bodyPart,
                         equipment = exerciseItem.equipment,
-                        gifUrl = exerciseItem.gifUrl,
+//                        gifUrl = exerciseItem.gifUrl,
+                        gifUrl = "https://storage.googleapis.com/mobile-app-b1065.appspot.com/gifs/0071.gif?Expires=1689189573&GoogleAccessId=firebase-adminsdk-q53ns%40mobile-app-b1065.iam.gserviceaccount.com&Signature=ZAfZN3z8lBIJEPehR8W6p3STHpdrP7B%2BT56NgkB90%2BAEVM3YJpMYmff%2BEZV9%2BzxOxKAdyk9ak%2Fj0OXuS9BCELFPcgKa3Cc0riwAPRw%2Fl8Lwx8HoNF%2Fv8stEplbPGBo8ZrK%2F8H5TB%2B%2FZDNDtTnWZmRW3%2FzgTe%2BxxLGSvJjU4GVEJ2O%2B%2FzAjyYhrdxkf5wBeGbXLJwFNY9zjMUfAjQLdJqoSO5QfiD%2F9yQRN8aDj%2FAokrQY613w75dGnG82seWvLX09jmxbSJpKM7b0Ppne5MqaWruuhVxY57Yz%2F%2BdaBIC0q8F8j0xFokkpO%2F6IrMN6MGZMkQLixbslGI%2B8qXHtBUU6A%3D%3D",
                         name = exerciseItem.name,
                         target = exerciseItem.target
                     )

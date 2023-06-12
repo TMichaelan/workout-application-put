@@ -55,8 +55,14 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, RegisterActivity::class.java)
                 startActivity(intent)
             }
+
             // refresh the ViewPager Adapter to reflect the logged out state
             binding.tabsViewpager.adapter = TabsPageAdapter(this, supportFragmentManager, lifecycle)
+        }
+
+        binding.localExercises.setOnClickListener {
+            val intent = Intent(this, LocalExerciseActivity::class.java)
+            startActivity(intent)
         }
 
         // Set the ViewPager Adapter

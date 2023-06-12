@@ -61,6 +61,8 @@
         <activity
             android:name=".activities.WorkoutActivity"
             android:exported="false" />
+        <activity android:name=".activities.LocalExerciseActivity"
+            android:exported="false" />
 
     </application>
 

@@ -36,8 +36,6 @@
             android:textSize="@dimen/_20sdp"
             android:layout_gravity="center"/>
 
-
-
     </LinearLayout>
     <Button
         android:id="@+id/button2"

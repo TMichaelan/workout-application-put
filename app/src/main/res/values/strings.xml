@@ -25,4 +25,5 @@
     <string name="workout_name">Workout name</string>
     <string name="add_exercise">Add exercise</string>
     <string name="add_selected_exercises">Add selected exercises</string>
+    <string name="our_exercises">Our exercises</string>
 </resources>
