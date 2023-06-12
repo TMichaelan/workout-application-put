@@ -4,19 +4,17 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.mobile_applications_project_put.db.AppDatabase
-import com.example.mobile_applications_project_put.db.entities.Exercise
-import com.example.mobile_applications_project_put.db.entities.Workout
-import com.example.mobile_applications_project_put.db.entities.WorkoutExerciseCrossRef
-import com.example.mobile_applications_project_put.db.entities.WorkoutWithExercises
+import com.example.mobile_applications_project_put.db.GifDao
+import com.example.mobile_applications_project_put.db.entities.*
 import com.example.mobile_applications_project_put.models.ExerciseItem
 import com.example.mobile_applications_project_put.retrofit.RetrofitInstance
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 object DbUtility {
 
@@ -38,19 +36,23 @@ object DbUtility {
 
                     Log.d("dbAddExerciseById", "Exercise item: $exerciseItem")
 
-                    // Convert ExerciseItem to Exercise
-                    val exercise = Exercise(
-                        id = exerciseItem.id,
-                        bodyPart = exerciseItem.bodyPart,
-                        equipment = exerciseItem.equipment,
-//                        gifUrl = exerciseItem.gifUrl,
-                        gifUrl = "https://storage.googleapis.com/mobile-app-b1065.appspot.com/gifs/0071.gif?Expires=1689189573&GoogleAccessId=firebase-adminsdk-q53ns%40mobile-app-b1065.iam.gserviceaccount.com&Signature=ZAfZN3z8lBIJEPehR8W6p3STHpdrP7B%2BT56NgkB90%2BAEVM3YJpMYmff%2BEZV9%2BzxOxKAdyk9ak%2Fj0OXuS9BCELFPcgKa3Cc0riwAPRw%2Fl8Lwx8HoNF%2Fv8stEplbPGBo8ZrK%2F8H5TB%2B%2FZDNDtTnWZmRW3%2FzgTe%2BxxLGSvJjU4GVEJ2O%2B%2FzAjyYhrdxkf5wBeGbXLJwFNY9zjMUfAjQLdJqoSO5QfiD%2F9yQRN8aDj%2FAokrQY613w75dGnG82seWvLX09jmxbSJpKM7b0Ppne5MqaWruuhVxY57Yz%2F%2BdaBIC0q8F8j0xFokkpO%2F6IrMN6MGZMkQLixbslGI%2B8qXHtBUU6A%3D%3D",
-                        name = exerciseItem.name,
-                        target = exerciseItem.target
-                    )
-
                     CoroutineScope(Dispatchers.IO).launch {
                         val database = AppDatabase.getInstance(context)
+                        val gifDao = database.gifDao()
+
+                        // Call downloadAndStoreGif function
+                        downloadAndStoreGif(exerciseItem.gifUrl, exerciseItem.id, gifDao)
+
+                        // Convert ExerciseItem to Exercise
+                        val exercise = Exercise(
+                            id = exerciseItem.id,
+                            bodyPart = exerciseItem.bodyPart,
+                            equipment = exerciseItem.equipment,
+                            gifUrl = exerciseItem.gifUrl,
+                            name = exerciseItem.name,
+                            target = exerciseItem.target
+                        )
+
                         val exerciseInDb = database.exerciseDao().getExerciseById(exercise.id)
                         if (exerciseInDb != null) {
                             database.exerciseDao().deleteExercise(exerciseInDb)
@@ -129,5 +131,30 @@ object DbUtility {
             }
         }
     }
+
+    fun downloadAndStoreGif(url: String, exerciseId: String, dao: GifDao) {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                response.body?.byteStream()?.let { inputStream ->
+                    val gifByteArray = inputStream.readBytes()
+                    val gifEntity = GifEntity(exerciseId, gifByteArray)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        dao.addGif(gifEntity)
+                    }
+                }
+            }
+        })
+    }
+
+
 
 }

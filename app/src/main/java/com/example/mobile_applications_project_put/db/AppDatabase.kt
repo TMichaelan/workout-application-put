@@ -4,18 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.mobile_applications_project_put.db.entities.Muscle
-import com.example.mobile_applications_project_put.db.entities.Exercise
-import com.example.mobile_applications_project_put.db.entities.Workout
-import com.example.mobile_applications_project_put.db.entities.WorkoutExerciseCrossRef
+import com.example.mobile_applications_project_put.db.entities.*
 
 
-@Database(entities = [Muscle::class,Exercise::class, Workout::class, WorkoutExerciseCrossRef::class], version = 2, exportSchema = false)
+@Database(entities = [Muscle::class,Exercise::class, Workout::class, WorkoutExerciseCrossRef::class, GifEntity::class], version = 2, exportSchema = false)
 public abstract class AppDatabase : RoomDatabase() {
     abstract fun muscleDao(): MuscleDao
     abstract fun exerciseDao(): ExersiceDao
     abstract fun workoutDao(): WorkoutDao
     abstract fun workoutWithExercisesDao(): WorkoutWithExercisesDao
+    abstract fun gifDao(): GifDao
 
 
     companion object {

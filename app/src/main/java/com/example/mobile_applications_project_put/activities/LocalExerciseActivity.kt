@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.db.AppDatabase
 import com.example.mobile_applications_project_put.db.entities.Exercise
+import com.example.mobile_applications_project_put.db.entities.GifEntity
 import com.example.mobile_applications_project_put.functions.DbUtility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,14 +41,30 @@ class LocalExerciseActivity : AppCompatActivity() {
 
     }
 
-    private suspend fun loadSavedExercises(context: Context): List<Exercise> {
-        val savedExercises = AppDatabase.getInstance(context).exerciseDao().getAllExercises()
+//    private suspend fun loadSavedExercises(context: Context): List<Exercise> {
+//        val savedExercises = AppDatabase.getInstance(context).exerciseDao().getAllExercises()
+//
+//        savedExercises.forEach {
+//            Log.d("LOADSAVEDEXERCISES", "Saved exercise: $it")
+//        }
+//
+//        return savedExercises
+//    }
 
-        savedExercises.forEach {
-            Log.d("LOADSAVEDEXERCISES", "Saved exercise: $it")
+    private suspend fun loadSavedExercises(context: Context): List<Pair<Exercise, GifEntity?>> {
+        val database = AppDatabase.getInstance(context)
+        val exerciseDao = database.exerciseDao()
+        val gifDao = database.gifDao()
+        val savedExercises = exerciseDao.getAllExercises()
+
+        val exerciseWithGifList = mutableListOf<Pair<Exercise, GifEntity?>>()
+        for (exercise in savedExercises) {
+            val gifEntity = gifDao.getGifById(exercise.id)
+            exerciseWithGifList.add(Pair(exercise, gifEntity))
         }
 
-        return savedExercises
+        return exerciseWithGifList
     }
+
 }
 
