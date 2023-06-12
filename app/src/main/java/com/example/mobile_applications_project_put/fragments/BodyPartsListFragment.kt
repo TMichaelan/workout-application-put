@@ -2,6 +2,7 @@ package com.example.mobile_applications_project_put.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
+import com.example.mobile_applications_project_put.activities.AddToWorkoutExerciseListActivity
 import com.example.mobile_applications_project_put.activities.ExerciseListActivity
+import com.example.mobile_applications_project_put.activities.MapsActivity
 //import com.example.mobile_applications_project_put.activities.ExerciseListActivity
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 import com.example.mobile_applications_project_put.functions.JsonUtility
@@ -23,9 +26,19 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
     private val bodyPartsList = ArrayList<MuscleGroup>()
     private lateinit var searchView: SearchView
     private lateinit var adapter: BodyPartAdapter
+    private var callingActivity: String? = null
+    private var username: String? = null
+    private var workoutId: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         JsonUtility.readAndLogBodyParts(requireContext(), bodyPartsList)
+        callingActivity = arguments?.getString("callingActivity")
+        username = arguments?.getString("username")
+        workoutId = arguments?.getString("workoutId")
+
+        Log.d("UserWorkout", "username: $username, workout: $workoutId")
+
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,15 +100,29 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
 
 
     override fun onItemClick(muscleGroup: MuscleGroup) {
-        val intent = Intent(requireContext(), ExerciseListActivity::class.java)
-        intent.putExtra("muscle", muscleGroup)
-        startActivity(intent)
+        if (callingActivity == "AddToWorkoutBodyPartListActivity") {
+            val intent = Intent(requireContext(), AddToWorkoutExerciseListActivity::class.java)
+            intent.putExtra("username", username)
+            intent.putExtra("workoutId", workoutId)
+            intent.putExtra("muscle", muscleGroup)
+            startActivity(intent)
+        } else {
+            val intent = Intent(requireContext(), ExerciseListActivity::class.java)
+
+            intent.putExtra("muscle", muscleGroup)
+            startActivity(intent)
+        }
     }
 
 
     companion object {
-
         @JvmStatic
-        fun newInstance() = BodyPartsListFragment().apply {}
+        fun newInstance(callingActivity: String? = null, username: String? = null, workoutId: String?=null) = BodyPartsListFragment().apply {
+            arguments = Bundle().apply {
+                putString("callingActivity", callingActivity)
+                putString("username", username)
+                putString("workoutId", workoutId)
+            }
+        }
     }
 }

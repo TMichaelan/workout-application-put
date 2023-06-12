@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BodyPartExcerciseListItem(
+    var isSelected: Boolean = false,
     val bodyPart: String,
     val equipment: String,
     val gifUrl: String,

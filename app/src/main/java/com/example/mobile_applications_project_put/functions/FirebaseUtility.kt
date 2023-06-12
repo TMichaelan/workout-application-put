@@ -1,5 +1,6 @@
 package com.example.mobile_applications_project_put.functions
 
+import android.util.Log
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.db.entities.User
 import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
@@ -249,6 +250,29 @@ object FirebaseUtility {
                 callback(false, "Failed to add exercise: ${error.message}")
             }
         })
+    }
+
+    fun removeExerciseFromWorkout(username: String, workoutId: String, exerciseId: String, callback: (Boolean, String) -> Unit) {
+        val usersRef = database.getReference("users").child(username)
+        val workoutExercisesRef = usersRef.child("workouts").child(workoutId).child("exercises")
+
+        workoutExercisesRef.child(exerciseId).removeValue()
+            .addOnSuccessListener { callback(true, "Exercise successfully removed") }
+            .addOnFailureListener { exception -> callback(false, exception.message ?: "Unknown error occurred") }
+    }
+
+    fun updateWorkoutName(username: String, workoutId: String, newWorkoutName: String, callback: (Boolean, String) -> Unit) {
+        val usersRef = database.getReference("users")
+        val userWorkoutsRef = usersRef.child(username).child("workouts")
+
+        userWorkoutsRef.child(workoutId).child("name").setValue(newWorkoutName)
+            .addOnSuccessListener { callback(true, "Workout name successfully updated") }
+            .addOnFailureListener { exception ->
+                callback(
+                    false,
+                    exception.message ?: "Unknown error occurred"
+                )
+            }
     }
 
 }
