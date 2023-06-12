@@ -20,7 +20,6 @@
             android:name=".activities.AddToWorkoutExerciseListActivity"
             android:exported="false" />
 
-
         <activity
             android:name=".activities.AddToWorkoutBodyPartListActivity"
             android:exported="false" />
