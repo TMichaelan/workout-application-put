@@ -27,6 +27,14 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+     override fun onResume() {
+         super.onResume()
+         hideProgressBar()
+     }
+
+     private fun hideProgressBar() {
+         binding.progressBar.visibility = View.GONE
+     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -40,10 +48,10 @@ class ProfileFragment : Fragment() {
         }
 
         binding.mapButton.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
             val intent = Intent(requireContext(), MapsActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun calculateBMI() {

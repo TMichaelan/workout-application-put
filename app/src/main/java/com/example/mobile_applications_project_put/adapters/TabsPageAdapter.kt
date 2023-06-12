@@ -1,6 +1,5 @@
 package com.example.mobile_applications_project_put.adapters
 
-import MapsFragment
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
