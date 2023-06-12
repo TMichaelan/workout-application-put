@@ -20,6 +20,11 @@ class RegisterActivity : AppCompatActivity() {
         return email.matches(emailPattern.toRegex())
     }
 
+    fun isValidUsername(username: String): Boolean {
+        val minLength = 5
+        val maxLength = 20
+        return username.length in minLength..maxLength
+    }
     fun isValidPassword(password: String): Boolean {
         return password.length >= 6
     }
@@ -46,7 +51,10 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show()
             } else if (!isValidPassword(password)) {
                 Toast.makeText(this, "Please enter a password with at least 6 characters", Toast.LENGTH_SHORT).show()
-            } else  {
+            } else if (!isValidUsername(username)) {
+                Toast.makeText(this, "Username should be between 5 and 20 characters", Toast.LENGTH_SHORT).show()
+            }
+            else  {
                 val hashedPassword = hashPassword(password)
                 val user = User(username, email, hashedPassword)
 
