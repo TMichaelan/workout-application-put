@@ -76,10 +76,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         val lon = location.longitude
                         val currentPos = LatLng(lat, lon)
 
-                        makeApiCall(location)
+                        makeApiCall(location,currentPos)
 
-                        googleMap.addMarker(MarkerOptions().position(currentPos).title("Your location"))
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 15f))
+
                     }
                 }
             } else {
@@ -92,7 +91,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    fun makeApiCall(location: Location){
+    fun makeApiCall(location: Location, currentPos: LatLng){
         Thread {
             try {
                 val request = Request.Builder()
@@ -134,14 +133,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                     googleMap.addMarker(markerOptions)
                                 }
 
+
                                 this@MapsActivity.runOnUiThread {
                                     mainBinding.progressBar.visibility = View.GONE
+                                    googleMap.addMarker(MarkerOptions().position(currentPos).title("Your location"))
+                                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 15f))
                                 }
                             }
                         } catch (e: JSONException) {
                             e.printStackTrace()
                             this@MapsActivity.runOnUiThread {
                                 mainBinding.progressBar.visibility = View.GONE
+                                googleMap.addMarker(MarkerOptions().position(currentPos).title("Your location"))
+                                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 15f))
                             }
                         }
                     }
@@ -150,6 +154,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 e.printStackTrace()
                 this@MapsActivity.runOnUiThread {
                     mainBinding.progressBar.visibility = View.GONE
+                    googleMap.addMarker(MarkerOptions().position(currentPos).title("Your location"))
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 15f))
                 }
             }
         }.start()
