@@ -16,7 +16,7 @@ class LocalWorkoutListAdapter (
 ) : RecyclerView.Adapter<LocalWorkoutListAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.workout_item, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.local_workout_list_item, parent, false)
         return MyViewHolder(itemView)
     }
 

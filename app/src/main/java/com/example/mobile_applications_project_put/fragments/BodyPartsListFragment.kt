@@ -29,6 +29,7 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
     private var callingActivity: String? = null
     private var username: String? = null
     private var workoutId: String? = null
+    private var workoutName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,7 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
         callingActivity = arguments?.getString("callingActivity")
         username = arguments?.getString("username")
         workoutId = arguments?.getString("workoutId")
-
+        workoutName = arguments?.getString("workoutName")
         Log.d("UserWorkout", "username: $username, workout: $workoutId")
 
     }
@@ -104,24 +105,30 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
             val intent = Intent(requireContext(), AddToWorkoutExerciseListActivity::class.java)
             intent.putExtra("username", username)
             intent.putExtra("workoutId", workoutId)
+
+            intent.putExtra("workoutName", workoutName)
             intent.putExtra("muscle", muscleGroup)
+
             startActivity(intent)
+            requireActivity().finish()
         } else {
             val intent = Intent(requireContext(), ExerciseListActivity::class.java)
 
             intent.putExtra("muscle", muscleGroup)
             startActivity(intent)
+
         }
     }
 
 
     companion object {
         @JvmStatic
-        fun newInstance(callingActivity: String? = null, username: String? = null, workoutId: String?=null) = BodyPartsListFragment().apply {
+        fun newInstance(callingActivity: String? = null, username: String? = null, workoutId: String?=null, workoutName: String?=null) = BodyPartsListFragment().apply {
             arguments = Bundle().apply {
                 putString("callingActivity", callingActivity)
                 putString("username", username)
                 putString("workoutId", workoutId)
+                putString("workoutName", workoutName)
             }
         }
     }

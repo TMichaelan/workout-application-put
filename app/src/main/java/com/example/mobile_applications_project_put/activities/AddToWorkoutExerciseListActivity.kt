@@ -30,6 +30,7 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
     private lateinit var adapter: AddToWorkoutExerciseAdapter
     private lateinit var username: String
     private lateinit var workoutId: String
+    private lateinit var workoutName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +38,8 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
 
         username = intent.getStringExtra("username").toString()
         workoutId = intent.getStringExtra("workoutId").toString()
+        workoutName = intent.getStringExtra("workoutName").toString()
+
         val exerciseName = intent.getParcelableExtra<MuscleGroup>("muscle")
 
         searchView = findViewById(R.id.searchView)
@@ -92,11 +95,14 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
                 }
             }
 
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("username", username)
-                putExtra("workoutId", workoutId)
-            }
-            startActivity(intent)
+//            val intent = Intent(this, WorkoutActivity::class.java).apply {
+//                putExtra("username", username)
+//                putExtra("workoutId", workoutId)
+//                putExtra("workoutName", workoutName)
+//            }
+//            startActivity(intent)
+
+            finish()
         }
     }
 

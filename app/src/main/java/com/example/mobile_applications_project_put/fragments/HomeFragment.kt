@@ -72,6 +72,7 @@ class HomeFragment : Fragment(), SmallExerciseListAdapter.OnItemClickListener{
         intent.putExtra(BODYPART, exercise.bodyPart)
         intent.putExtra(EQUIPMENT, exercise.equipment)
         intent.putExtra(GIFURL, exercise.gifUrl)
+        intent.putExtra(ID, exercise.id)
         intent.putExtra(NAME, exercise.name)
         intent.putExtra(TARGET, exercise.target)
 
@@ -82,6 +83,7 @@ class HomeFragment : Fragment(), SmallExerciseListAdapter.OnItemClickListener{
         const val BODYPART = "com.example.mobile_applications_project_put.fragments.bodyPart"
         const val EQUIPMENT = "com.example.mobile_applications_project_put.fragments.equipment"
         const val GIFURL = "com.example.mobile_applications_project_put.fragments.gifUrl"
+        const val ID = "com.example.mobile_applications_project_put.fragments.id"
         const val NAME = "com.example.mobile_applications_project_put.fragments.name"
         const val TARGET = "com.example.mobile_applications_project_put.fragments.target"
     }

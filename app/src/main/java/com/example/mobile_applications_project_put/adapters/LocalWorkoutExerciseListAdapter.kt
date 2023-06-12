@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.activities.LocalWorkoutActivity
 import com.example.mobile_applications_project_put.db.entities.Exercise
+import com.example.mobile_applications_project_put.db.entities.Workout
 
 class LocalWorkoutExerciseListAdapter (
     private var exerciseList: List<Exercise>,
@@ -55,5 +56,9 @@ class LocalWorkoutExerciseListAdapter (
     }
     interface OnItemClickListener {
         fun onItemClick(exercise: Exercise)
+    }
+    fun setExerciseList(exerciseList: List<Exercise>) {
+        this.exerciseList = exerciseList
+        notifyDataSetChanged()
     }
     }

@@ -25,7 +25,7 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
     private lateinit var editText: EditText
     private lateinit var username:String
     private lateinit var workoutId: String
-
+    private lateinit var workoutName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +33,12 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
 
         username = intent.getStringExtra("username").toString()
         workoutId = intent.getStringExtra("workoutId").toString()
-
+        workoutName = intent.getStringExtra("workoutName").toString()
         Log.d("UserWorkout", "username: $username, workout: $workoutId")
 
         editText = findViewById(R.id.editText)
         // Получение текста из поля EditText
-        editText.setText(intent.getStringExtra("workoutName").toString())
+        editText.setText(workoutName)
         editText.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -72,13 +72,29 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
             }
         }
 
+
+
+
         val btn_add = findViewById<Button>(R.id.button_add_exercise)
         btn_add.setOnClickListener {
             val intent = Intent(this, AddToWorkoutBodyPartListActivity::class.java).apply {
                 putExtra("username", username)
                 putExtra("workoutId", workoutId)
+                putExtra("workoutName", workoutName)
             }
             startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            FirebaseUtility.getUserWorkoutExercises(username, workoutId) { exercises, errorMessage ->
+                if (exercises != null) {
+                    exerciseList = exercises.toMutableList()
+                    adapter.setExerciseList(exerciseList)
+                }
+            }
         }
     }
 

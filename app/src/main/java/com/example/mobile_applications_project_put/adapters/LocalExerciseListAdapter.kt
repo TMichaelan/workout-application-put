@@ -7,15 +7,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
+import com.example.mobile_applications_project_put.activities.LocalExerciseActivity
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.db.entities.GifEntity
 import com.example.mobile_applications_project_put.functions.DbUtility.loadSavedExercises
 
 
-class LocalExerciseListAdapter(private val context: Context) : RecyclerView.Adapter<LocalExerciseListAdapter.ExerciseViewHolder>() {
+class LocalExerciseListAdapter(private val context: Context, private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<LocalExerciseListAdapter.ExerciseViewHolder>() {
 
     private var exercises: List<Pair<Exercise, GifEntity?>> = emptyList()
 
+    interface OnItemClickListener {
+        fun onItemClick(exercise: Exercise)
+    }
     class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.img_body_part)
         val textView: TextView = itemView.findViewById(R.id.tv_body_part)
@@ -37,10 +41,14 @@ class LocalExerciseListAdapter(private val context: Context) : RecyclerView.Adap
                 .load(currentGif.gif)
                 .into(holder.imageView)
         } else {
-            // Если gif не загрузился из базы данных, вы можете загрузить его по URL в качестве запасного варианта.
             Glide.with(context)
                 .load(currentExercise.gifUrl)
                 .into(holder.imageView)
+        }
+
+        // Add click listener to the item view
+        holder.itemView.setOnClickListener {
+            onItemClickListener.onItemClick(currentExercise)
         }
     }
 

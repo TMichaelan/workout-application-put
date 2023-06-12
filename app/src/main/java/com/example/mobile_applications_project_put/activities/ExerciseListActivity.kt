@@ -11,10 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.adapters.ExerciseListAdapter
 import com.example.mobile_applications_project_put.functions.ApiUtility
+import com.example.mobile_applications_project_put.functions.DbUtility.loadSavedExercises
 import com.example.mobile_applications_project_put.models.BodyPartExcerciseListItem
 import com.example.mobile_applications_project_put.models.ExerciseItem
 import com.example.mobile_applications_project_put.models.MuscleGroup
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
 class ExerciseListActivity : AppCompatActivity(), ExerciseListAdapter.OnItemClickListener {

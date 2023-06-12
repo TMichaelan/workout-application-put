@@ -18,39 +18,34 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LocalWorkoutListActivity : AppCompatActivity(), LocalWorkoutListAdapter.OnItemClickListener{
+class LocalWorkoutListActivity : AppCompatActivity(), LocalWorkoutListAdapter.OnItemClickListener {
     lateinit var binding: ActivityLocalWorkoutsBinding
     private lateinit var adapter: LocalWorkoutListAdapter
-    private var workoutList: MutableList<Workout> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLocalWorkoutsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //TODO добавить workoutList
-
         val recyclerView: RecyclerView = findViewById(R.id.rec_view_workouts)
         recyclerView.layoutManager = GridLayoutManager(this, 1)
+
+        adapter = LocalWorkoutListAdapter(emptyList(), this)
         recyclerView.adapter = adapter
 
-        adapter = LocalWorkoutListAdapter(workoutList, this)
-
         lifecycleScope.launch {
-            workoutList = DbUtility.loadWorkouts(this@LocalWorkoutListActivity).toMutableList()
-            Log.d("workoutList", "$workoutList")
-            adapter.setExerciseList(workoutList)
+            val workouts = DbUtility.loadWorkouts(this@LocalWorkoutListActivity)
+            Log.d("workoutList", "$workouts")
+            adapter.setExerciseList(workouts)
         }
 
     }
 
-
     override fun onItemClick(workout: Workout) {
-        val intent = Intent(this, WorkoutActivity::class.java)
+        val intent = Intent(this, LocalWorkoutActivity::class.java)
         intent.putExtra("workoutId", workout.id)
         intent.putExtra("workoutName", workout.name)
         startActivity(intent)
     }
-
 
 }
