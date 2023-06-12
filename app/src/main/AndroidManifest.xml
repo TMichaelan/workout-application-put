@@ -17,15 +17,18 @@
         android:theme="@style/Theme.Mobileapplicationsprojectput"
         tools:targetApi="31">
         <activity
+            android:name=".activities.LocalWorkoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LocalWorkoutListActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AddToWorkoutExerciseListActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.AddToWorkoutBodyPartListActivity"
             android:exported="false" />
-
         <activity android:name=".activities.MapsActivity" />
-
         <activity android:name=".activities.RegisterActivity" />
         <activity
             android:name=".activities.SplashActivity"
@@ -48,15 +51,14 @@
 
         <activity
             android:name=".activities.MainActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.ExerciseDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.WorkoutActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

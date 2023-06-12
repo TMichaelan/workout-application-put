@@ -27,7 +27,13 @@ class ExerciseDetailsActivity : AppCompatActivity() {
             targetText = intent.getStringExtra(ExerciseListActivity.TARGET)!!
             gifImage = intent.getStringExtra(ExerciseListActivity.GIFURL)!!
         }
-        else {
+        else if (intent.getStringExtra("callingActivity") == "LocalWorkoutActivity"){
+            bodyPartText = intent.getStringExtra(LocalWorkoutActivity.BODYPART)!!
+            exerciseNameText = intent.getStringExtra(LocalWorkoutActivity.NAME)!!
+            equipmentText = intent.getStringExtra(LocalWorkoutActivity.EQUIPMENT)!!
+            targetText = intent.getStringExtra(LocalWorkoutActivity.TARGET)!!
+            gifImage = intent.getStringExtra(LocalWorkoutActivity.GIFURL)!!
+        } else {
             bodyPartText = intent.getStringExtra(HomeFragment.BODYPART)!!
             exerciseNameText = intent.getStringExtra(HomeFragment.NAME)!!
             equipmentText = intent.getStringExtra(HomeFragment.EQUIPMENT)!!
