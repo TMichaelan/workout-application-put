@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
+import com.example.mobile_applications_project_put.db.entities.Workout
 import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
 
 class LocalWorkoutListAdapter (
-    private var workoutList: List<WorkoutFirebase>,
+    private var workoutList: List<Workout>,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<LocalWorkoutListAdapter.MyViewHolder>() {
 
@@ -32,7 +33,7 @@ class LocalWorkoutListAdapter (
     }
 
     interface OnItemClickListener {
-        fun onItemClick(workout: WorkoutFirebase)
+        fun onItemClick(workout: Workout)
     }
 
 
@@ -40,7 +41,7 @@ class LocalWorkoutListAdapter (
         private val name: TextView = itemView.findViewById(R.id.tv_workoutName)
         private val description: TextView = itemView.findViewById(R.id.tv_workoutDetails)
 
-        fun bind(workout: WorkoutFirebase) {
+        fun bind(workout: Workout) {
             name.text = workout.name?.capitalize()
             description.text = workout.name?.capitalize()
         }

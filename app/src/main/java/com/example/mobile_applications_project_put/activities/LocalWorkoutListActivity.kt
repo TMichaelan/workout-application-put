@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.adapters.LocalWorkoutListAdapter
 import com.example.mobile_applications_project_put.databinding.ActivityLocalWorkoutsBinding
+import com.example.mobile_applications_project_put.db.entities.Workout
 import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
+import com.example.mobile_applications_project_put.functions.DbUtility
 
 class LocalWorkoutListActivity : AppCompatActivity(), LocalWorkoutListAdapter.OnItemClickListener{
     lateinit var binding: ActivityLocalWorkoutsBinding
     private lateinit var adapter: LocalWorkoutListAdapter
-    private var workoutList: MutableList<WorkoutFirebase> = ArrayList()
+    private var workoutList: MutableList<Workout> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +24,8 @@ class LocalWorkoutListActivity : AppCompatActivity(), LocalWorkoutListAdapter.On
 
         //TODO добавить workoutList
 
+        workoutList = DbUtility.loadWorkouts(this).toMutableList()
+
         adapter = LocalWorkoutListAdapter(workoutList, this)
 
         val recyclerView: RecyclerView = findViewById(R.id.rec_view_workouts)
@@ -29,7 +33,7 @@ class LocalWorkoutListActivity : AppCompatActivity(), LocalWorkoutListAdapter.On
         recyclerView.adapter = adapter
 
     }
-    override fun onItemClick(workout: WorkoutFirebase) {
+    override fun onItemClick(workout: Workout) {
         val intent = Intent(this, WorkoutActivity::class.java)
         intent.putExtra("workoutId", workout.id)
         intent.putExtra("workoutName", workout.name)
