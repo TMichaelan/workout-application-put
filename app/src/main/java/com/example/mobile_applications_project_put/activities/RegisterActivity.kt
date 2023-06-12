@@ -9,9 +9,26 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mobile_applications_project_put.databinding.ActivityRegisterBinding
 import com.example.mobile_applications_project_put.db.entities.User
 import com.example.mobile_applications_project_put.functions.FirebaseUtility
+import java.security.MessageDigest
+
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
+
+    fun isValidEmail(email: String): Boolean {
+        val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+        return email.matches(emailPattern.toRegex())
+    }
+
+    fun isValidPassword(password: String): Boolean {
+        return password.length >= 6
+    }
+
+    fun hashPassword(password: String): String {
+        val md = MessageDigest.getInstance("SHA-256")
+        val hashedPassword = md.digest(password.toByteArray())
+        return hashedPassword.fold("", { str, it -> str + "%02x".format(it) })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +42,13 @@ class RegisterActivity : AppCompatActivity() {
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please enter all the fields", Toast.LENGTH_SHORT).show()
-            } else {
-                val user = User(username, email, password)
+            }else if (!isValidEmail(email)) {
+                Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show()
+            } else if (!isValidPassword(password)) {
+                Toast.makeText(this, "Please enter a password with at least 6 characters", Toast.LENGTH_SHORT).show()
+            } else  {
+                val hashedPassword = hashPassword(password)
+                val user = User(username, email, hashedPassword)
 
                 FirebaseUtility.registerUser(user) { success, message ->
                     if (success) {
@@ -56,7 +78,8 @@ class RegisterActivity : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please enter all the fields", Toast.LENGTH_SHORT).show()
             } else {
-                FirebaseUtility.loginUser(email, password) { success, username, message ->
+                val hashedPassword = hashPassword(password)
+                FirebaseUtility.loginUser(email, hashedPassword) { success, username, message ->
                     if (success) {
                         Log.d("RegisterActivity", "Login successful.")
                         val sharedPref = getSharedPreferences("PREFS", Context.MODE_PRIVATE)
