@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
+import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.db.entities.Workout
 import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
 
@@ -47,4 +48,8 @@ class LocalWorkoutListAdapter (
         }
     }
 
+    fun setExerciseList(workout: List<Workout>) {
+        workoutList = workout
+        notifyDataSetChanged()
+    }
 }

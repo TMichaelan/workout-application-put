@@ -19,6 +19,7 @@ import com.example.mobile_applications_project_put.databinding.FragmentHomeBindi
 import com.example.mobile_applications_project_put.db.entities.User
 import com.example.mobile_applications_project_put.functions.FirebaseUtility
 import com.example.mobile_applications_project_put.db.entities.Exercise
+import com.example.mobile_applications_project_put.functions.DbUtility
 import com.example.mobile_applications_project_put.functions.JsonUtility
 
 
@@ -36,6 +37,15 @@ class HomeFragment : Fragment(), SmallExerciseListAdapter.OnItemClickListener{
         val context = requireContext()
 
         val ex = JsonUtility.getRandomExercises(context)
+
+//        for (i in ex) {
+//            DbUtility.dbAddExerciseById(requireContext(), i.id)
+//            Log.d("IDEXER", "${i.id}")
+//        }
+//
+//        DbUtility.createWorkout(requireContext(),"Random exercises workout")
+//        DbUtility.addExerciseToWorkout(requireContext(), 0, "0003")
+
 
         val adapter = SmallExerciseListAdapter(ex, this)
         binding.recycleView.adapter = adapter
