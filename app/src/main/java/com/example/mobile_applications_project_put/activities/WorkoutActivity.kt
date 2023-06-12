@@ -1,6 +1,5 @@
 package com.example.mobile_applications_project_put.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.adapters.WorkoutExerciseListAdapter
 import com.example.mobile_applications_project_put.db.entities.Exercise
-import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
 import com.example.mobile_applications_project_put.functions.FirebaseUtility
 import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
@@ -26,6 +24,7 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
     private lateinit var adapter: WorkoutExerciseListAdapter
     private lateinit var editText: EditText
     private lateinit var username:String
+    private lateinit var workoutId: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,12 +32,13 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
         setContentView(R.layout.workout_exercise_list)
 
         username = intent.getStringExtra("username").toString()
+        workoutId = intent.getStringExtra("workoutId").toString()
+
+        Log.d("UserWorkout", "username: $username, workout: $workoutId")
 
         editText = findViewById(R.id.editText)
         // Получение текста из поля EditText
-
-        val text = editText.text.toString()
-
+        editText.setText(intent.getStringExtra("workoutName").toString())
         editText.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -50,9 +50,8 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // Действия после изменения текста
-                // TODO добавить изменение названия
-
+                // Действия после изменения текста]
+                FirebaseUtility.updateWorkoutName(username, workoutId, s.toString()){success, message -> }
             }
         })
 
@@ -62,7 +61,7 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = adapter
 
-        val workoutId = "-NXeEjJSoJdYgdM-6fCa"
+
         lifecycleScope.launch {
             FirebaseUtility.getUserWorkoutExercises(username, workoutId) { exercises, errorMessage ->
                 if (exercises != null) {
@@ -75,29 +74,25 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
 
         val btn_add = findViewById<Button>(R.id.button_add_exercise)
         btn_add.setOnClickListener {
-            val intent = Intent(this, AddToWorkoutExercisesListActivity::class.java)
-
+            val intent = Intent(this, AddToWorkoutBodyPartListActivity::class.java)
+            intent.putExtra("username",username)
+            intent.putExtra("workoutId",workoutId)
             startActivity(intent)
         }
     }
 
     // TODO удаление из базы данных
     override fun onDeleteClick(exercise: Exercise) {
-
-//        if (username != null) {
-//            exercise.id?.let {
-//                FirebaseUtility.deleteWorkout(username!!, it) { success, message ->
-//                    if (success) {
-//                        exerciseList = exerciseList.filter { it.id != exercise.id }.toMutableList()
-//                        adapter.setExerciseList(exerciseList)
-//                    } else {
-//                        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-//                    }
-//                }
-//            }
-//        } else {
-//            Toast.makeText(this, "Username is null", Toast.LENGTH_LONG).show()
-//        }
+        exercise.id.let {
+            FirebaseUtility.removeExerciseFromWorkout(username, workoutId, it) { success, message ->
+                if (success) {
+                    exerciseList = exerciseList.filter { it.id != exercise.id }
+                    adapter.setExerciseList(exerciseList)
+                } else {
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     override fun onItemClick(exercise: Exercise) {

@@ -27,6 +27,7 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
     private var username: String? = null
     private var workoutList: MutableList<WorkoutFirebase> = ArrayList()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -67,7 +68,7 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
         // Get random exercises from JSON file + make a workout
         val exx = JsonUtility.getRandomExercises(requireContext(), 3)
         btn_add.setOnClickListener {
-            val workout = WorkoutFirebase("0", "wkout", exx)
+            val workout = WorkoutFirebase("0", "My new workout", exx)
 
             FirebaseUtility.addWorkout(username!!, workout) { success, message ->
                 if (success) {
@@ -105,6 +106,8 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
     override fun onItemClick(workout: WorkoutFirebase) {
         val intent = Intent(requireContext(), WorkoutActivity::class.java)
         intent.putExtra("username", username)
+        intent.putExtra("workoutId", workout.id)
+        intent.putExtra("workoutName", workout.name)
         startActivity(intent)
     }
     
