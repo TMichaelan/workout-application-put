@@ -74,9 +74,10 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
 
         val btn_add = findViewById<Button>(R.id.button_add_exercise)
         btn_add.setOnClickListener {
-            val intent = Intent(this, AddToWorkoutBodyPartListActivity::class.java)
-            intent.putExtra("username",username)
-            intent.putExtra("workoutId",workoutId)
+            val intent = Intent(this, AddToWorkoutBodyPartListActivity::class.java).apply {
+                putExtra("username", username)
+                putExtra("workoutId", workoutId)
+            }
             startActivity(intent)
         }
     }
