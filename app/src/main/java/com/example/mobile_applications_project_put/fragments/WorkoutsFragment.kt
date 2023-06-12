@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
-import com.example.mobile_applications_project_put.activities.ExerciseListActivity
 import com.example.mobile_applications_project_put.activities.WorkoutActivity
 import com.example.mobile_applications_project_put.adapters.WorkoutsAdapter
 import com.example.mobile_applications_project_put.db.entities.*
@@ -25,7 +24,7 @@ import kotlin.collections.ArrayList
 class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, WorkoutsAdapter.OnDeleteClickListener {
     private lateinit var adapter: WorkoutsAdapter
     private var username: String? = null
-    private var workoutList: MutableList<WorkoutFirebase> = ArrayList()
+    private var workoutList: MutableList<WorkoutFirebaseList> = ArrayList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,9 +65,9 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
         }
 
         // Get random exercises from JSON file + make a workout
-        val exx = JsonUtility.getRandomExercises(requireContext(), 3)
+//        val exx = JsonUtility.getRandomExercises(requireContext(), 3)
         btn_add.setOnClickListener {
-            val workout = WorkoutFirebase("0", "My new workout", exx)
+            val workout = WorkoutFirebaseList(name="My new workout")
 
             FirebaseUtility.addWorkout(username!!, workout) { success, message ->
                 if (success) {
@@ -79,10 +78,9 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
                 }
             }
         }
-
     }
 
-    override fun onDeleteClick(workout: WorkoutFirebase) {
+    override fun onDeleteClick(workout: WorkoutFirebaseList) {
         val sharedPref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
         username = sharedPref?.getString("username", null)
 
@@ -103,7 +101,7 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
     }
 
 
-    override fun onItemClick(workout: WorkoutFirebase) {
+    override fun onItemClick(workout: WorkoutFirebaseList) {
         val intent = Intent(requireContext(), WorkoutActivity::class.java)
         intent.putExtra("username", username)
         intent.putExtra("workoutId", workout.id)

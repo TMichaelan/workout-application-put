@@ -1,49 +1,35 @@
 package com.example.mobile_applications_project_put.activities
 
-import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.animation.DecelerateInterpolator
-import android.widget.ImageView
+import android.os.Handler
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobile_applications_project_put.R
-
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
-//import com.example.cookbook.models.MealRepository
+import android.view.ViewTreeObserver
 
 
-
-
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
+    private val SPLASH_DELAY: Long = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.SplashTheme)
         setContentView(R.layout.activity_splash)
 
-        val logoImageView = findViewById<ImageView>(R.id.logo_image_view)
+        val rootView = findViewById<View>(android.R.id.content)
+        rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                Handler().postDelayed({
+                    val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }, SPLASH_DELAY)
+            }
+        })
 
-        // Анимация с использованием ObjectAnimator
-        val rotationAnimator = ObjectAnimator.ofFloat(logoImageView, "rotation", 0f, 360f)
-        rotationAnimator.duration = 1000
-        rotationAnimator.interpolator = DecelerateInterpolator()
-
-        rotationAnimator.start()
-        val intent = Intent(this@SplashActivity, MainActivity::class.java)
-        startActivity(intent)
-
-        // Задержка перед переходом на главный экран
-//        CoroutineScope(Dispatchers.Main).launch {
-//            MealRepository.getRandomMeal { mealList ->
-//
-//                val intent = Intent(this@SplashActivity, MainActivity::class.java)
-//                intent.putExtra("mealList", mealList)
-//                startActivity(intent)
-//
-//                finish()
-//            }
-//        }
     }
 }

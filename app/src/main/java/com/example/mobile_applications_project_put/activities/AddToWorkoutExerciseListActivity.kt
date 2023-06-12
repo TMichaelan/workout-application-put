@@ -28,7 +28,7 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
     private val selectedExerciseList: ArrayList<BodyPartExcerciseListItem> = ArrayList()
     private lateinit var searchView: SearchView
     private lateinit var adapter: AddToWorkoutExerciseAdapter
-    private lateinit var username:String
+    private lateinit var username: String
     private lateinit var workoutId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,6 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
         val recyclerView: RecyclerView = findViewById(R.id.rec_view_body_parts)
         recyclerView.layoutManager = GridLayoutManager(this, 1)
 
-        // Assign an empty list to the exerciseList
         exerciseList = emptyList()
 
         adapter = AddToWorkoutExerciseAdapter(exerciseList, this)
@@ -68,9 +67,9 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
             }
         })
 
-
         val btn_add = findViewById<Button>(R.id.add_selected)
         btn_add.setOnClickListener {
+            val exercisesToAdd = mutableListOf<Exercise>()
             for (bodyPartExcerciseListItem in selectedExerciseList) {
                 val exercise = Exercise(
                     bodyPartExcerciseListItem.id,
@@ -80,24 +79,26 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
                     bodyPartExcerciseListItem.name,
                     bodyPartExcerciseListItem.target
                 )
-
+                exercisesToAdd.add(exercise)
                 Log.d("ThisItem", "$exercise")
-                FirebaseUtility.addExerciseToWorkout(
-                        username,
-                        workoutId,
-                        exercise
-                    ) { success, message -> }
+            }
+            FirebaseUtility.addExercisesToWorkout(
+                username,
+                workoutId,
+                exercisesToAdd
+            ) { success, message ->
+                if (success) {
+                    selectedExerciseList.clear()
                 }
-            val intent = Intent(this, MainActivity::class.java)
-//            intent.putExtra("position", 1)
-//            intent.putExtra("workoutId", workoutId)
-            startActivity(intent)
             }
 
-
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("username", username)
+                putExtra("workoutId", workoutId)
+            }
+            startActivity(intent)
         }
-
-
+    }
 
     override fun onExerciseSelected(exercise: BodyPartExcerciseListItem) {
         if (!selectedExerciseList.contains(exercise)) {
@@ -120,12 +121,5 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
             }
             adapter.setFilteredList(filteredList)
         }
-    }
-
-
-
-
-
-    companion object{
     }
 }

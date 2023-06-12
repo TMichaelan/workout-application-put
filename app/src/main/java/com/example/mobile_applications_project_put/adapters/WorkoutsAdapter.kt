@@ -7,11 +7,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
-import com.example.mobile_applications_project_put.db.entities.Workout
-import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
+import com.example.mobile_applications_project_put.db.entities.WorkoutFirebaseList
 
 class WorkoutsAdapter(
-    private var workoutList: List<WorkoutFirebase>,
+    private var workoutList: List<WorkoutFirebaseList>,
     private val listener: OnItemClickListener,
     private val deleteListener: OnDeleteClickListener
 ) : RecyclerView.Adapter<WorkoutsAdapter.MyViewHolder>() {
@@ -39,11 +38,11 @@ class WorkoutsAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(workout: WorkoutFirebase)
+        fun onItemClick(workout: WorkoutFirebaseList)
     }
 
     interface OnDeleteClickListener {
-        fun onDeleteClick(workout: WorkoutFirebase)
+        fun onDeleteClick(workout: WorkoutFirebaseList)
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -51,14 +50,14 @@ class WorkoutsAdapter(
         private val description: TextView = itemView.findViewById(R.id.tv_workoutDetails)
         val deleteButton: Button = itemView.findViewById(R.id.button2)
 
-        fun bind(workout: WorkoutFirebase) {
+        fun bind(workout: WorkoutFirebaseList) {
             name.text = workout.name?.capitalize()
             description.text = workout.name?.capitalize()
         }
     }
 
 
-    fun updateList(list: List<WorkoutFirebase>) {
+    fun updateList(list: List<WorkoutFirebaseList>) {
         workoutList = list
         notifyDataSetChanged()
     }

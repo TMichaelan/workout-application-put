@@ -1,10 +1,11 @@
 package com.example.mobile_applications_project_put.functions
 
-import android.util.Log
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.db.entities.User
 import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
+import com.example.mobile_applications_project_put.db.entities.WorkoutFirebaseList
 import com.google.firebase.database.*
+import java.util.*
 
 object FirebaseUtility {
     private val database = FirebaseDatabase.getInstance()
@@ -84,7 +85,7 @@ object FirebaseUtility {
         })
     }
 
-    fun addWorkout(username: String, workout: WorkoutFirebase, callback: (Boolean, String) -> Unit) {
+    fun addWorkout(username: String, workout: WorkoutFirebaseList, callback: (Boolean, String) -> Unit) {
 
         val usersRef = database.getReference("users").child(username)
         val userWorkoutsRef = usersRef.child("workouts")
@@ -123,16 +124,46 @@ object FirebaseUtility {
 //        })
 //    }
 
-    fun getUserWorkouts(username: String, callback: (List<WorkoutFirebase>?, String?) -> Unit){
+//    fun getUserWorkouts(username: String, callback: (List<WorkoutFirebase>?, String?) -> Unit){
+//
+//        val userWorkoutsRef = database.getReference("users").child(username).child("workouts")
+//
+//        userWorkoutsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val workouts = mutableListOf<WorkoutFirebase>()
+//                for (workoutSnapshot in snapshot.children) {
+//                    val workout = workoutSnapshot.getValue(WorkoutFirebase::class.java)
+//                    workout?.let {
+//                        workouts.add(it)
+//                    }
+//                }
+//                callback(workouts, null)
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                callback(null, error.message)
+//            }
+//        })
+//
+//    }
+
+    fun getUserWorkouts(username: String, callback: (List<WorkoutFirebaseList>?, String?) -> Unit) {
 
         val userWorkoutsRef = database.getReference("users").child(username).child("workouts")
 
         userWorkoutsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val workouts = mutableListOf<WorkoutFirebase>()
+                val workouts = mutableListOf<WorkoutFirebaseList>()
                 for (workoutSnapshot in snapshot.children) {
-                    val workout = workoutSnapshot.getValue(WorkoutFirebase::class.java)
-                    workout?.let {
+                    val workoutMap = workoutSnapshot.getValue(WorkoutFirebase::class.java)
+                    val workoutList = workoutMap?.let {
+                        WorkoutFirebaseList(
+                            id = it.id,
+                            name = it.name,
+                            exercises = it.exercises.values.toList()
+                        )
+                    }
+                    workoutList?.let {
                         workouts.add(it)
                     }
                 }
@@ -143,9 +174,7 @@ object FirebaseUtility {
                 callback(null, error.message)
             }
         })
-
     }
-
 
     fun deleteWorkout(username: String, workoutId: String, callback: (Boolean, String) -> Unit) {
         val usersRef = database.getReference("users").child(username)
@@ -250,6 +279,45 @@ object FirebaseUtility {
                 callback(false, "Failed to add exercise: ${error.message}")
             }
         })
+    }
+
+    fun addExercisesToWorkout(username: String, workoutId: String, exercises: List<Exercise>, callback: (Boolean, String) -> Unit) {
+        val usersRef = database.getReference("users").child(username)
+        val workoutExercisesRef = usersRef.child("workouts").child(workoutId).child("exercises")
+
+//        for (exercise in exercises) {
+//             Generate a unique ID for the exercise
+//            val id = UUID.randomUUID().toString()
+//            val key = workoutExercisesRef.push().key ?: ""
+//            exercise.id = key
+//
+//            workoutExercisesRef.child(key).setValue(exercise)
+//                .addOnSuccessListener { callback(true, "Exercise successfully added") }
+//                .addOnFailureListener { exception -> callback(false, exception.message ?: "Unknown error occurred") }
+//        }
+
+        workoutExercisesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val nextKey = snapshot.childrenCount
+
+//                val exercise = exercises[0]
+
+                for (exercise in exercises) {
+
+                    exercise.id = workoutExercisesRef.push().key ?: ""
+                    workoutExercisesRef.child(exercise.id).setValue(exercise)
+                        .addOnSuccessListener { callback(true, "Exercise successfully added") }
+                        .addOnFailureListener { exception -> callback(false, exception.message ?: "Unknown error occurred") }
+                }
+            }
+
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(false, "Failed to add exercise: ${error.message}")
+            }
+        })
+
+
     }
 
     fun removeExerciseFromWorkout(username: String, workoutId: String, exerciseId: String, callback: (Boolean, String) -> Unit) {

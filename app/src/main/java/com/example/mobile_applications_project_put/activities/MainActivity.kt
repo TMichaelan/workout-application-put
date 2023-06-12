@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         // if user is logged in, show username and logout textview
         if(username != null){
+            binding.loginTextview.setOnClickListener(null)
             binding.loginTextview.text = username
             binding.logoutTextview.visibility = View.VISIBLE
         }
@@ -56,8 +57,19 @@ class MainActivity : AppCompatActivity() {
             binding.loginTextview.text = "Log In"
             binding.logoutTextview.visibility = View.GONE
 
+
+            binding.loginTextview.setOnClickListener {
+                val intent = Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
+            }
+
             // refresh the ViewPager Adapter to reflect the logged out state
             binding.tabsViewpager.adapter = TabsPageAdapter(this, supportFragmentManager, lifecycle)
+        }
+
+        binding.localExercises.setOnClickListener {
+            val intent = Intent(this, LocalExerciseActivity::class.java)
+            startActivity(intent)
         }
 
         // Set the ViewPager Adapter
