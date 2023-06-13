@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -29,6 +30,8 @@ class ExerciseListAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentExercise = exerciseList[position]
+
+        holder.progressBar.visibility = View.VISIBLE
         Glide.with(holder.imageId)
             .asBitmap()
             .load(currentExercise.gifUrl)
@@ -50,6 +53,7 @@ class ExerciseListAdapter(
         ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
             val imageId: ImageView = itemView.findViewById(R.id.img_body_part)
             val name: TextView = itemView.findViewById(R.id.tv_body_part)
+            val progressBar: ProgressBar = itemView.findViewById(R.id.single_progress_bar)
 
             init {
                 itemView.setOnClickListener(this)
