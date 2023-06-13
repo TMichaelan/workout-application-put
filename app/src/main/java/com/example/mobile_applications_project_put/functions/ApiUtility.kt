@@ -1,7 +1,6 @@
 package com.example.mobile_applications_project_put.functions
 
-import android.util.Log
-import com.example.mobile_applications_project_put.db.entities.Exercise
+//import android.util.Log
 import com.example.mobile_applications_project_put.models.*
 import com.example.mobile_applications_project_put.retrofit.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
@@ -66,18 +65,18 @@ object ApiUtility {
         RetrofitInstance.excerciseAPI.getAllExercisesList().enqueue(object :  Callback<BodyPartsList>{
             override fun onResponse(call: Call<BodyPartsList>, response: Response<BodyPartsList>) {
                 val exercisesList = response.body()
-                Log.d("getAllExercises", "Response received for all exercises: $exercisesList")
+//                Log.d("getAllExercises", "Response received for all exercises: $exercisesList")
 
                 if (exercisesList != null) {
                     // Вывод данных
                     for (exercise in exercisesList) {
-                        Log.d("getAllExercises", "Exercise: $exercise")
+//                        Log.d("getAllExercises", "Exercise: $exercise")
                     }
                 }
             }
 
             override fun onFailure(call: Call<BodyPartsList>, t: Throwable) {
-                Log.e("getAllExercises", "Error: ${t.message}")
+//                Log.e("getAllExercises", "Error: ${t.message}")
             }
         })
     }
@@ -90,11 +89,11 @@ object ApiUtility {
             if (response.isSuccessful) {
                 val bodyParts = response.body()
                 
-                Log.d("getBodyPartExercises", "Response received for body part: ${bodyParts}")
+//                Log.d("getBodyPartExercises", "Response received for body part: ${bodyParts}")
 
                 bodyParts ?: emptyList()
             } else {
-                Log.d("getBodyPartExercises", "No body parts returned in the response")
+//                Log.d("getBodyPartExercises", "No body parts returned in the response")
                 emptyList()
             }
 
@@ -107,10 +106,10 @@ object ApiUtility {
             val response = call.execute() // Синхронный сетевой запрос
             if (response.isSuccessful) {
                 val exercisesList = response.body()
-                Log.d("getExerciseListByName", "Response received for body part: $exersiceName")
+//                Log.d("getExerciseListByName", "Response received for body part: $exersiceName")
                 exercisesList ?: emptyList()
             } else {
-                Log.d("getExerciseListByName", "No body parts returned in the response")
+//                Log.d("getExerciseListByName", "No body parts returned in the response")
                 emptyList()
             }
         }
@@ -123,14 +122,14 @@ object ApiUtility {
                 val response = call.execute() // Синхронный сетевой запрос
                 if (response.isSuccessful) {
                     val exerciseItem = response.body()
-                    Log.d("getExerciseById", "Response received for exercise ID: $exerciseId")
+//                    Log.d("getExerciseById", "Response received for exercise ID: $exerciseId")
                     exerciseItem
                 } else {
-                    Log.d("getExerciseById", "No exercise item returned in the response")
+//                    Log.d("getExerciseById", "No exercise item returned in the response")
                     null
                 }
             } catch (e: Exception) {
-                Log.e("getExerciseById", "Error: ${e.message}")
+//                Log.e("getExerciseById", "Error: ${e.message}")
                 null
             }
         }
@@ -142,14 +141,14 @@ object ApiUtility {
                 val response = call.execute() // Синхронный сетевой запрос
                 if (response.isSuccessful) {
                     val exercisesList = response.body()
-                    Log.d("getExerciseListByTarget", "Response received for target: $target")
+//                    Log.d("getExerciseListByTarget", "Response received for target: $target")
                     exercisesList
                 } else {
-                    Log.d("getExerciseListByTarget", "No body parts returned in the response")
+//                    Log.d("getExerciseListByTarget", "No body parts returned in the response")
                     null
                 }
             } catch (e: Exception) {
-                Log.e("getExerciseListByTarget", "Error: ${e.message}")
+//                Log.e("getExerciseListByTarget", "Error: ${e.message}")
                 null
             }
         }

@@ -4,16 +4,14 @@ import LocalExerciseListAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+//import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.db.AppDatabase
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.db.entities.GifEntity
-import com.example.mobile_applications_project_put.functions.DbUtility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,9 +50,6 @@ class LocalExerciseActivity : AppCompatActivity(), LocalExerciseListAdapter.OnIt
         }
     }
     override fun onItemClick(exercise: Exercise) {
-        // Handle item click event here
-        // You can perform any action based on the clicked exercise
-        // For example, navigate to another activity or show a dialog
         val intent = Intent(this, ExerciseDetailsActivity::class.java)
 
         intent.putExtra("callingActivity", "ExerciseListActivity")
@@ -65,18 +60,9 @@ class LocalExerciseActivity : AppCompatActivity(), LocalExerciseListAdapter.OnIt
         intent.putExtra(ID, exercise.id)
         intent.putExtra(NAME, exercise.name)
         intent.putExtra(TARGET, exercise.target)
+
         startActivity(intent)
     }
-
-//    private suspend fun loadSavedExercises(context: Context): List<Exercise> {
-//        val savedExercises = AppDatabase.getInstance(context).exerciseDao().getAllExercises()
-//
-//        savedExercises.forEach {
-//            Log.d("LOADSAVEDEXERCISES", "Saved exercise: $it")
-//        }
-//
-//        return savedExercises
-//    }
 
     private suspend fun loadSavedExercises(context: Context): List<Pair<Exercise, GifEntity?>> {
         val database = AppDatabase.getInstance(context)

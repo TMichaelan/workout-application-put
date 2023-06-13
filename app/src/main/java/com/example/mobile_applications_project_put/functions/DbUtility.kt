@@ -1,7 +1,7 @@
 package com.example.mobile_applications_project_put.functions
 
 import android.content.Context
-import android.util.Log
+//import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.mobile_applications_project_put.db.AppDatabase
 import com.example.mobile_applications_project_put.db.GifDao
@@ -22,7 +22,7 @@ object DbUtility {
 
     fun deleteAppDatabase(context: Context) {
         context.deleteDatabase("exercises_db")
-        Log.d("DATABASE", "Database deleted successfully")
+//        Log.d("DATABASE", "Database deleted successfully")
     }
 
     fun dbAddExerciseById(context: Context, exersiceId: String) {
@@ -31,10 +31,10 @@ object DbUtility {
 
             override fun onResponse(call: Call<ExerciseItem>, response: Response<ExerciseItem>) {
                 val exerciseItem = response.body()
-                Log.d("dbAddExerciseById", "Response received for exercise ID: $exersiceId")
+//                Log.d("dbAddExerciseById", "Response received for exercise ID: $exersiceId")
                 if (exerciseItem != null) {
 
-                    Log.d("dbAddExerciseById", "Exercise item: $exerciseItem")
+//                    Log.d("dbAddExerciseById", "Exercise item: $exerciseItem")
 
                     CoroutineScope(Dispatchers.IO).launch {
                         val database = AppDatabase.getInstance(context)
@@ -62,12 +62,12 @@ object DbUtility {
                     }
 
                 } else {
-                    Log.d("dbAddExerciseById", "No exercise item returned in the response")
+//                    Log.d("dbAddExerciseById", "No exercise item returned in the response")
                 }
             }
 
             override fun onFailure(call: Call<ExerciseItem>, t: Throwable) {
-                Log.e("dbAddExerciseById", "Error: ${t.message}")
+//                Log.e("dbAddExerciseById", "Error: ${t.message}")
             }
         })
     }
@@ -77,7 +77,7 @@ object DbUtility {
             val savedExercises = AppDatabase.getInstance(context).exerciseDao().getAllExercises()
 
             savedExercises.forEach {
-                Log.d("LOADSAVEDEXERCISES", "Saved exercise: $it")
+//                Log.d("LOADSAVEDEXERCISES", "Saved exercise: $it")
             }
 
             savedExercises
@@ -90,7 +90,7 @@ object DbUtility {
 
         CoroutineScope(Dispatchers.IO).launch {
             val workoutId = AppDatabase.getInstance(context).workoutDao().insertWorkout(newWorkout)
-            Log.d("Workout Creation", "Created workout with ID: $workoutId")
+//            Log.d("Workout Creation", "Created workout with ID: $workoutId")
         }
     }
     fun addExerciseToWorkout(context: Context, workoutId: Int, exerciseId: String) {
@@ -98,7 +98,7 @@ object DbUtility {
 
         CoroutineScope(Dispatchers.IO).launch {
             AppDatabase.getInstance(context).workoutWithExercisesDao().insertWorkoutExerciseCrossRef(crossRef)
-            Log.d("Workout Creation", "Added exercise with ID: $exerciseId to workout with ID: $workoutId")
+//            Log.d("Workout Creation", "Added exercise with ID: $exerciseId to workout with ID: $workoutId")
         }
     }
 
@@ -118,7 +118,7 @@ suspend fun loadWorkouts(context: Context): List<Workout> {
     return withContext(Dispatchers.IO) {
         val workouts = AppDatabase.getInstance(context).workoutDao().getAllWorkouts()
         for (workout in workouts) {
-            Log.d("loadWorkouts", "Saved workouts: $workout")
+//            Log.d("loadWorkouts", "Saved workouts: $workout")
         }
         workouts
     }
@@ -134,9 +134,9 @@ suspend fun loadWorkouts(context: Context): List<Workout> {
             val workout = workoutDao.getWorkoutById(workoutId)
             if (workout != null) {
                 workoutDao.deleteWorkout(workout)
-                Log.d("Workout Deletion", "Deleted workout with ID: $workoutId")
+//                Log.d("Workout Deletion", "Deleted workout with ID: $workoutId")
             } else {
-                Log.e("Workout Deletion", "Failed to delete workout: No workout found with ID: $workoutId")
+//                Log.e("Workout Deletion", "Failed to delete workout: No workout found with ID: $workoutId")
             }
         }
     }
@@ -174,16 +174,16 @@ suspend fun loadWorkouts(context: Context): List<Workout> {
             val gifInDb = gifDao.getGifById(exerciseId)
             if (exerciseInDb != null) {
                 database.exerciseDao().deleteExercise(exerciseInDb)
-                Log.d("dbRemoveExerciseById", "Exercise removed: $exerciseInDb")
+//                Log.d("dbRemoveExerciseById", "Exercise removed: $exerciseInDb")
 
                 if (gifInDb != null) {
                     gifDao.deleteGifById(exerciseId)
                 } else {
-                    Log.d("dbRemoveExerciseById", "Gif not found with ID: $exerciseId")
+//                    Log.d("dbRemoveExerciseById", "Gif not found with ID: $exerciseId")
                 }
 
             } else {
-                Log.d("dbRemoveExerciseById", "Exercise not found with ID: $exerciseId")
+//                Log.d("dbRemoveExerciseById", "Exercise not found with ID: $exerciseId")
             }
         }
     }

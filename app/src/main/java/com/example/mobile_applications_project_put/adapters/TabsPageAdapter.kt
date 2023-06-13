@@ -54,28 +54,14 @@ class TabsPageAdapter (
                 } else NotLoggedInFragment()
             } else NoInternetFragment()
 
-//            3 -> {
-//                val bundle = Bundle()
-//                bundle.putString("bodyPartsListFragment", "Body Parts Fragment")
-//                val fourthFragment = MapsFragment()
-//                fourthFragment.arguments = bundle
-//                fourthFragment
-//            }
-
-
             else -> HomeFragment()
         }
     }
 
-//    override fun getItemCount(): Int {
+
+    override fun getItemCount(): Int {
 //        val sharedPref = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
 //        val loggedIn = sharedPref.getBoolean("logged_in", false)
-//        return if (loggedIn) 4 else 3
-//
-//    }
-    override fun getItemCount(): Int {
-        val sharedPref = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
-        val loggedIn = sharedPref.getBoolean("logged_in", false)
         return 3
     }
 

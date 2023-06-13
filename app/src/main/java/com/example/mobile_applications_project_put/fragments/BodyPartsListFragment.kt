@@ -2,7 +2,7 @@ package com.example.mobile_applications_project_put.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+//import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.activities.AddToWorkoutExerciseListActivity
 import com.example.mobile_applications_project_put.activities.ExerciseListActivity
-import com.example.mobile_applications_project_put.activities.MapsActivity
-//import com.example.mobile_applications_project_put.activities.ExerciseListActivity
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 import com.example.mobile_applications_project_put.functions.JsonUtility
 import com.example.mobile_applications_project_put.functions.UserUtility.isInternetAvailable
@@ -40,7 +38,7 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
         username = arguments?.getString("username")
         workoutId = arguments?.getString("workoutId")
         workoutName = arguments?.getString("workoutName")
-        Log.d("UserWorkout", "username: $username, workout: $workoutId")
+//        Log.d("UserWorkout", "username: $username, workout: $workoutId")
 
     }
     override fun onCreateView(

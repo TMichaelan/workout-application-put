@@ -1,7 +1,5 @@
 package com.example.mobile_applications_project_put.retrofit
 
-
-
 import com.example.mobile_applications_project_put.models.BodyPartExcerciseList
 import com.example.mobile_applications_project_put.models.BodyPartsList
 import com.example.mobile_applications_project_put.models.ExerciseItem
@@ -9,7 +7,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
-
 
 interface ExcerciseAPI {
 
@@ -43,5 +40,4 @@ interface ExcerciseAPI {
     @Headers("X-RapidAPI-Key:2de8606b44mshb36972bfbefdb1ap1d24b6jsn6025ac315a9b")
     @GET("target/{target}")
     fun getExerciseListByTarget(@Path("target") exerciseId: String): Call<BodyPartExcerciseList>
-
 }

@@ -9,11 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
-import com.example.mobile_applications_project_put.activities.ExerciseListActivity
 import com.example.mobile_applications_project_put.activities.WorkoutActivity
 import com.example.mobile_applications_project_put.db.entities.Exercise
-import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
-import com.example.mobile_applications_project_put.models.BodyPartExcerciseListItem
 
 class WorkoutExerciseListAdapter(
     private var exerciseList: List<Exercise>,
@@ -74,12 +71,8 @@ class WorkoutExerciseListAdapter(
         }
     }
 
-
     fun setExerciseList(exercises: List<Exercise>) {
         exerciseList = exercises
         notifyDataSetChanged()
     }
-
-
-
 }

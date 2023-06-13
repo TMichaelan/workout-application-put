@@ -3,7 +3,7 @@ package com.example.mobile_applications_project_put.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+//import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +66,7 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
                 hideProgressBar()
             } else {
                 if (error != null) {
-                    Log.d("GG", error)
+//                    Log.d("GG", error)
                 }
             }
         }
@@ -109,11 +109,11 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
                 recyclerView.adapter = adapter
             } else {
                 if (error != null) {
-                    Log.d("GG", error)
+//                    Log.d("GG", error)
                 }
             }
         }
-        Log.d("resumehere", "wor")
+//        Log.d("resumehere", "wor")
     }
     override fun onDeleteClick(workout: WorkoutFirebaseList) {
         val sharedPref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)

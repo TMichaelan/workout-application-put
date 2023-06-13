@@ -2,24 +2,17 @@ package com.example.mobile_applications_project_put.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+//import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.activities.ExerciseDetailsActivity
-import com.example.mobile_applications_project_put.activities.ExerciseListActivity
-import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
-//import com.example.mobile_applications_project_put.adapters.ExerciseAdapter
 import com.example.mobile_applications_project_put.adapters.SmallExerciseListAdapter
 import com.example.mobile_applications_project_put.databinding.FragmentHomeBinding
-import com.example.mobile_applications_project_put.db.entities.User
-import com.example.mobile_applications_project_put.functions.FirebaseUtility
 import com.example.mobile_applications_project_put.db.entities.Exercise
-import com.example.mobile_applications_project_put.functions.DbUtility
 import com.example.mobile_applications_project_put.functions.JsonUtility
 
 

@@ -5,7 +5,6 @@ import com.example.mobile_applications_project_put.db.entities.User
 import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
 import com.example.mobile_applications_project_put.db.entities.WorkoutFirebaseList
 import com.google.firebase.database.*
-import java.util.*
 
 object FirebaseUtility {
     private val database = FirebaseDatabase.getInstance()

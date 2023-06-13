@@ -1,7 +1,7 @@
 package com.example.mobile_applications_project_put.functions
 
 import android.content.Context
-import android.util.Log
+//import android.util.Log
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.models.MuscleGroup
 import com.google.gson.Gson
@@ -21,7 +21,7 @@ object JsonUtility {
         val bodyParts: List<MuscleGroup> = gson.fromJson(reader, listType)
 
         for (part in bodyParts) {
-            Log.d("BodyPartsData", "Body part: ${part.muscleGroup}, Description: ${part.description}, Image: ${part.image}")
+//            Log.d("BodyPartsData", "Body part: ${part.muscleGroup}, Description: ${part.description}, Image: ${part.image}")
             bodyPartsList.add(MuscleGroup(part.muscleGroup, part.description, part.image))
         }
 
@@ -36,7 +36,7 @@ object JsonUtility {
         val muscleGroups: List<MuscleGroup> = gson.fromJson(reader, listType)
 
         for (muscleGroup in muscleGroups) {
-            Log.d("readAndLogMuscleGroups", "Muscle Group: ${muscleGroup.muscleGroup}, Description: ${muscleGroup.description}, Image: ${muscleGroup.image}")
+//            Log.d("readAndLogMuscleGroups", "Muscle Group: ${muscleGroup.muscleGroup}, Description: ${muscleGroup.description}, Image: ${muscleGroup.image}")
         }
     }
     fun getRandomExercises(context: Context, num: Int = 4): List<Exercise> {

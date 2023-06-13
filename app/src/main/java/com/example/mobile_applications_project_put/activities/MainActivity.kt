@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        unused functionality
 
 //        val localWorkoutListActivity: TextView = binding.tvCheckWorkouts
 //        localWorkoutListActivity.setOnClickListener {
@@ -97,9 +98,6 @@ class MainActivity : AppCompatActivity() {
                     tab.text = "Profile"
                     tab.setIcon(R.drawable.round_account_circle_24)
                 }
-//                3->{
-//                    tab.text = "4"
-//                }
             }
         }.attach()
     }

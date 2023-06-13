@@ -6,7 +6,6 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.mobile_applications_project_put.models.ExerciseItem
 
 @Dao
 interface ExersiceDao {
