@@ -16,6 +16,7 @@ import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.adapters.WorkoutExerciseListAdapter
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.functions.FirebaseUtility
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 
@@ -82,23 +83,32 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
                 putExtra("workoutId", workoutId)
                 putExtra("workoutName", workoutName)
             }
-            startActivity(intent)
+            startActivityForResult(intent, REQUEST_CODE_ADD_EXERCISE)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        lifecycleScope.launch {
-            FirebaseUtility.getUserWorkoutExercises(username, workoutId) { exercises, errorMessage ->
-                if (exercises != null) {
-                    exerciseList = exercises.toMutableList()
-                    adapter.setExerciseList(exerciseList)
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        Log.d("Request_code", "hera")
+        if (requestCode == REQUEST_CODE_ADD_EXERCISE && resultCode == RESULT_OK) {
+            // Обработайте результат возврата здесь
+            // Например, обновите список упражнений
+            Log.d("Request_code", "hera")
+            lifecycleScope.launch {
+                delay(500)
+                FirebaseUtility.getUserWorkoutExercises(username, workoutId) { exercises, errorMessage ->
+                    if (exercises != null) {
+                        exerciseList = exercises.toMutableList()
+                        adapter.setExerciseList(exerciseList)
+                    }
+                    Log.d("Request_code", "$exerciseList")
                 }
             }
         }
     }
 
-    // TODO удаление из базы данных
     override fun onDeleteClick(exercise: Exercise) {
         exercise.id.let {
             FirebaseUtility.removeExerciseFromWorkout(username, workoutId, it) { success, message ->
@@ -124,6 +134,7 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
         intent.putExtra(TARGET, exercise.target)
 
         startActivity(intent)
+
     }
 
     companion object{
@@ -133,5 +144,6 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
         const val ID = "com.example.mobile_applications_project_put.fragments.id"
         const val NAME = "com.example.mobile_applications_project_put.fragments.name"
         const val TARGET = "com.example.mobile_applications_project_put.fragments.target"
+        const val REQUEST_CODE_ADD_EXERCISE = 1
     }
 }

@@ -110,6 +110,7 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
             intent.putExtra("muscle", muscleGroup)
 
             startActivity(intent)
+
             requireActivity().finish()
         } else {
             val intent = Intent(requireContext(), ExerciseListActivity::class.java)

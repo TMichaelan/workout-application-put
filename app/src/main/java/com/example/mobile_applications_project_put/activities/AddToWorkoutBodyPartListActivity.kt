@@ -26,5 +26,8 @@ class AddToWorkoutBodyPartListActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerView, bodyPartsListFragment)
             .commit()
+
+        setResult(RESULT_OK, intent)
     }
+
 }
