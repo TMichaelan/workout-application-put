@@ -10,15 +10,17 @@ import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.fragments.HomeFragment
+import com.example.mobile_applications_project_put.functions.UserUtility.isInternetAvailable
 
 class SmallExerciseListAdapter (
     private var exerciseList: List<Exercise>,
     private val listener: HomeFragment
     ): RecyclerView.Adapter<SmallExerciseListAdapter.MyViewHolder>() {
 
-
+        private val internet = isInternetAvailable(context = listener.requireContext())
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
             val itemView = LayoutInflater.from(parent.context).inflate(R.layout.small_exercises, parent, false)
+
             return MyViewHolder(itemView, listener, exerciseList)
         }
 
@@ -29,10 +31,19 @@ class SmallExerciseListAdapter (
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val currentExercise = exerciseList[position]
-            Glide.with(holder.imageId)
-                .asBitmap()
-                .load(currentExercise.gifUrl)
-                .into(holder.imageId)
+
+            if (!internet) {
+
+                Glide.with(holder.imageId)
+                    .asBitmap()
+                    .load(R.drawable.no_inet)
+                    .into(holder.imageId)
+            } else {
+                Glide.with(holder.imageId)
+                    .asBitmap()
+                    .load(currentExercise.gifUrl)
+                    .into(holder.imageId)
+            }
             holder.name.text = currentExercise.name.capitalize()
             holder.itemView.setOnClickListener { listener.onItemClick(currentExercise) }
         }

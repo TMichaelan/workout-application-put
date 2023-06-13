@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import com.example.mobile_applications_project_put.activities.MapsActivity
 //import com.example.mobile_applications_project_put.activities.ExerciseListActivity
 import com.example.mobile_applications_project_put.adapters.BodyPartAdapter
 import com.example.mobile_applications_project_put.functions.JsonUtility
+import com.example.mobile_applications_project_put.functions.UserUtility.isInternetAvailable
 import com.example.mobile_applications_project_put.models.MuscleGroup
 import java.util.*
 import kotlin.collections.ArrayList
@@ -113,11 +115,15 @@ class BodyPartsListFragment : Fragment(), BodyPartAdapter.OnItemClickListener {
 
             requireActivity().finish()
         } else {
-            val intent = Intent(requireContext(), ExerciseListActivity::class.java)
 
-            intent.putExtra("muscle", muscleGroup)
-            startActivity(intent)
-
+            if (!isInternetAvailable(requireContext())) {
+                Toast.makeText(requireContext(), "No internet connection.", Toast.LENGTH_LONG).show()
+                return
+            } else {
+                val intent = Intent(requireContext(), ExerciseListActivity::class.java)
+                intent.putExtra("muscle", muscleGroup)
+                startActivity(intent)
+            }
         }
     }
 

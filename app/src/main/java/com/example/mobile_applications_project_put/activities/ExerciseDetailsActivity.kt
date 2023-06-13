@@ -1,16 +1,19 @@
 package com.example.mobile_applications_project_put.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.fragments.HomeFragment
 import com.example.mobile_applications_project_put.functions.DbUtility
 import com.example.mobile_applications_project_put.functions.DbUtility.loadSavedExercises
+import com.example.mobile_applications_project_put.functions.UserUtility.isInternetAvailable
 import kotlinx.coroutines.*
 
 class ExerciseDetailsActivity : AppCompatActivity() {
@@ -51,6 +54,7 @@ class ExerciseDetailsActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercise_details)
@@ -70,34 +74,45 @@ class ExerciseDetailsActivity : AppCompatActivity() {
         equipmentTextView.text = "Equipment: ${equipmentText.capitalize()}"
         targetTextView.text = "Target: ${targetText.capitalize()}"
 
-        Glide.with(this)
-            .load(gifImage)
-            .into(gifImageView)
+        val internet = isInternetAvailable(this)
 
+        if (internet) {
+            Glide.with(this)
+                .load(gifImage)
+                .into(gifImageView)
 
+            val save: TextView = findViewById(R.id.addExercise)
+            save.setOnClickListener {
 
-        val save: TextView = findViewById(R.id.addExercise)
-        save.setOnClickListener {
-            if (save.text == "♡")
-            {
-                DbUtility.dbAddExerciseById(this, id)
-                save.setText("♥")
-            }else
-            {
-                save.setText("♡")
-                DbUtility.dbRemoveExerciseById(this, id)
-            }
-        }
-
-        CoroutineScope(Dispatchers.Main).async {
-            val exercises = loadSavedExercises(this@ExerciseDetailsActivity)
-            for (i in exercises) {
-                if (i.name == exerciseNameText) {
+                if (save.text == "♡")
+                {
+                    DbUtility.dbAddExerciseById(this, id)
                     save.setText("♥")
-                    Log.d("HEREID", "i.id: ${i.name}, id:$exerciseNameText")
+                }else
+                {
+                    save.setText("♡")
+                    DbUtility.dbRemoveExerciseById(this, id)
                 }
             }
-            Log.d("exercisessss", "$exercises")
+
+            CoroutineScope(Dispatchers.Main).async {
+                val exercises = loadSavedExercises(this@ExerciseDetailsActivity)
+                for (i in exercises) {
+                    if (i.name == exerciseNameText) {
+                        save.setText("♥")
+                        Log.d("HEREID", "i.id: ${i.name}, id:$exerciseNameText")
+                    }
+                }
+                Log.d("exercisessss", "$exercises")
+            }
+
+        }else{
+            Glide.with(this)
+                .load(R.drawable.no_inet)
+                .into(gifImageView)
+
+            Toast.makeText(this, "No internet connection.", Toast.LENGTH_SHORT).show()
+
         }
 
     }

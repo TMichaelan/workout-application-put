@@ -169,12 +169,19 @@ suspend fun loadWorkouts(context: Context): List<Workout> {
             val database = AppDatabase.getInstance(context)
             val gifDao = database.gifDao()
 
+
             val exerciseInDb = database.exerciseDao().getExerciseById(exerciseId)
+            val gifInDb = gifDao.getGifById(exerciseId)
             if (exerciseInDb != null) {
                 database.exerciseDao().deleteExercise(exerciseInDb)
-
-
                 Log.d("dbRemoveExerciseById", "Exercise removed: $exerciseInDb")
+
+                if (gifInDb != null) {
+                    gifDao.deleteGifById(exerciseId)
+                } else {
+                    Log.d("dbRemoveExerciseById", "Gif not found with ID: $exerciseId")
+                }
+
             } else {
                 Log.d("dbRemoveExerciseById", "Exercise not found with ID: $exerciseId")
             }

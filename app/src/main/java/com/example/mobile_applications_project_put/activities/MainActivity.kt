@@ -100,5 +100,12 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        binding.tabsViewpager.adapter = TabsPageAdapter(this, supportFragmentManager, lifecycle)
+
+    }
 }
 

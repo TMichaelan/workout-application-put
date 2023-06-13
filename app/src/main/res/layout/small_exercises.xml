@@ -16,6 +16,7 @@
             android:id="@+id/img_body_part"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_gravity="center"
             android:scaleType="centerCrop"
             android:src="@drawable/body_part"
             app:layout_constraintStart_toStartOf="parent"
