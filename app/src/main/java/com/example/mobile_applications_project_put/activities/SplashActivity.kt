@@ -36,11 +36,11 @@ class SplashActivity : AppCompatActivity() {
 
 //        Log.d("test", username!!)
 
-        FirebaseUtility.getUserWorkouts(username!!) { workouts, error ->
-            if (workouts != null) {
-                workouts_list = workouts
-            }
-        }
+//        FirebaseUtility.getUserWorkouts(username!!) { workouts, error ->
+//            if (workouts != null) {
+//                workouts_list = workouts
+//            }
+//        }
 
 
         val logoImageView = findViewById<View>(R.id.logo_image_view)

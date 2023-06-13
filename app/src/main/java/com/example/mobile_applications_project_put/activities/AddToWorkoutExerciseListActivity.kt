@@ -3,6 +3,7 @@ package com.example.mobile_applications_project_put.activities
 import android.os.Bundle
 //import android.util.Log
 import android.widget.Button
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +28,8 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
     private lateinit var username: String
     private lateinit var workoutId: String
     private lateinit var workoutName: String
+    private lateinit var progressBar: ProgressBar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +40,7 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
         workoutName = intent.getStringExtra("workoutName").toString()
 
         val exerciseName = intent.getParcelableExtra<MuscleGroup>("muscle")
+        progressBar = findViewById(R.id.add_to_workout_progress_bar)
 
         searchView = findViewById(R.id.searchView)
         searchView.queryHint = "Exercise"
@@ -49,10 +53,12 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
         adapter = AddToWorkoutExerciseAdapter(exerciseList, this)
 
         recyclerView.adapter = adapter
+        showProgressBar()
 
         lifecycleScope.launch {
             exerciseList = ApiUtility.getBodyPartExercises(exerciseName?.muscleGroup?.lowercase() ?: "")
             adapter.setExerciseList(exerciseList)
+            hideProgressBar()
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -123,5 +129,13 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
             }
             adapter.setFilteredList(filteredList)
         }
+    }
+
+    private fun showProgressBar() {
+        progressBar.visibility = ProgressBar.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        progressBar.visibility = ProgressBar.GONE
     }
 }

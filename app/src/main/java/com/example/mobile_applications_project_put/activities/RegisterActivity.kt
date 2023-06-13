@@ -53,12 +53,16 @@ class RegisterActivity : AppCompatActivity() {
             val password = binding.password.text.toString().trim()
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                hideProgressBar()
                 Toast.makeText(this, "Please enter all the fields", Toast.LENGTH_SHORT).show()
             }else if (!isValidEmail(email)) {
+                hideProgressBar()
                 Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show()
             } else if (!isValidPassword(password)) {
+                hideProgressBar()
                 Toast.makeText(this, "Please enter a password with at least 6 characters", Toast.LENGTH_SHORT).show()
             } else if (!isValidUsername(username)) {
+                hideProgressBar()
                 Toast.makeText(this, "Username should be between 5 and 20 characters", Toast.LENGTH_SHORT).show()
             }
             else  {
@@ -80,6 +84,7 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
                     } else {
 //                        Log.d("RegisterActivity", "Registration failed: $message")
+                        hideProgressBar()
                         Toast.makeText(this, "Registration failed: $message", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -110,6 +115,7 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
                     } else {
 //                        Log.d("RegisterActivity", "Login failed: $message")
+                        hideProgressBar()
                         Toast.makeText(this, "Login failed: $message", Toast.LENGTH_SHORT).show()
                     }
                 }
