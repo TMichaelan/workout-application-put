@@ -66,9 +66,7 @@ class ExerciseDetailsActivity : AppCompatActivity() {
         val equipmentTextView = findViewById<TextView>(R.id.equipmentTextView)
         val targetTextView = findViewById<TextView>(R.id.targetTextView)
         val gifImageView = findViewById<ImageView>(R.id.gifImageView)
-
-
-
+        
         nameTextView.text = "Exercice: ${exerciseNameText.capitalize()}"
         bodyPartTextView.text = "Body Part: ${bodyPartText.capitalize()}"
         equipmentTextView.text = "Equipment: ${equipmentText.capitalize()}"
@@ -86,11 +84,15 @@ class ExerciseDetailsActivity : AppCompatActivity() {
 
                 if (save.text == "♡")
                 {
+                    save.setText(".")
+                    save.setTextColor(resources.getColor(R.color.blue))
+                    save.setBackgroundResource(R.drawable.baseline_favorite_24)
                     DbUtility.dbAddExerciseById(this, id)
-                    save.setText("♥")
                 }else
                 {
                     save.setText("♡")
+                    save.setTextColor(resources.getColor(R.color.white))
+                    save.setBackgroundResource(R.drawable.baseline_favorite_border_24)
                     DbUtility.dbRemoveExerciseById(this, id)
                 }
             }
@@ -99,7 +101,9 @@ class ExerciseDetailsActivity : AppCompatActivity() {
                 val exercises = loadSavedExercises(this@ExerciseDetailsActivity)
                 for (i in exercises) {
                     if (i.name == exerciseNameText) {
-                        save.setText("♥")
+                        save.setText(".")
+                        save.setTextColor(resources.getColor(R.color.blue))
+                        save.setBackgroundResource(R.drawable.baseline_favorite_24)
                         Log.d("HEREID", "i.id: ${i.name}, id:$exerciseNameText")
                     }
                 }

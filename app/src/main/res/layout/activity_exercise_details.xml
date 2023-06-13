@@ -67,10 +67,9 @@
                 android:id="@+id/addExercise"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:background="@drawable/round_button_background"
+                android:background="@drawable/baseline_favorite_border_24"
                 android:gravity="center"
                 android:text="♡"
-
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
