@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,6 +27,7 @@ class ExerciseListActivity : AppCompatActivity(), ExerciseListAdapter.OnItemClic
     private lateinit var exerciseList: List<BodyPartExcerciseListItem>
     private lateinit var searchView: SearchView
     private lateinit var adapter: ExerciseListAdapter
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,7 @@ class ExerciseListActivity : AppCompatActivity(), ExerciseListAdapter.OnItemClic
         val exerciseName = intent.getParcelableExtra<MuscleGroup>("muscle")
 
         searchView = findViewById(R.id.searchView)
+        progressBar = findViewById(R.id.list_progress_bar)
         searchView.queryHint = "Exercise"
 
         val recyclerView: RecyclerView = findViewById(R.id.rec_view_body_parts)
@@ -46,7 +50,9 @@ class ExerciseListActivity : AppCompatActivity(), ExerciseListAdapter.OnItemClic
         recyclerView.adapter = adapter
 
         lifecycleScope.launch {
+            showProgressBar()
             exerciseList = ApiUtility.getBodyPartExercises(exerciseName?.muscleGroup?.lowercase() ?: "")
+            hideProgressBar()
             adapter.setExerciseList(exerciseList)
         }
 
@@ -60,6 +66,14 @@ class ExerciseListActivity : AppCompatActivity(), ExerciseListAdapter.OnItemClic
                 return true
             }
         })
+    }
+
+    private fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        progressBar.visibility = View.GONE
     }
 
     private fun filterList(query: String?) {
