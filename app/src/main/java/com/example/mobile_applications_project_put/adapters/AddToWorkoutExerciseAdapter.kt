@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
-import com.example.mobile_applications_project_put.activities.AddToWorkoutExerciseListActivity
 import com.example.mobile_applications_project_put.models.BodyPartExcerciseListItem
 
 class AddToWorkoutExerciseAdapter(
@@ -32,6 +32,9 @@ class AddToWorkoutExerciseAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentExercise = exerciseList[position]
+
+        holder.progressBar.visibility = View.VISIBLE
+
         Glide.with(holder.imageId)
             .asBitmap()
             .load(currentExercise.gifUrl)
@@ -49,11 +52,14 @@ class AddToWorkoutExerciseAdapter(
     class MyViewHolder(
         itemView: View,
         private val exerciseList: List<BodyPartExcerciseListItem>,
-        private val exerciseSelectedListener: OnExerciseSelectedListener
+        private val exerciseSelectedListener: OnExerciseSelectedListener,
+
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val imageId: ImageView = itemView.findViewById(R.id.img_body_part)
         val name: TextView = itemView.findViewById(R.id.tv_body_part)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
+
+        val progressBar: ProgressBar = itemView.findViewById(R.id.single_progress_bar)
 
         init {
             itemView.setOnClickListener(this)

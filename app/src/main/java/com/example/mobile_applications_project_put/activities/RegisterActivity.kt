@@ -3,7 +3,7 @@ package com.example.mobile_applications_project_put.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+//import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobile_applications_project_put.databinding.ActivityRegisterBinding
@@ -60,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
 
                 FirebaseUtility.registerUser(user) { success, message ->
                     if (success) {
-                        Log.d("RegisterActivity", "Registration successful.")
+//                        Log.d("RegisterActivity", "Registration successful.")
                         val sharedPref = getSharedPreferences("PREFS", Context.MODE_PRIVATE)
                         with (sharedPref.edit()) {
                             putString("username", username)
@@ -72,7 +72,7 @@ class RegisterActivity : AppCompatActivity() {
                         finish()
                         Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
                     } else {
-                        Log.d("RegisterActivity", "Registration failed: $message")
+//                        Log.d("RegisterActivity", "Registration failed: $message")
                         Toast.makeText(this, "Registration failed: $message", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -89,7 +89,7 @@ class RegisterActivity : AppCompatActivity() {
                 val hashedPassword = hashPassword(password)
                 FirebaseUtility.loginUser(email, hashedPassword) { success, username, message ->
                     if (success) {
-                        Log.d("RegisterActivity", "Login successful.")
+//                        Log.d("RegisterActivity", "Login successful.")
                         val sharedPref = getSharedPreferences("PREFS", Context.MODE_PRIVATE)
                         with (sharedPref.edit()) {
                             putString("username", username)
@@ -101,7 +101,7 @@ class RegisterActivity : AppCompatActivity() {
                         finish()
                         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
                     } else {
-                        Log.d("RegisterActivity", "Login failed: $message")
+//                        Log.d("RegisterActivity", "Login failed: $message")
                         Toast.makeText(this, "Login failed: $message", Toast.LENGTH_SHORT).show()
                     }
                 }

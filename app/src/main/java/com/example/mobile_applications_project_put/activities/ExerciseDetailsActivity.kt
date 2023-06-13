@@ -1,10 +1,9 @@
 package com.example.mobile_applications_project_put.activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+//import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -36,14 +35,15 @@ class ExerciseDetailsActivity : AppCompatActivity() {
             targetText = intent.getStringExtra(ExerciseListActivity.TARGET)!!
             gifImage = intent.getStringExtra(ExerciseListActivity.GIFURL)!!
         }
-        else if (intent.getStringExtra("callingActivity") == "LocalWorkoutActivity"){
-            bodyPartText = intent.getStringExtra(LocalWorkoutActivity.BODYPART)!!
-            exerciseNameText = intent.getStringExtra(LocalWorkoutActivity.NAME)!!
-            equipmentText = intent.getStringExtra(LocalWorkoutActivity.EQUIPMENT)!!
-            id = intent.getStringExtra(LocalWorkoutActivity.ID)!!
-            targetText = intent.getStringExtra(LocalWorkoutActivity.TARGET)!!
-            gifImage = intent.getStringExtra(LocalWorkoutActivity.GIFURL)!!
-        } else {
+//        else if (intent.getStringExtra("callingActivity") == "LocalWorkoutActivity"){
+//            bodyPartText = intent.getStringExtra(LocalWorkoutActivity.BODYPART)!!
+//            exerciseNameText = intent.getStringExtra(LocalWorkoutActivity.NAME)!!
+//            equipmentText = intent.getStringExtra(LocalWorkoutActivity.EQUIPMENT)!!
+//            id = intent.getStringExtra(LocalWorkoutActivity.ID)!!
+//            targetText = intent.getStringExtra(LocalWorkoutActivity.TARGET)!!
+//            gifImage = intent.getStringExtra(LocalWorkoutActivity.GIFURL)!!
+//        }
+        else {
             bodyPartText = intent.getStringExtra(HomeFragment.BODYPART)!!
             exerciseNameText = intent.getStringExtra(HomeFragment.NAME)!!
             equipmentText = intent.getStringExtra(HomeFragment.EQUIPMENT)!!
@@ -113,10 +113,10 @@ class ExerciseDetailsActivity : AppCompatActivity() {
                         save.setText(".")
                         save.setTextColor(resources.getColor(R.color.blue))
                         save.setBackgroundResource(R.drawable.baseline_favorite_24)
-                        Log.d("HEREID", "i.id: ${i.name}, id:$exerciseNameText")
+//                        Log.d("HEREID", "i.id: ${i.name}, id:$exerciseNameText")
                     }
                 }
-                Log.d("exercisessss", "$exercises")
+//                Log.d("exercisessss", "$exercises")
             }
 
         }else{

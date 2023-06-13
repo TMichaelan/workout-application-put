@@ -1,20 +1,16 @@
 package com.example.mobile_applications_project_put.activities
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+//import android.util.Log
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_applications_project_put.R
 import com.example.mobile_applications_project_put.adapters.AddToWorkoutExerciseAdapter
 import com.example.mobile_applications_project_put.db.entities.Exercise
-import com.example.mobile_applications_project_put.db.entities.WorkoutFirebase
 import com.example.mobile_applications_project_put.functions.ApiUtility
 import com.example.mobile_applications_project_put.functions.FirebaseUtility
 import com.example.mobile_applications_project_put.models.BodyPartExcerciseListItem
@@ -83,7 +79,7 @@ class AddToWorkoutExerciseListActivity : AppCompatActivity(), AddToWorkoutExerci
                     bodyPartExcerciseListItem.target
                 )
                 exercisesToAdd.add(exercise)
-                Log.d("ThisItem", "$exercise")
+//                Log.d("ThisItem", "$exercise")
             }
             FirebaseUtility.addExercisesToWorkout(
                 username,

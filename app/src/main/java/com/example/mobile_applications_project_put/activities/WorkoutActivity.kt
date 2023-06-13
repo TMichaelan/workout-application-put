@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
+//import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -35,7 +35,7 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
         username = intent.getStringExtra("username").toString()
         workoutId = intent.getStringExtra("workoutId").toString()
         workoutName = intent.getStringExtra("workoutName").toString()
-        Log.d("UserWorkout", "username: $username, workout: $workoutId")
+//        Log.d("UserWorkout", "username: $username, workout: $workoutId")
 
         editText = findViewById(R.id.editText)
         // Получение текста из поля EditText
@@ -73,9 +73,6 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
             }
         }
 
-
-
-
         val btn_add = findViewById<Button>(R.id.button_add_exercise)
         btn_add.setOnClickListener {
             val intent = Intent(this, AddToWorkoutBodyPartListActivity::class.java).apply {
@@ -91,11 +88,11 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.d("Request_code", "hera")
+//        Log.d("Request_code", "hera")
         if (requestCode == REQUEST_CODE_ADD_EXERCISE && resultCode == RESULT_OK) {
             // Обработайте результат возврата здесь
             // Например, обновите список упражнений
-            Log.d("Request_code", "hera")
+//            Log.d("Request_code", "hera")
             lifecycleScope.launch {
                 delay(500)
                 FirebaseUtility.getUserWorkoutExercises(username, workoutId) { exercises, errorMessage ->
@@ -103,7 +100,7 @@ class WorkoutActivity: AppCompatActivity(), WorkoutExerciseListAdapter.OnItemCli
                         exerciseList = exercises.toMutableList()
                         adapter.setExerciseList(exerciseList)
                     }
-                    Log.d("Request_code", "$exerciseList")
+//                    Log.d("Request_code", "$exerciseList")
                 }
             }
         }

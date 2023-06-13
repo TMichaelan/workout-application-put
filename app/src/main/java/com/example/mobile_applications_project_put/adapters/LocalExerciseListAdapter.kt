@@ -7,10 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
-import com.example.mobile_applications_project_put.activities.LocalExerciseActivity
 import com.example.mobile_applications_project_put.db.entities.Exercise
 import com.example.mobile_applications_project_put.db.entities.GifEntity
-import com.example.mobile_applications_project_put.functions.DbUtility.loadSavedExercises
 
 
 class LocalExerciseListAdapter(private val context: Context, private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<LocalExerciseListAdapter.ExerciseViewHolder>() {
@@ -37,7 +35,7 @@ class LocalExerciseListAdapter(private val context: Context, private val onItemC
         holder.textView.text = currentExercise.name
         if (currentGif?.gif != null) {
             Glide.with(context)
-                .asGif()
+                .asBitmap()
                 .load(currentGif.gif)
                 .into(holder.imageView)
         } else {

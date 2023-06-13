@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
+//import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.Animation
@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
         val sharedPref = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
         username = sharedPref?.getString("username", null)
 
-        Log.d("test", username!!)
+//        Log.d("test", username!!)
 
         FirebaseUtility.getUserWorkouts(username!!) { workouts, error ->
             if (workouts != null) {

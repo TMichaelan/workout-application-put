@@ -1,6 +1,5 @@
 package com.example.mobile_applications_project_put.retrofit
 
-import com.example.mobile_applications_project_put.retrofit.ExcerciseAPI
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

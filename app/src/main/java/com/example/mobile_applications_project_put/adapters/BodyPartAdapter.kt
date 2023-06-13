@@ -8,9 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobile_applications_project_put.R
-import com.example.mobile_applications_project_put.db.entities.Muscle
 import com.example.mobile_applications_project_put.fragments.BodyPartsListFragment
-import com.example.mobile_applications_project_put.models.BodyPartsList
 import com.example.mobile_applications_project_put.models.MuscleGroup
 
 class BodyPartAdapter(
