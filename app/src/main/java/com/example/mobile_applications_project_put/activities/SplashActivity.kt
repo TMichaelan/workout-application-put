@@ -34,6 +34,7 @@ class SplashActivity : AppCompatActivity() {
 //        username = sharedPref?.getString("username", null)
 //
 //        Log.d("test", username!!)
+
 //        FirebaseUtility.getUserWorkouts(username!!) { workouts, error ->
 //            if (workouts != null) {
 //                workouts_list = workouts
