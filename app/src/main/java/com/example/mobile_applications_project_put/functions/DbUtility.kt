@@ -72,19 +72,18 @@ object DbUtility {
         })
     }
 
-    fun loadSavedExercises(context: Context): List<Exercise> {
-        var savedExercises: List<Exercise> = listOf()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            savedExercises = AppDatabase.getInstance(context).exerciseDao().getAllExercises()
+    suspend fun loadSavedExercises(context: Context): List<Exercise> {
+        return withContext(Dispatchers.IO) {
+            val savedExercises = AppDatabase.getInstance(context).exerciseDao().getAllExercises()
 
             savedExercises.forEach {
                 Log.d("LOADSAVEDEXERCISES", "Saved exercise: $it")
             }
-        }
 
-        return savedExercises
+            savedExercises
+        }
     }
+
 
     fun createWorkout(context: Context, name: String) {
         val newWorkout = Workout(name = name, id = 0)
@@ -103,18 +102,28 @@ object DbUtility {
         }
     }
 
-    fun loadWorkouts(context: Context): List<Workout> {
-        var workouts: List<Workout> = listOf()
-        coroutineScope.launch {
-            workouts = withContext(Dispatchers.IO) {
-                AppDatabase.getInstance(context).workoutDao().getAllWorkouts()
-            }
-            for (workout in workouts) {
-                Log.d("loadWorkouts", "Saved workouts: $workout")
-            }
+//    fun loadWorkouts(context: Context): List<Workout> {
+//        var workouts: List<Workout> = listOf()
+//        coroutineScope.launch {
+//            workouts = withContext(Dispatchers.IO) {
+//                AppDatabase.getInstance(context).workoutDao().getAllWorkouts()
+//            }
+//            for (workout in workouts) {
+//                Log.d("loadWorkouts", "Saved workouts: $workout")
+//            }
+//        }
+//        return workouts
+//    }
+suspend fun loadWorkouts(context: Context): List<Workout> {
+    return withContext(Dispatchers.IO) {
+        val workouts = AppDatabase.getInstance(context).workoutDao().getAllWorkouts()
+        for (workout in workouts) {
+            Log.d("loadWorkouts", "Saved workouts: $workout")
         }
-        return workouts
+        workouts
     }
+}
+
 
     fun loadWorkoutWithExercises(context: Context, workoutId: Int) =
         AppDatabase.getInstance(context).workoutWithExercisesDao().getWorkoutWithExercises(workoutId)
@@ -155,6 +164,22 @@ object DbUtility {
         })
     }
 
+    fun dbRemoveExerciseById(context: Context, exerciseId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val database = AppDatabase.getInstance(context)
+            val gifDao = database.gifDao()
+
+            val exerciseInDb = database.exerciseDao().getExerciseById(exerciseId)
+            if (exerciseInDb != null) {
+                database.exerciseDao().deleteExercise(exerciseInDb)
+
+
+                Log.d("dbRemoveExerciseById", "Exercise removed: $exerciseInDb")
+            } else {
+                Log.d("dbRemoveExerciseById", "Exercise not found with ID: $exerciseId")
+            }
+        }
+    }
 
 
 }

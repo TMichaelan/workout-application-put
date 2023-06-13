@@ -22,6 +22,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        val localWorkoutListActivity: TextView = binding.tvCheckWorkouts
+//        localWorkoutListActivity.setOnClickListener {
+//            val intent = Intent(this, LocalWorkoutListActivity::class.java)
+//            startActivity(intent)
+//        }
+
+
         val loginTextView: TextView = binding.loginTextview
         loginTextView.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)

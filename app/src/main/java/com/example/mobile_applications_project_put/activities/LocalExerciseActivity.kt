@@ -2,6 +2,7 @@ package com.example.mobile_applications_project_put.activities
 
 import LocalExerciseListAdapter
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class LocalExerciseActivity : AppCompatActivity() {
+class LocalExerciseActivity : AppCompatActivity(), LocalExerciseListAdapter.OnItemClickListener {
 
     private lateinit var exerciseAdapter: LocalExerciseListAdapter
 
@@ -28,7 +29,7 @@ class LocalExerciseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_local_exercise)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        exerciseAdapter = LocalExerciseListAdapter(this)
+        exerciseAdapter = LocalExerciseListAdapter(this, this)
         recyclerView.adapter = exerciseAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -39,6 +40,32 @@ class LocalExerciseActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        CoroutineScope(Dispatchers.IO).launch {
+            val exercises = loadSavedExercises(this@LocalExerciseActivity)
+            withContext(Dispatchers.Main) {
+                exerciseAdapter.setExercises(exercises)
+            }
+        }
+    }
+    override fun onItemClick(exercise: Exercise) {
+        // Handle item click event here
+        // You can perform any action based on the clicked exercise
+        // For example, navigate to another activity or show a dialog
+        val intent = Intent(this, ExerciseDetailsActivity::class.java)
+
+        intent.putExtra("callingActivity", "ExerciseListActivity")
+
+        intent.putExtra(BODYPART, exercise.bodyPart)
+        intent.putExtra(EQUIPMENT, exercise.equipment)
+        intent.putExtra(GIFURL, exercise.gifUrl)
+        intent.putExtra(ID, exercise.id)
+        intent.putExtra(NAME, exercise.name)
+        intent.putExtra(TARGET, exercise.target)
+        startActivity(intent)
     }
 
 //    private suspend fun loadSavedExercises(context: Context): List<Exercise> {
@@ -65,6 +92,13 @@ class LocalExerciseActivity : AppCompatActivity() {
 
         return exerciseWithGifList
     }
-
+    companion object{
+        const val BODYPART = "com.example.mobile_applications_project_put.fragments.bodyPart"
+        const val EQUIPMENT = "com.example.mobile_applications_project_put.fragments.equipment"
+        const val GIFURL = "com.example.mobile_applications_project_put.fragments.gifUrl"
+        const val ID = "com.example.mobile_applications_project_put.fragments.id"
+        const val NAME = "com.example.mobile_applications_project_put.fragments.name"
+        const val TARGET = "com.example.mobile_applications_project_put.fragments.target"
+    }
 }
 
