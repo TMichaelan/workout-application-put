@@ -36,4 +36,13 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/small_progress_bar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone" />
+
 </androidx.cardview.widget.CardView>
