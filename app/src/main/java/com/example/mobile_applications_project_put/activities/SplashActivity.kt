@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 //import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
@@ -33,14 +34,11 @@ class SplashActivity : AppCompatActivity() {
 //        username = sharedPref?.getString("username", null)
 //
 //        Log.d("test", username!!)
-
-//        Log.d("test", username!!)
-
-        FirebaseUtility.getUserWorkouts(username!!) { workouts, error ->
-            if (workouts != null) {
-                workouts_list = workouts
-            }
-        }
+//        FirebaseUtility.getUserWorkouts(username!!) { workouts, error ->
+//            if (workouts != null) {
+//                workouts_list = workouts
+//            }
+//        }
 
 
         val logoImageView = findViewById<View>(R.id.logo_image_view)
