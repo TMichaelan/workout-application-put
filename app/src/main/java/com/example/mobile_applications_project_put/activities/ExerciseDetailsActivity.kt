@@ -66,13 +66,14 @@ class ExerciseDetailsActivity : AppCompatActivity() {
         val equipmentTextView = findViewById<TextView>(R.id.equipmentTextView)
         val targetTextView = findViewById<TextView>(R.id.targetTextView)
         val gifImageView = findViewById<ImageView>(R.id.gifImageView)
-        
+
         nameTextView.text = "Exercice: ${exerciseNameText.capitalize()}"
         bodyPartTextView.text = "Body Part: ${bodyPartText.capitalize()}"
         equipmentTextView.text = "Equipment: ${equipmentText.capitalize()}"
         targetTextView.text = "Target: ${targetText.capitalize()}"
 
         val internet = isInternetAvailable(this)
+        var lastClickTime = 0L
 
         if (internet) {
             Glide.with(this)
@@ -81,19 +82,27 @@ class ExerciseDetailsActivity : AppCompatActivity() {
 
             val save: TextView = findViewById(R.id.addExercise)
             save.setOnClickListener {
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastClickTime < 1000) {
+                    Toast.makeText(this, "Wait a bit...", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                }
+
+                lastClickTime = currentTime
 
                 if (save.text == "♡")
                 {
                     save.setText(".")
                     save.setTextColor(resources.getColor(R.color.blue))
                     save.setBackgroundResource(R.drawable.baseline_favorite_24)
-                    DbUtility.dbAddExerciseById(this, id)
+                    DbUtility.dbAddExerciseById(this@ExerciseDetailsActivity, id)
+
                 }else
                 {
                     save.setText("♡")
                     save.setTextColor(resources.getColor(R.color.white))
                     save.setBackgroundResource(R.drawable.baseline_favorite_border_24)
-                    DbUtility.dbRemoveExerciseById(this, id)
+                    DbUtility.dbRemoveExerciseById(this@ExerciseDetailsActivity, id)
                 }
             }
 
