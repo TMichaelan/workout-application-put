@@ -29,4 +29,5 @@
     <string name="check_our_workouts">Check our workouts</string>
     <string name="our_exercises">Our exercises</string>
     <string name="no_internet_connection">No internet connection</string>
+    <string name="favorites">Favorites</string>
 </resources>
