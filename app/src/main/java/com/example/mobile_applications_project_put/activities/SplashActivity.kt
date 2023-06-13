@@ -29,8 +29,10 @@ class SplashActivity : AppCompatActivity() {
         setTheme(R.style.SplashTheme)
         setContentView(R.layout.activity_splash)
 
-        val sharedPref = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
-        username = sharedPref?.getString("username", null)
+//        val sharedPref = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
+//        username = sharedPref?.getString("username", null)
+//
+//        Log.d("test", username!!)
 
 //        Log.d("test", username!!)
 
@@ -39,6 +41,7 @@ class SplashActivity : AppCompatActivity() {
                 workouts_list = workouts
             }
         }
+
 
         val logoImageView = findViewById<View>(R.id.logo_image_view)
 

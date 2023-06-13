@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ import kotlin.collections.ArrayList
 class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, WorkoutsAdapter.OnDeleteClickListener {
     private lateinit var adapter: WorkoutsAdapter
     private var username: String? = null
+    private lateinit var progressBar: ProgressBar
     private var workoutList: MutableList<WorkoutFirebaseList> = ArrayList()
 
 
@@ -45,8 +47,12 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
         val sharedPref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
         username = sharedPref?.getString("username", null)
 
+        progressBar = view.findViewById(R.id.add_workout_progress_bar)
         val btn_add = view.findViewById(R.id.button3) as Button
 
+
+
+        showProgressBar()
         //Updates the list of workouts
         getUserWorkouts(username!!) { workouts, error ->
             if (workouts != null) {
@@ -57,6 +63,7 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
                 val recyclerView: RecyclerView = view.findViewById(R.id.rec_view_workouts)
                 recyclerView.layoutManager = GridLayoutManager(context, 1)
                 recyclerView.adapter = adapter
+                hideProgressBar()
             } else {
                 if (error != null) {
 //                    Log.d("GG", error)
@@ -78,6 +85,14 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
                 }
             }
         }
+    }
+
+    private fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        progressBar.visibility = View.GONE
     }
 
     override fun onResume() {
