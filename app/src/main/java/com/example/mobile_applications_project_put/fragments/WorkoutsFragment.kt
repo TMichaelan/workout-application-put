@@ -80,6 +80,26 @@ class WorkoutsFragment : Fragment(), WorkoutsAdapter.OnItemClickListener, Workou
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        //Updates the list of workouts
+        getUserWorkouts(username!!) { workouts, error ->
+            if (workouts != null) {
+
+                workoutList = workouts.toMutableList()
+                adapter = WorkoutsAdapter(workoutList, this, this)
+
+                val recyclerView: RecyclerView = requireView().findViewById(R.id.rec_view_workouts)
+                recyclerView.layoutManager = GridLayoutManager(context, 1)
+                recyclerView.adapter = adapter
+            } else {
+                if (error != null) {
+                    Log.d("GG", error)
+                }
+            }
+        }
+        Log.d("resumehere", "wor")
+    }
     override fun onDeleteClick(workout: WorkoutFirebaseList) {
         val sharedPref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
         username = sharedPref?.getString("username", null)
